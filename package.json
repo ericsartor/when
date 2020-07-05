@@ -1,0 +1,19 @@
+{
+  "name": "when-i",
+  "version": "0.0.1",
+  "description": "Keyboard shortcut abstraction library",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx webpack --config webpack.config.js",
+    "watch": "npx webpack -w --config webpack.config.js"
+  },
+  "author": "Eric Sartor",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.6",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {}
+}

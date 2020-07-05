@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>when</title>
+</head>
+<body>
+  <script src="dist/When.js"></script>
+  <script>
+    // ASSIGNING COMMAND HANDLERS
+
+    // simple command handlers
+
+    When('A_COMMAND').Run((ctx) => {
+      console.log('you pressed: a!  wow!')
+    })
+
+    When('ONCE_COMMAND').Run((ctx) => {
+      console.log('this will only get triggered once')
+    })
+
+    // command handlers utilizing native browser KeyboardEvent
+
+    When('SINGLE_CHARACTER_COMMAND').Run((ctx) => {
+      console.log('you pressed: ' + ctx.event.key)
+    })
+
+    When('CTRL_KL_COMMAND').Run((ctx) => {
+      console.log('ctrl+k, ctrl+l')
+    })
+
+
+    // REGISTERING KEYBOARD SHORTCUTS
+
+    // simple single-key shortcut
+    const AShortcutController = When('a').IsPressed().Execute('SINGLE_CHARACTER_COMMAND')
+
+    // batched single-key shortcuts
+    ;['num1', 'num2', 'num3', 'num4', 'num5', 'num6', 'num7', 'num8', 'num9', 'num0']
+      .forEach((key) => {
+        When(key).IsPressed().Execute('SINGLE_CHARACTER_COMMAND')
+      })
+
+    // single-key held shortcut
+    When('b').IsHeldFor(1).Seconds().Execute('HELD_FOR_ONE_SECOND')
+    
+    // multi-key shortcut using a combination of presses and holds
+    When('num1').IsPressed()
+      .Then('num2').IsHeldFor(0.5).Seconds()
+      .Then('num3').IsPressed()
+      .Within(2).Seconds()
+      .Execute('123_COMMAND')
+
+    // single-key shortcut using a modifier key
+    When('shift+c').IsPressed().Execute('SHIFT_C')
+
+    // single-key shortcut using the "once" clause
+    When('ctrl+o').IsPressed().PreventDefault().Execute('ONCE_COMMAND').Once()
+
+    // multi-key shortcut constrained by a time limit from start to finish
+    When('e').IsPressed()
+      .Then('r').IsPressed()
+      .Then('i').IsPressed()
+      .Then('c').IsPressed()
+      .Within(1).Seconds()
+      .Execute('ERIC_COMMAND')
+
+    // multi-key shortcut where all browser defaults are prevented
+    const ctrlKLController = When('ctrl+k').IsPressed()
+      .Then('ctrl+l').IsPressed()
+      .PreventDefault()
+      .Execute('CTRL_KL_COMMAND')
+
+    // removing another shortcut with a shortcut
+    When('REMOVE_ALL_SHORTCUTS').Run(() => {
+      console.log('removing "ctrl+k, ctrl+l" shortcut')
+      ctrlKLController.delete()
+    })
+    When('escape').IsPressed().Execute('REMOVE_ALL_SHORTCUTS')
+
+    // toggling another shortcut with a shortcut
+    When('TOGGLE_A_SHORTCUT').Run(() => {
+      AShortcutController.toggle()
+      console.log('"A" shortcut is now ' + (AShortcutController.active ? 'active' : 'inactive'))
+    })
+    When('numpad_multiply').IsPressed().Execute('TOGGLE_A_SHORTCUT')
+  </script>
+</body>
+</html>
