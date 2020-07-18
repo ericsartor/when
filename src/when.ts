@@ -1,6 +1,7 @@
-import { CommandMap, WhenEvent, Whenable, WhenEventHandler } from './types'
+import { CommandMap, WhenEvent, Whenable, WhenEventHandler, FocusHandler } from './types'
 import { keys, validateKeyIdentifier, keyToString } from './keys'
-import { addNewShortcut, shortcuts } from './shortcuts'
+import { Shortcut } from './classes/Shortcut'
+import { focusHandlers, focusedElement } from './track-focus'
 
 // helpers
 import { getKeyFromIdentifier } from './utils/get-key-from-identifier'
@@ -14,6 +15,10 @@ export const commands: CommandMap = {}
 function handleTime(this: Whenable, multiplier: number) {
   if (this.n === null) {
     throw Error('When: n value was null')
+  }
+
+  if (this.identifier === null) {
+    throw Error('When: identifier value was null')
   }
 
   switch (this.nType) {
@@ -37,16 +42,18 @@ function handleTime(this: Whenable, multiplier: number) {
   }
 }
 
-export function When(identifier: string): Whenable {
+export function When(identifierOrElement: string | HTMLElement): Whenable {
   return {
-    identifier: identifier.toLowerCase(), // set the identifier that was passed in
+    identifier: typeof identifierOrElement !== 'string' ? null :  identifierOrElement.toLowerCase(), // set the identifier that was passed in
+    element: typeof identifierOrElement === 'string' ? null :  identifierOrElement, // set the identifier that was passed in
     events: [],
     timeConstraint: null,
+    focusRequired: false,
+    isCommand: false,
     preventDefault: false,
     n: null,
     nType: null,
     once: false,
-    controller: null,
     shortcut: null,
 
 
@@ -56,8 +63,22 @@ export function When(identifier: string): Whenable {
       return this
     },
 
+    IsFocused() {
+      this.focusRequired = true
+      return this
+    },
+
+    IsExecuted() {
+      this.isCommand = true
+      return this
+    },
+
     // add an event for the current identified key to the timeline of events
     IsPressed() {
+      if (this.identifier === null) {
+        throw 'When: IsPressed() cannot be called before a string key identifier has been passed to When()'
+      }
+
       validateKeyIdentifier(getKeyFromIdentifier(this.identifier))
       const events: WhenEvent[] = this.events
       events.push({
@@ -70,6 +91,10 @@ export function When(identifier: string): Whenable {
     },
 
     IsReleased() {
+      if (this.identifier === null) {
+        throw 'When: IsReleased() cannot be called before a string key identifier has been passed to When()'
+      }
+
       validateKeyIdentifier(getKeyFromIdentifier(this.identifier))
       const events: WhenEvent[] = this.events
       events.push({
@@ -82,6 +107,10 @@ export function When(identifier: string): Whenable {
     },
 
     IsHeldFor(n: number) {
+      if (this.identifier === null) {
+        throw 'When: IsHeldFor() cannot be called before a string key identifier has been passed to When()'
+      }
+      
       validateKeyIdentifier(getKeyFromIdentifier(this.identifier))
       this.n = n
       this.nType = 'held'
@@ -89,17 +118,29 @@ export function When(identifier: string): Whenable {
     },
 
     Within(n: number) {
-      this.n = n
+      if (isNaN(n) || n === 0) {
+        throw 'When: Within() expects to receive a number greater than 0'
+      }
+
+      this.n = Number(n)
       this.nType = 'constraint'
       return this
     },
 
     Milliseconds() {
+      if (!this.n) {
+        throw 'When: Milliseconds() cannot be called before a number greater than 0 has been passed to IsHeldFor() or Within()'
+      }
+      
       handleTime.call(this, 1)
       return this
     },
 
     Seconds() {
+      if (!this.n) {
+        throw 'When: Seconds() cannot be called before a number greater than 0 has been passed to IsHeldFor() or Within()'
+      }
+
       handleTime.call(this, 1000)
       return this
     },
@@ -110,46 +151,65 @@ export function When(identifier: string): Whenable {
     },
 
     Execute(command: string) {
-      this.shortcut = {
+      return new Shortcut({
         timeline: this.events,
         command: command.toLowerCase(),
         timeConstraint: this.timeConstraint,
-        lastTriggeredEventId: null,
+        focusElement: this.focusRequired ? this.element : null,
         preventDefault: this.preventDefault,
-        active: true,
-        once: false,
-        controller: null,
-      }
-
-      this.controller = addNewShortcut(this.shortcut)
-
-      return this.controller
+      })
     },
 
     Run(func: WhenEventHandler) {
+      if (this.identifier === null) {
+        throw 'When: Run() cannot be called before a string key identifier has been passed to When()'
+      }
+      if (typeof func !== 'function') {
+        throw 'When: Run() must be called with a function as its first and only argument'
+      }
+      if (!this.isCommand) {
+        throw 'When: Run() must be called after a call to IsExecuted()'
+      }
+
       commands[this.identifier.toLowerCase()] = func
     },
+
+    FocusChanges(func: FocusHandler) {
+      focusHandlers.push(func)
+    }
   }
 }
 
 When.Documentation = () => {
   const lines: { combination: string, command: string }[] = []
-  shortcuts.forEach((shortcut) => {
-    const shortcutCombination = shortcut.timeline.map((event) => {
+  Shortcut.map.forEach((shortcut) => {
+    let shortcutEvents = shortcut.timeline.map((event) => {
       const { alt, ctrl, meta, shift } = event.modifiers
       let modifierString = `${alt?'alt+':''}${ctrl?'ctrl+':''}${meta?'meta+':''}${shift?'shift+':''}`
       switch (event.type) {
         case 'pressed':
-          return `, ↓${modifierString}${keyToString(event.key)}`
+          return `, &darr;${modifierString}${keyToString(event.key)}`
         case 'released':
-          return `, ↑${modifierString}${keyToString(event.key)}`
+          return `, &uarr;${modifierString}${keyToString(event.key)}`
         case 'held':
           return ` (hold ${event.duration! / 1000}s)`
       }
     })
 
+    let shortcutCombination = shortcutEvents.join('').slice(2)
+
+    if (shortcut.timeConstraint) {
+      if (shortcut.timeConstraint < 1000) {
+        const milliseconds = shortcut.timeConstraint
+        shortcutCombination += ` (within ${milliseconds}ms)`
+      } else {
+        const seconds = (shortcut.timeConstraint / 1000).toFixed(2)
+        shortcutCombination += ` (within ${seconds}s)`
+      }
+    }
+
     lines.push({
-      combination: shortcutCombination.join('').slice(2),
+      combination: shortcutCombination,
       command: shortcut.command,
     })
   })

@@ -1,5 +1,7 @@
 // Events
 
+import { Shortcut } from './classes/Shortcut'
+
 export type WhenEventType = 'pressed' | 'released' | 'held'
 
 export type WhenEvent = {
@@ -23,28 +25,9 @@ export interface WhenEventContext {
 
 export type WhenEventHandler = (event: WhenEventContext | undefined) => void
 
-// Shortcuts
+// Focus
 
-export type ShortcutController = {
-  active: boolean,
-  delete: () => void,
-  pause: () => void,
-  unpause: () => void,
-  trigger: () => void,
-  toggle: () => void,
-  Once: () => ShortcutController,
-}
-
-export type Shortcut = {
-  timeline: WhenEvent[],
-  timeConstraint: number | null,
-  command: string,
-  lastTriggeredEventId: number | null,
-  preventDefault: boolean,
-  active: boolean,
-  once: boolean,
-  controller: ShortcutController | null
-}
+export type FocusHandler = (newFocusEl: HTMLElement | null, previousFocusEl: HTMLElement | null) => void
 
 // Whenable
 
@@ -66,12 +49,18 @@ export type HandlerMap = {
 }
 
 export type Whenable = {
-  identifier: string,                       // name used to register an event or command
+  identifier: string | null,                // name used to register an event or command
+
+  element: HTMLElement | null,              // element used in focus related requirements for events
 
   events: WhenEvent[],                      // local record of events required to satisfy shortcut
 
   timeConstraint: number | null,            // number of milliseconds the entier shortcut must be 
                                             // completed within to trigger it's execution
+
+  focusRequired: boolean,
+
+  isCommand: boolean,                       // marks whether the identifier is for a command or not
 
   preventDefault: boolean,                  // controls if event.preventDefault gets called
 
@@ -81,13 +70,15 @@ export type Whenable = {
   nType: "held" | "constraint" | null       // controls how the "n" value will be used when either
                                             // Seconds() or Milliseconds() is called
 
-  controller: ShortcutController | null     // contains methods for controlling the Shortcut
-
   once: boolean,                            // controls if the shortcut should only work once
 
   shortcut: Shortcut | null                 // the actual shortcut, once created with Execute
 
   Then: (identifier: string) => Whenable,   // sets current identifier
+
+  IsExecuted: () => Whenable,               // registers current identifier as a command
+
+  IsFocused: () => Whenable,                // registers current identifier as focus element
 
   IsPressed: () => Whenable,                // registers current identifier as a "pressed" event
 
@@ -103,12 +94,15 @@ export type Whenable = {
 
   Within: (n: number) => Whenable           // sets the current n value and sets nValue as "constraint"
 
+
   PreventDefault: () => void                // runs event.preventDefault for all related events
 
   Run: (func: WhenEventHandler) => void     // registers current identifier as a command globally
 
-  Execute: (command: string) => ShortcutController // registers the shortcut globally,
+  Execute: (command: string) => Shortcut    // registers the shortcut globally,
                                             // sets the command name which the shortcut should execute,
                                             // returns a function that removes the shortcut
+
+  FocusChanges: (func: FocusHandler) => void // registers a focus change handler
 }
 

@@ -1,8 +1,9 @@
-import { WhenEvent, Shortcut } from './types'
-import { shortcuts } from './shortcuts'
+import { WhenEvent } from './types'
+import { Shortcut } from './classes/Shortcut'
 import { commands } from './when'
 import { checkPreventDefault } from './default-prevention'
 import { modifierKeys, keys, keyStatus } from './keys'
+import { focusedElement } from './track-focus'
 
 // helpers
 import { checkEventMatch } from './utils/check-event-match'
@@ -34,9 +35,12 @@ export const emitEvent = (event?: WhenEvent) => {
   // check each shortcut to see if its timeline has been fulfilled
   // the last event in the shortcut timeline must be the most recent event in the history
   // also, the timeline events don't have to be consecutive, but they must be in order
-  shortcuts.forEach((shortcut: Shortcut) => {
+  Shortcut.map.forEach((shortcut: Shortcut) => {
     // skip paused shortcuts
     if (!shortcut.active) return
+
+    // skip shortcuts that require an element to be focused (which is not currently focused)
+    if (shortcut.focusElement && shortcut.focusElement !== focusedElement) return
 
     let failed = false
     const shortcutEvents = [...shortcut.timeline]
@@ -129,7 +133,7 @@ export const emitEvent = (event?: WhenEvent) => {
 
     // delete shortcut if "once" was specified on it
     if (shortcut.once) {
-      shortcut.controller!.delete()
+      shortcut.delete()
     }
 
     // update event ID so we won't re-trigger a "held" command on the same event
