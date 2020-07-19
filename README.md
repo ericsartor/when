@@ -101,6 +101,7 @@ and to display the focus to the user
       <p>Paragraph.</p>
     </div>
 
+    <script src="dist/When.js"></script>
     <script>
       const el = document.getElementById('shortcut-element')
 
