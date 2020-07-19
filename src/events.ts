@@ -7,6 +7,7 @@ import { focusedElement } from './track-focus'
 
 // helpers
 import { checkEventMatch } from './utils/check-event-match'
+import { WhenError } from './utils/error'
 
 let eventId = 0
 
@@ -123,8 +124,8 @@ export const emitEvent = (event?: WhenEvent) => {
     const eventType = lastEvent.type
     const browserEvent = eventType === 'released' ? lastKeyupEvent : lastKeydownEvent
     if (typeof commands[shortcut.command] !== 'function') {
-      throw `When: command "${shortcut.command}" hasn't been been registered as a ` +
-        `function with When([command_name]).Run([function])`
+      throw new WhenError(`command "${shortcut.command}" hasn't been been registered as a ` +
+        `function with When([command_name]).Run([function])`)
     }
     commands[shortcut.command]({
       event: browserEvent!,

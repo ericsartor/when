@@ -32,6 +32,7 @@ We've even taken care of the cross browser and cross operating system inconsiste
 - very human readable and compact
 - shortcuts can be programatically executed without input from the user
 - shortcuts can be temporarily paused and unpaused, or completely removed programmatically
+- clear errors that explain how *When* can/should be used
 
 ## Examples
 

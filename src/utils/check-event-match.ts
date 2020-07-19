@@ -1,4 +1,5 @@
 import { WhenEvent } from '../types'
+import { WhenError } from './error'
 
 // compare an event from a shortcut timeline to an actual event from the event history
 export const checkEventMatch = (shortcutEvent: WhenEvent, historyEvent: WhenEvent): boolean => {
@@ -21,7 +22,7 @@ export const checkEventMatch = (shortcutEvent: WhenEvent, historyEvent: WhenEven
     // ensure that the history event's held duration is greather than
     // or equal to the duration required by the shortcut timeline event
     if (historyEvent.duration === undefined || shortcutEvent.duration === undefined) {
-      throw Error('When: "held" event had undefined "duration" property')
+      throw new WhenError('"held" event had undefined "duration" property')
     } else {
       if (historyEvent.duration < shortcutEvent.duration) {
         return false

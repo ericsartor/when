@@ -74,6 +74,8 @@ export type Whenable = {
 
   shortcut: Shortcut | null                 // the actual shortcut, once created with Execute
 
+  lastCalledFunctionName: string,
+
   Then: (identifier: string) => Whenable,   // sets current identifier
 
   IsExecuted: () => Whenable,               // registers current identifier as a command

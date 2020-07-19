@@ -4,6 +4,7 @@ import { preventDefaultShortcuts } from '../default-prevention'
 import { generateEventKeyString } from '../utils/generate-event-key-string'
 import { commands } from '../when'
 import { WhenEvent } from '../types'
+import { WhenError } from '../utils/error'
 
 export type ShortcutProps = {
   timeline: WhenEvent[],
@@ -113,8 +114,8 @@ export class Shortcut {
   trigger() {
     // trigger the command without having fulfilled the shortcut, no context is received
     if (typeof commands[this.command] !== 'function') {
-      throw `When: command "${this.command}" hasn't been been registered as a ` +
-        `function with When([command_name]).Run([function])`
+      throw new WhenError(`command "${this.command}" hasn't been been registered as a ` +
+        `function with When([command_name]).Run([function])`)
     }
     commands[this.command](undefined)
   }

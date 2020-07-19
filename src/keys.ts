@@ -1,4 +1,5 @@
 import { KeyStatusMap } from './types';
+import { WhenError } from './utils/error';
 
 // detect browser
 
@@ -278,6 +279,6 @@ export const validateKeyIdentifier = (identifier: string) => {
   // unknown key identifier, try to find suggestion for error
   const suggestion = keySuggestions(identifier)
   if (suggestion) {
-    throw Error(`When: ${suggestion}`)
+    throw new WhenError(`${suggestion}`)
   }
 }
