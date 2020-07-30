@@ -1,18 +1,18 @@
 # When
 
-### A powerful, human readable keyboard shortcut library and focus system
+### A powerful, human readable keyboard shortcut/binding library and focus system
 
-*When* aims to make keyboard shortcuts arbitrary and quick to set up, understand and change, while enabling features you don't get out of the box with DOM events.
+*When* aims to make complex keyboard shortcuts arbitrary and quick to set up, understand and change, while enabling features you don't get out of the box with DOM events.  It does **not** aim to be "simple" or "basic".  The goal is to give you granular control over when/how you react to your user's keyboard inputs, while keeping the code human readable and easy to maintain.
 
-All *When* code is very human readable while maintaining a small footprint in your code base.  It enables you to write code exactly as you would explain it to a user, to the point where comments are rarely necessary in the code.
+All *When* code is very human readable while maintaining a small footprint in your code base.  It enables you to write code exactly as you would explain it to a user, to the point where comments are rarely necessary.
 
 A "focus" system is included in *When* which facilitates the same concept of "focus" found in operating systems, so shortcuts can be specific to certain elements on your page, and you can tie into this system to make the user's focus very apparent to them in any way you see fit.
 
-The library contains many features and is chainable, so you can combine these features in various ways to create the exact keyboard experience you want for your application.  It can be as simple as a single keystroke or as complicated as writing out a full word within a certain amount of time with a certain element in focus.
+The library contains many features and is chainable, so you can combine these features in various ways to create the exact keyboard experience you want for your application.  It can be as simple as a single keystroke or as complicated as writing out a full word within a certain amount of time with a certain element in focus.  Both of these scenarios can be achieved with a single line of code using *When*.
 
-*When* even generates its own documentation programmatically, which you can structure, style and manipulate in any way you desire, so your users can learn your keyboard shortcuts efficiently.
+*When* even generates its own shortcut documentation programmatically, which you can structure, style and manipulate in any way you desire, so your users can learn your keyboard shortcuts efficiently, and you don't have to manually maintain it or keep it up to date!
 
-We've even taken care of the cross browser and cross operating system inconsistencies, so when you want a consistent experience across different platforms, you get it with *When*!
+We've even taken care of the cross browser and cross operating system inconsistencies, so when you want your users to have the same keyboard experience across different platforms, you get it with *When*!
 
 ## Features
 
@@ -26,6 +26,8 @@ We've even taken care of the cross browser and cross operating system inconsiste
   - one time shortcuts
   - chain together all these options in any way you like
 - easy to use "focus" system for limiting when/how shortcuts get triggered depending on where the user last clicked
+- "modes" which allow you to easily group shortcuts together and only have one set of shorcuts enabled at a time
+- "groups" which are an alternative way of grouping shortcuts that allow you to enable/disable/toggle/delete/trigger multiple shortcuts at a time
 - register "commands" for re-usable event handlers addressable by strings
   - tie your features to a command name instead of using a literal function, making swapping commands out easy!
 - automatically generate keyboard shortcut documentation for users and developers
@@ -36,7 +38,7 @@ We've even taken care of the cross browser and cross operating system inconsiste
 
 ## Examples
 
-Setting up an event handler
+Setting up a named event handler
 
 ```javascript
 When('EXAMPLE_COMMAND').IsExecuted().Run((ctx) => {
@@ -51,6 +53,10 @@ A simple, single key shortcut
 
 ```javascript
 When('a').IsPressed().Execute('EXAMPLE_COMMAND')
+
+When('b').IsPressed().Execute((ctx) => {
+  console.log('You can also use function literals!')
+})
 ```
 
 A sequential shortcut that must be completed within a time limit
@@ -73,7 +79,10 @@ When('q').IsPressed()
 
 A shortcut implementing various behaviour modifiers
 ```javascript
-When('ctrl+s').IsPressed().PreventDefault().Execute('EXAMPLE_COMMAND').Once()
+When('ctrl+s').IsPressed().Execute('EXAMPLE_COMMAND')
+  .Once()           // shortcut will be deleted after its first use
+  .PreventDefault() // default browser action for any shortcuts involved in the chain are prevented
+  .InInput()        // allows the shortcut to work in text inputs, which is disabled by default
 ```
 
 Using the focus system to create a shortcut that only works if a certain element is focused,

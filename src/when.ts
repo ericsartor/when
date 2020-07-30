@@ -1,8 +1,10 @@
-import { CommandMap, WhenEvent, Whenable, WhenEventHandler, FocusHandler } from './types'
-import { keys, validateKeyIdentifier, keyToString } from './keys'
+import { CommandMap, Whenable, WhenEventHandler, FocusHandler } from './types'
+import { keys, validateKeyName } from './keys'
 import { Shortcut } from './classes/Shortcut'
-import { focusHandlers, focusedElement } from './track-focus'
+import { focusHandlers } from './track-focus'
 import { WhenError, warn, warnAboutChainOrder } from './utils/error'
+import { setMode, clearMode } from './modes'
+import { newGroup } from './groups'
 
 // helpers
 import { getKeyFromIdentifier } from './utils/get-key-from-identifier'
@@ -22,20 +24,23 @@ function handleTime(this: Whenable, multiplier: number) {
     throw new WhenError('identifier value was null', this)
   }
 
+  const keyName = getKeyFromIdentifier(this.identifier)
+  validateKeyName(keyName)
+  const modifiers = getModifiersFromIdentifier(this.identifier)
   switch (this.nType) {
     case 'held':
       this.events.push({
         type: 'pressed',
-        key: keys[getKeyFromIdentifier(this.identifier)],
+        key: keys[keyName.toLowerCase()],
         timestamp: 0, // this isn't necessary for timeline events
-        modifiers: getModifiersFromIdentifier(this.identifier),
+        modifiers,
       })
       this.events.push({
         type: 'held',
-        key: keys[getKeyFromIdentifier(this.identifier)],
+        key: keys[keyName.toLowerCase()],
         timestamp: 0, // this isn't necessary for timeline events
         duration: multiplier * this.n,
-        modifiers: getModifiersFromIdentifier(this.identifier),
+        modifiers,
       })
       break
     case 'constraint':
@@ -58,16 +63,19 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
   }
 
   return {
-    identifier: typeof identifierOrElement !== 'string' ? null :  identifierOrElement.toLowerCase(), // set the identifier that was passed in
+    identifier: typeof identifierOrElement !== 'string' ? null :  identifierOrElement, // set the identifier that was passed in
     element: typeof identifierOrElement === 'string' ? null :  identifierOrElement, // set the identifier that was passed in
     events: [],
     timeConstraint: null,
     focusRequired: false,
+    focusTarget: null,
+    mode: null,
     isCommand: false,
     preventDefault: false,
     n: null,
     nType: null,
     once: false,
+    inInput: false,
     shortcut: null,
     lastCalledFunctionName: 'When()',
 
@@ -75,7 +83,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
     // changes current identifier
     Then(identifier: string) {
       warnAboutChainOrder('Then()', this, [
-        'IsFocused()', 'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()',
+        'ModeIs()', 'IsFocused()', 'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()',
       ])
 
       // validate identifier
@@ -83,8 +91,32 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         throw new WhenError('Then() must be called with a string key identifier (optionally with modifiers).', this)
       }
 
-      this.identifier = identifier.toLowerCase()
+      this.identifier = identifier
       this.lastCalledFunctionName = 'Then()'
+      return this
+    },
+
+    ModeIs(modeName: string) {
+      warnAboutChainOrder('ModeIs()', this, [
+        'When()'
+      ])
+
+      // validation
+      if (modeName === undefined) {
+        throw new WhenError(
+          `ModeIs() was called without a string argument.  A mode name is required as the first ` +
+            `and only argument.`,
+          this
+        )
+      } else if (typeof modeName !== 'string') {
+        throw new WhenError(
+          `ModeIs() was called with a ${typeof modeName} argument instead of a string: ${modeName}`,
+          this
+        )
+      }
+
+      this.mode = modeName
+      this.lastCalledFunctionName = 'ModeIs()'
       return this
     },
 
@@ -94,15 +126,40 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       ])
 
       // validation
-      if (!this.element) {
-        throw new WhenError('IsFocused() cannot be called until When() has received an HTMLElement', this)
-      }
-      if (!this.element.classList || !this.element.classList.contains('when-focus')) {
-        throw new WhenError('IsFocused() was called, but the HTMLElement provided to When() ' +
-          'did not have the "when-focus" class assigned to it.')
+      if (this.identifier) {
+        let validIdentifier = this.identifier.includes('id:') || this.identifier.includes('class:')
+        if (!validIdentifier) {
+          throw new WhenError(
+            'IsFocused() was called but the string identifier provided to When() was neither an ' +
+              '"id:" or a "class:" selector',
+            this
+          )
+        }
+      } else if (this.element) {
+        if (!this.element.classList || !this.element.classList.contains('when-focus')) {
+          throw new WhenError(
+            'IsFocused() was called, but the HTMLElement provided to When() ' +
+              'did not have the "when-focus" class assigned to it.',
+            this
+          )
+        }
+      } else {
+        throw new WhenError(
+          'IsFocused() cannot be called until When() has received an ' +
+            'HTMLElement or a "id:"/"class:" selector',
+          this
+        )
       }
 
       this.focusRequired = true
+      
+      // set the focus target
+      if (this.identifier) {
+        this.focusTarget = this.identifier
+      } else if (this.element) {
+        this.focusTarget = this.element
+      }
+
       this.lastCalledFunctionName = 'IsFocused()'
       return this
     },
@@ -133,13 +190,14 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         throw new WhenError('IsPressed() cannot be called before a string key identifier has been passed to When() or Then()', this)
       }
 
-      validateKeyIdentifier(getKeyFromIdentifier(this.identifier))
-      const events: WhenEvent[] = this.events
-      events.push({
+      const keyName = getKeyFromIdentifier(this.identifier)
+      validateKeyName(keyName)
+      const modifiers = getModifiersFromIdentifier(this.identifier)
+      this.events.push({
         type: 'pressed',
-        key: keys[getKeyFromIdentifier(this.identifier)],
+        key: keys[keyName.toLowerCase()],
         timestamp: 0, // this isn't necessary for timeline events
-        modifiers: getModifiersFromIdentifier(this.identifier),
+        modifiers,
       })
       this.lastCalledFunctionName = 'IsPressed()'
       return this
@@ -155,13 +213,14 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         throw new WhenError('IsReleased() cannot be called before a string key identifier has been passed to When() or Then()', this)
       }
 
-      validateKeyIdentifier(getKeyFromIdentifier(this.identifier))
-      const events: WhenEvent[] = this.events
-      events.push({
+      const keyName = getKeyFromIdentifier(this.identifier)
+      validateKeyName(keyName)
+      const modifiers = getModifiersFromIdentifier(this.identifier)
+      this.events.push({
         type: 'released',
-        key: keys[getKeyFromIdentifier(this.identifier)],
+        key: keys[keyName.toLowerCase()],
         timestamp: 0, // this isn't necessary for timeline events
-        modifiers: getModifiersFromIdentifier(this.identifier),
+        modifiers,
       })
       this.lastCalledFunctionName = 'IsReleased()'
       return this
@@ -184,7 +243,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         )
       }
       
-      validateKeyIdentifier(getKeyFromIdentifier(this.identifier))
+      validateKeyName(getKeyFromIdentifier(this.identifier))
       this.n = n
       this.nType = 'held'
       this.lastCalledFunctionName = 'IsHeldFor()'
@@ -238,38 +297,52 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       return this
     },
 
-    PreventDefault() {
-      warnAboutChainOrder('PreventDefault()', this, [
-        'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()'
-      ])
-      
-      this.preventDefault = true
-      this.lastCalledFunctionName = 'PreventDefault()'
-      return this
-    },
-
-    Execute(command: string) {
+    Execute(commandNameOrFunc: string | WhenEventHandler, commandName?: string) {
       warnAboutChainOrder('Execute()', this, [
         'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()', 'PreventDefault()'
       ])
 
-      if (typeof command !== 'string') {
-        throw new WhenError('Execute() must be called with a string command name as the only argument.', this)
+      if (this.events.length === 0) {
+        throw new WhenError(
+          'Execute() was called before any key events were registered in the shortcut chain.  '+
+            'You need to call either IsPressed(), IsReleased() or IsHeldFor() to register a key event.',
+          this
+        )
       }
 
-      command = command.toLowerCase()
+      const type = typeof commandNameOrFunc
 
-      if (commands[command] === undefined) {
+      if (type !== 'string' && type !== 'function') {
+        throw new WhenError(
+          'Execute() must be called with either a string command name or a ' +
+            'handler function as the only argument, but a value of type [' + type + '] was received: ' +
+            commandNameOrFunc,
+          this
+        )
+      }
+
+      if (typeof commandNameOrFunc === 'string' && commands[commandNameOrFunc] === undefined) {
         throw new WhenError('Execute() was called with a command name not yet registered by a ' +
-          'call to When([command_name]).IsExecuted().Run([function]): ' + command, this)
+          'call to When([command_name]).IsExecuted().Run([function]): ' + commandNameOrFunc, this)
+      }
+
+      if (type === 'function' && !commandName) {
+        warn(
+          'You should provide a string command name as the second argument to Execute() ' +
+            'so that When.Documentation() has a name to use, but it is not required and ' +
+            'functionality is not effected.',
+          this
+        )
       }
 
       this.lastCalledFunctionName = 'Execute()'
       return new Shortcut({
         timeline: this.events,
-        command,
+        command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
+        handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
+        mode: this.mode,
         timeConstraint: this.timeConstraint,
-        focusElement: this.focusRequired ? this.element : null,
+        focusTarget: this.focusRequired ? this.focusTarget : null,
         preventDefault: this.preventDefault,
       })
     },
@@ -289,7 +362,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         throw new WhenError('Run() must be called after a call to IsExecuted().', this)
       }
 
-      commands[this.identifier.toLowerCase()] = func
+      commands[this.identifier] = func
       
       this.lastCalledFunctionName = 'Run()'
     },
@@ -305,37 +378,16 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
   }
 }
 
-When.Documentation = () => {
+When.setMode = setMode
+When.clearMode = clearMode
+When.newGroup = newGroup
+
+When.documentation = () => {
   const lines: { combination: string, command: string }[] = []
   Shortcut.map.forEach((shortcut) => {
-    let shortcutEvents = shortcut.timeline.map((event) => {
-      const { alt, ctrl, meta, shift } = event.modifiers
-      let modifierString = `${alt?'alt+':''}${ctrl?'ctrl+':''}${meta?'meta+':''}${shift?'shift+':''}`
-      switch (event.type) {
-        case 'pressed':
-          return `, &darr;${modifierString}${keyToString(event.key)}`
-        case 'released':
-          return `, &uarr;${modifierString}${keyToString(event.key)}`
-        case 'held':
-          return ` (hold ${event.duration! / 1000}s)`
-      }
-    })
-
-    let shortcutCombination = shortcutEvents.join('').slice(2)
-
-    if (shortcut.timeConstraint) {
-      if (shortcut.timeConstraint < 1000) {
-        const milliseconds = shortcut.timeConstraint
-        shortcutCombination += ` (within ${milliseconds}ms)`
-      } else {
-        const seconds = (shortcut.timeConstraint / 1000).toFixed(2)
-        shortcutCombination += ` (within ${seconds}s)`
-      }
-    }
-
     lines.push({
-      combination: shortcutCombination,
-      command: shortcut.command,
+      combination: shortcut.combination,
+      command: shortcut.command ? shortcut.command : shortcut.handler ? 'anon func' : '',
     })
   })
 

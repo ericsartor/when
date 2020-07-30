@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>when test</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+    }
+
+    .red { background: red }
+    .blue { background: blue }
+  </style>
+</head>
+<body>
+  <input id="mode">
+  <div class="box red test when-focus"></div>
+  <div class="box red"></div>
+  <div class="box red"></div>
+  <div class="box red"></div>
+  <div class="box blue test when-focus"></div>
+  <div class="box blue"></div>
+  <div class="box blue"></div>
+  <div class="box blue when-focus" id="test-id"></div>
+  <script src="dist/When.js"></script>
+  <script>
+    const modeInput = document.getElementById('mode')
+    modeInput.addEventListener('input', () => {
+      When.setMode(modeInput.value)
+    })
+
+
+    When('a').IsPressed().Execute(() => {
+      console.log('triggered')
+    }, 'log')
+
+    When('class:test').IsFocused().Then('b').IsPressed().Execute((ctx) => {
+      console.log('class test')
+      console.log(ctx.focusedElement.className)
+    }, 'class test')
+
+    When('id:test-id').IsFocused().Then('c').IsPressed().Execute((ctx) => {
+      console.log('id test')
+      console.log(ctx.focusedElement.className)
+    }, 'id test')
+
+    When().ModeIs('mode1').Then('b').IsPressed().Execute(() => {
+      console.log('sick mode bro')
+    }, 'mode test')
+
+    const group = When.newGroup([
+      When('c').IsPressed().Execute(() => console.log('c'), 'test'),
+      When('d').IsPressed().Execute(() => console.log('d'), 'test'),
+      When('e').IsPressed().Execute(() => console.log('e'), 'test'),
+    ])
+
+    When('f').IsPressed().Execute(() => {
+      group.trigger()
+    }, 'delete group')
+  </script>
+</body>
+</html>

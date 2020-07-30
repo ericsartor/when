@@ -273,11 +273,11 @@ export const keySuggestions = (str: string) => {
 }
 
 // throw an error if the identifier provided doesn't match a key
-export const validateKeyIdentifier = (identifier: string) => {
-  if (keys[identifier] !== undefined) return
+export const validateKeyName = (name: string) => {
+  if (keys[name] !== undefined) return
 
   // unknown key identifier, try to find suggestion for error
-  const suggestion = keySuggestions(identifier)
+  const suggestion = keySuggestions(name)
   if (suggestion) {
     throw new WhenError(`${suggestion}`)
   }

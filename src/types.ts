@@ -1,6 +1,23 @@
-// Events
+// Shortcuts
 
 import { Shortcut } from './classes/Shortcut'
+
+export type ShortcutGroup = {
+  shortcuts: Shortcut[],
+  
+  delete: () => void
+
+  pause: () => void
+
+  unpause: () => void
+
+  toggle: () => void
+
+  trigger: () => void
+}
+
+// Events
+
 
 export type WhenEventType = 'pressed' | 'released' | 'held'
 
@@ -20,6 +37,8 @@ export type WhenEvent = {
 
 export interface WhenEventContext {
   event: KeyboardEvent,
+  shortcut: Shortcut,
+  focusedElement: HTMLElement | null,
   pressDuration?: number,
 }
 
@@ -58,7 +77,11 @@ export type Whenable = {
   timeConstraint: number | null,            // number of milliseconds the entier shortcut must be 
                                             // completed within to trigger it's execution
 
-  focusRequired: boolean,
+  focusRequired: boolean,                   // indicates that a focused element is requried for the shortcut
+
+  focusTarget: HTMLElement | string | null, // an HTMLElement, "id:" or "class:" selector
+
+  mode: string | null,                      // mode string that the shortcut checks for
 
   isCommand: boolean,                       // marks whether the identifier is for a command or not
 
@@ -72,6 +95,8 @@ export type Whenable = {
 
   once: boolean,                            // controls if the shortcut should only work once
 
+  inInput: boolean,                         // controls if the shortcut can be trigger if an input if focused
+
   shortcut: Shortcut | null                 // the actual shortcut, once created with Execute
 
   lastCalledFunctionName: string,
@@ -79,6 +104,8 @@ export type Whenable = {
   Then: (identifier: string) => Whenable,   // sets current identifier
 
   IsExecuted: () => Whenable,               // registers current identifier as a command
+
+  ModeIs: (modeName: string) => Whenable,   // registers mode name string
 
   IsFocused: () => Whenable,                // registers current identifier as focus element
 
@@ -95,9 +122,6 @@ export type Whenable = {
   IsHeldFor: (n: number) => Whenable,       // sets the current n value and sets nValue as "held"
 
   Within: (n: number) => Whenable           // sets the current n value and sets nValue as "constraint"
-
-
-  PreventDefault: () => void                // runs event.preventDefault for all related events
 
   Run: (func: WhenEventHandler) => void     // registers current identifier as a command globally
 

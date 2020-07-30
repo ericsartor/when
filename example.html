@@ -57,8 +57,8 @@
     When('ctrl+k').IsPressed()
       .Then('ctrl+l').IsPressed()
       .Within(500).Milliseconds()
-      .PreventDefault()
       .Execute('EXAMPLE_COMMAND')
+      .PreventDefault()
 
     // A shortcut combining pressed, released and held events
     When('q').IsPressed()
@@ -67,7 +67,7 @@
       .Execute('EXAMPLE_COMMAND')
 
     // A shortcut implementing various behaviour modifiers
-    When('ctrl+s').IsPressed().PreventDefault().Execute('EXAMPLE_COMMAND').Once()
+    When('ctrl+s').IsPressed().Execute('EXAMPLE_COMMAND').Once().PreventDefault()
 
     // Using the focus system to create a shortcut that only works if a certain element is focused,
     // and to display the focus to the user

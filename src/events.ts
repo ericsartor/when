@@ -1,4 +1,5 @@
 import { WhenEvent } from './types'
+import { WhenError } from './utils/error'
 import { Shortcut } from './classes/Shortcut'
 import { commands } from './when'
 import { checkPreventDefault } from './default-prevention'
@@ -7,7 +8,8 @@ import { focusedElement } from './track-focus'
 
 // helpers
 import { checkEventMatch } from './utils/check-event-match'
-import { WhenError } from './utils/error'
+import { shortcutFocusIsFulfilled } from './utils/shortcut-focus-is-fulfilled'
+import { currentMode } from './modes'
 
 let eventId = 0
 
@@ -40,9 +42,19 @@ export const emitEvent = (event?: WhenEvent) => {
     // skip paused shortcuts
     if (!shortcut.active) return
 
-    // skip shortcuts that require an element to be focused (which is not currently focused)
-    if (shortcut.focusElement && shortcut.focusElement !== focusedElement) return
+    // skip shortcuts whose mode requirement is not fulfilled
+    if (shortcut.mode && currentMode !== shortcut.mode) return
 
+    // skip shortcuts that require an element to be focused (which is not currently focused)
+    if (!shortcutFocusIsFulfilled(shortcut)) return
+
+    // skip shortcuts that shouldn't trigger in inputs (if an input is focused)
+    const activeTagName: string = document.activeElement ? document.activeElement.tagName.toLowerCase() : ''
+    if (!shortcut.inInput && ['textarea', 'input', 'select', 'button'].includes(activeTagName)) {
+      return
+    }
+
+    // determine if shortcut's event timeline has been fulfilled
     let failed = false
     const shortcutEvents = [...shortcut.timeline]
     const foundEvents: WhenEvent[] = []
@@ -123,14 +135,23 @@ export const emitEvent = (event?: WhenEvent) => {
     const lastEvent = foundEvents[foundEvents.length - 1]
     const eventType = lastEvent.type
     const browserEvent = eventType === 'released' ? lastKeyupEvent : lastKeydownEvent
-    if (typeof commands[shortcut.command] !== 'function') {
-      throw new WhenError(`command "${shortcut.command}" hasn't been been registered as a ` +
-        `function with When([command_name]).Run([function])`)
-    }
-    commands[shortcut.command]({
+    const ctx = {
       event: browserEvent!,
+      shortcut,
+      focusedElement: focusedElement,
       pressDuration: eventType === 'held' ? lastEvent.duration : undefined
-    })
+    }
+
+    // check handler first because "command" may be filled in simply for documentation purposes
+    if (shortcut.handler) {
+      shortcut.handler(ctx)
+    } else if (shortcut.command) {
+      if (typeof commands[shortcut.command] !== 'function') {
+        throw new WhenError(`command "${shortcut.command}" hasn't been been registered as a ` +
+          `function with When([command_name]).Run([function])`)
+      }
+      commands[shortcut.command](ctx)
+    }
 
     // delete shortcut if "once" was specified on it
     if (shortcut.once) {

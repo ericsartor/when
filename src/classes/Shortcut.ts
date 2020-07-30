@@ -3,16 +3,20 @@ import { preventDefaultShortcuts } from '../default-prevention'
 // helpers
 import { generateEventKeyString } from '../utils/generate-event-key-string'
 import { commands } from '../when'
-import { WhenEvent } from '../types'
+import { WhenEvent, WhenEventHandler } from '../types'
 import { WhenError } from '../utils/error'
+import { createCombinationString } from '../utils/create-combination-string'
 
 export type ShortcutProps = {
   timeline: WhenEvent[],
-  command: string,
+  command: string | null,
+  handler: WhenEventHandler | null,
+  mode: string | null,
   timeConstraint?: number | null,
-  focusElement?: HTMLElement | null,
+  focusTarget?: HTMLElement | string | null,
   preventDefault?: boolean,
   once?: boolean,
+  inInput?: boolean,
 }
 
 export class Shortcut {
@@ -34,11 +38,17 @@ export class Shortcut {
 
   // props
   timeline: WhenEvent[]
-  command: string
+  command: string | null
+  handler: WhenEventHandler | null
+  mode: string | null
   preventDefault: boolean = false
   once: boolean = false
+  inInput: boolean = false
   timeConstraint: number | null = null
-  focusElement: HTMLElement | null = null
+  focusTarget: HTMLElement | string | null = null
+
+  // created after initialization
+  combination: string
 
 
 
@@ -46,10 +56,13 @@ export class Shortcut {
   constructor({
     timeline,
     command,
+    handler,
+    mode,
     preventDefault,
     once,
+    inInput,
     timeConstraint,
-    focusElement,
+    focusTarget,
   }: ShortcutProps) {
     // assign id
     this.id = Shortcut.idCounter++
@@ -60,12 +73,18 @@ export class Shortcut {
     // required props
     this.timeline = timeline
     this.command = command
+    this.handler = handler
+    this.mode = mode
 
     // optional props
     this.preventDefault = preventDefault || this.preventDefault
     this.once = once || this.once
+    this.inInput = inInput || this.inInput
     this.timeConstraint = timeConstraint || this.timeConstraint
-    this.focusElement = focusElement || this.focusElement
+    this.focusTarget = focusTarget || this.focusTarget
+
+    // create the combination string
+    this.combination = createCombinationString(this)
 
     // incremement/create prevent default counts
     if (this.preventDefault) {
@@ -111,19 +130,34 @@ export class Shortcut {
     this.active = !this.active
   }
 
+  // trigger the command without having fulfilled the shortcut, no context is received
   trigger() {
-    // trigger the command without having fulfilled the shortcut, no context is received
-    if (typeof commands[this.command] !== 'function') {
-      throw new WhenError(`command "${this.command}" hasn't been been registered as a ` +
-        `function with When([command_name]).Run([function])`)
+    // check handler first because command may be filled in for documentation purposes
+    if (this.handler) {
+      this.handler(undefined)
+    } else if (this.command) {
+      if (typeof commands[this.command] !== 'function') {
+        throw new WhenError(`command "${this.command}" hasn't been been registered as a ` +
+          `function with When([command_name]).Run([function])`)
+      }
+      commands[this.command](undefined)
     }
-    commands[this.command](undefined)
   }
 
   // the shortcut can only be executed one time after this is called
   // typically used at the end of a When clause
   Once() {
     this.once = true
+    return this
+  }
+
+  InInput() {
+    this.inInput = true
+    return this
+  }
+
+  PreventDefault() {
+    this.preventDefault = true
     return this
   }
 }

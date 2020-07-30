@@ -6,11 +6,8 @@ import { Whenable } from './types'
 declare global {
   interface Window {
     When: (identifier: string) => Whenable,
-    // WhenShortcuts: Map<number, Shortcut>,
   }
 }
 
+// make When available in a browser setting
 window.When = When
-// window.WhenShortcuts = shortcuts
-
-console.log('Hello from When.js!')
