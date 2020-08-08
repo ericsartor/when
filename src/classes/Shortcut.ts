@@ -6,6 +6,7 @@ import { commands } from '../when'
 import { WhenEvent, WhenEventHandler } from '../types'
 import { WhenError } from '../utils/error'
 import { createCombinationString } from '../utils/create-combination-string'
+import { addDocumentedShortcut } from '../documentation'
 
 export type ShortcutProps = {
   timeline: WhenEvent[],
@@ -14,7 +15,6 @@ export type ShortcutProps = {
   mode: string | null,
   timeConstraint?: number | null,
   focusTarget?: HTMLElement | string | null,
-  preventDefault?: boolean,
   once?: boolean,
   inInput?: boolean,
 }
@@ -41,7 +41,7 @@ export class Shortcut {
   command: string | null
   handler: WhenEventHandler | null
   mode: string | null
-  preventDefault: boolean = false
+  preventDefault: boolean = true
   once: boolean = false
   inInput: boolean = false
   timeConstraint: number | null = null
@@ -58,7 +58,6 @@ export class Shortcut {
     command,
     handler,
     mode,
-    preventDefault,
     once,
     inInput,
     timeConstraint,
@@ -77,7 +76,6 @@ export class Shortcut {
     this.mode = mode
 
     // optional props
-    this.preventDefault = preventDefault || this.preventDefault
     this.once = once || this.once
     this.inInput = inInput || this.inInput
     this.timeConstraint = timeConstraint || this.timeConstraint
@@ -86,24 +84,25 @@ export class Shortcut {
     // create the combination string
     this.combination = createCombinationString(this)
 
-    // incremement/create prevent default counts
-    if (this.preventDefault) {
-      this.timeline.forEach((event) => {
-        const eventKeyString = generateEventKeyString(event)
-        if (preventDefaultShortcuts.has(eventKeyString)) {
-          const count = preventDefaultShortcuts.get(eventKeyString)!
-          preventDefaultShortcuts.set(eventKeyString, count + 1)
-        } else {
-          preventDefaultShortcuts.set(eventKeyString, 1)
-        }
-      })
-    }
+    // turn on preventDefault
+    this.timeline.forEach((event) => {
+      const eventKeyString = generateEventKeyString(event)
+      if (preventDefaultShortcuts.has(eventKeyString)) {
+        const count = preventDefaultShortcuts.get(eventKeyString)!
+        preventDefaultShortcuts.set(eventKeyString, count + 1)
+      } else {
+        preventDefaultShortcuts.set(eventKeyString, 1)
+      }
+    })
+
+    // document this shortcut
+    addDocumentedShortcut(this)
   }
 
 
   
 
-  delete() {
+  remove() {
     Shortcut.map.delete(this.id)
 
     // decrement prevent default counts
@@ -156,8 +155,15 @@ export class Shortcut {
     return this
   }
 
-  PreventDefault() {
-    this.preventDefault = true
+  AllowDefault() {
+    this.timeline.forEach((event) => {
+      const eventKeyString = generateEventKeyString(event)
+      if (preventDefaultShortcuts.has(eventKeyString)) {
+        const count = preventDefaultShortcuts.get(eventKeyString)!
+        preventDefaultShortcuts.set(eventKeyString, count - 1)
+      }
+    })
+    this.preventDefault = false
     return this
   }
 }

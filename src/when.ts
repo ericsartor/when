@@ -1,10 +1,11 @@
 import { CommandMap, Whenable, WhenEventHandler, FocusHandler } from './types'
-import { keys, validateKeyName } from './keys'
+import { keys, validateKeyName, loadLayout } from './keys'
 import { Shortcut } from './classes/Shortcut'
 import { focusHandlers } from './track-focus'
-import { WhenError, warn, warnAboutChainOrder } from './utils/error'
+import { WhenError, warn, warnAboutChainOrder, quiet, setQuiet } from './utils/error'
 import { setMode, clearMode } from './modes'
 import { newGroup } from './groups'
+import { documentedShortcuts, documentation } from './documentation'
 
 // helpers
 import { getKeyFromIdentifier } from './utils/get-key-from-identifier'
@@ -24,11 +25,22 @@ function handleTime(this: Whenable, multiplier: number) {
     throw new WhenError('identifier value was null', this)
   }
 
-  const keyName = getKeyFromIdentifier(this.identifier)
+  const milliseconds = multiplier * this.n
+
+  const keyName = getKeyFromIdentifier(this.identifier, this)
   validateKeyName(keyName)
   const modifiers = getModifiersFromIdentifier(this.identifier)
   switch (this.nType) {
     case 'held':
+      if (keys === null) {
+        throw new WhenError('A layout has not been loaded yet.')
+      } else if (milliseconds < 500) {
+        throw new WhenError(
+          'Held events cannot have a hold duration of less than 500 milliseconds, but ' +
+            milliseconds + ' were provided.',
+          this
+        )
+      }
       this.events.push({
         type: 'pressed',
         key: keys[keyName.toLowerCase()],
@@ -39,12 +51,18 @@ function handleTime(this: Whenable, multiplier: number) {
         type: 'held',
         key: keys[keyName.toLowerCase()],
         timestamp: 0, // this isn't necessary for timeline events
-        duration: multiplier * this.n,
+        duration: milliseconds,
         modifiers,
       })
       break
     case 'constraint':
-      this.timeConstraint = multiplier * this.n
+      if (this.timeConstraint !== null) {
+        throw new WhenError(
+          'Only one time constraint be placed on a shortcut.',
+          this,
+        )
+      }
+      this.timeConstraint = milliseconds
   }
 }
 
@@ -79,6 +97,58 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
     shortcut: null,
     lastCalledFunctionName: 'When()',
 
+
+    IsInput() {
+      warnAboutChainOrder('IsInput()', this, [
+        'When()', 'Then()',
+      ])
+
+      // validate identifier
+      if (typeof this.identifier !== 'string') {
+        throw new WhenError(
+          'IsInput() must be called after a string key identifier sequence has been passed to ' +
+            'When()/Then(), but currently the identifier is of type [' + typeof this.identifier +
+            ']: ' + this.identifier,
+          this,
+        )
+      }
+
+      const sequence = this.identifier.split(' ')
+
+      sequence.forEach((input) => {
+        const timeMatch = input.match(/^\((\d+)(s|ms)\)$/)
+        if (timeMatch) {
+          if (this.timeConstraint !== null) {
+            throw new WhenError(
+              'Only one time constraint be placed on a shortcut.',
+              this,
+            )
+          }
+
+          const n = Number(timeMatch[1])
+          const type = timeMatch[2]
+          const ms = n * (type === 's' ? 1000 : 1)
+          this.timeConstraint = ms
+        } else {
+          if (keys === null) {
+            throw new WhenError('A layout has not been loaded yet.')
+          }
+
+          const keyName = getKeyFromIdentifier(input, this)
+          const modifiers = getModifiersFromIdentifier(input)
+          validateKeyName(keyName, this)
+          this.events.push({
+            type: 'pressed',
+            key: keys[keyName.toLowerCase()],
+            timestamp: 0, // this isn't necessary for timeline events
+            modifiers,
+          })
+        }
+      })
+      
+      this.lastCalledFunctionName = 'IsInput()'
+      return this
+    },
 
     // changes current identifier
     Then(identifier: string) {
@@ -135,10 +205,37 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
             this
           )
         }
+
+        if (this.identifier.includes('id:')) {
+          const id = this.identifier.replace('id:', '')
+          const el = document.getElementById(id)
+          if (el && el.classList.contains('when-focus') === false) {
+            warn(
+              'IsFocused() was called with identifier "' + this.identifier + '", but the element ' +
+                'with that ID currently does not have the "when-focus" class on it, and therefore ' +
+                'cannot be focused by When.',
+              this,
+            )
+          }
+        } else if (this.identifier.includes('class:')) {
+          const className = this.identifier.replace('class:', '')
+          const elements = Array.from(document.getElementsByClassName(className))
+          const atLeastOneMissingClass = elements.some((el) => {
+            return el.classList.contains('when-focus') === false
+          })
+          if (atLeastOneMissingClass) {
+            warn(
+              'IsFocused() was called with identifier "' + this.identifier + '", but at least one ' +
+                'of the elements with that class currently does not have the "when-focus" class ' +
+                'on it, and therefore cannot be focused by When.',
+              this,
+            )
+          }
+        }
       } else if (this.element) {
         if (!this.element.classList || !this.element.classList.contains('when-focus')) {
-          throw new WhenError(
-            'IsFocused() was called, but the HTMLElement provided to When() ' +
+          warn(
+            'IsFocused() was called, but the element provided to When() ' +
               'did not have the "when-focus" class assigned to it.',
             this
           )
@@ -190,7 +287,11 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         throw new WhenError('IsPressed() cannot be called before a string key identifier has been passed to When() or Then()', this)
       }
 
-      const keyName = getKeyFromIdentifier(this.identifier)
+      if (keys === null) {
+        throw new WhenError('A layout has not been loaded yet.')
+      }
+
+      const keyName = getKeyFromIdentifier(this.identifier, this)
       validateKeyName(keyName)
       const modifiers = getModifiersFromIdentifier(this.identifier)
       this.events.push({
@@ -213,7 +314,11 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         throw new WhenError('IsReleased() cannot be called before a string key identifier has been passed to When() or Then()', this)
       }
 
-      const keyName = getKeyFromIdentifier(this.identifier)
+      if (keys === null) {
+        throw new WhenError('A layout has not been loaded yet.')
+      }
+
+      const keyName = getKeyFromIdentifier(this.identifier, this)
       validateKeyName(keyName)
       const modifiers = getModifiersFromIdentifier(this.identifier)
       this.events.push({
@@ -243,7 +348,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         )
       }
       
-      validateKeyName(getKeyFromIdentifier(this.identifier))
+      validateKeyName(getKeyFromIdentifier(this.identifier, this))
       this.n = n
       this.nType = 'held'
       this.lastCalledFunctionName = 'IsHeldFor()'
@@ -299,7 +404,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
 
     Execute(commandNameOrFunc: string | WhenEventHandler, commandName?: string) {
       warnAboutChainOrder('Execute()', this, [
-        'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()', 'PreventDefault()'
+        'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()', 'PreventDefault()', 'IsInput()',
       ])
 
       if (this.events.length === 0) {
@@ -343,7 +448,6 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         mode: this.mode,
         timeConstraint: this.timeConstraint,
         focusTarget: this.focusRequired ? this.focusTarget : null,
-        preventDefault: this.preventDefault,
       })
     },
 
@@ -366,30 +470,45 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       
       this.lastCalledFunctionName = 'Run()'
     },
-
-    FocusChanges(func: FocusHandler) {
-      warnAboutChainOrder('FocusChanges()', this, [
-        'When()'
-      ])
-
-      focusHandlers.push(func)
-      this.lastCalledFunctionName = 'FocusChanges()'
-    }
   }
 }
 
 When.setMode = setMode
 When.clearMode = clearMode
 When.newGroup = newGroup
+When.quiet = setQuiet
+When.loadLayout = loadLayout
 
-When.documentation = () => {
-  const lines: { combination: string, command: string }[] = []
-  Shortcut.map.forEach((shortcut) => {
-    lines.push({
-      combination: shortcut.combination,
-      command: shortcut.command ? shortcut.command : shortcut.handler ? 'anon func' : '',
-    })
-  })
-
-  return lines
+// stops When from actually handling events
+export let shouldCheckEvents = true
+When.toggle = () => {
+  shouldCheckEvents = !shouldCheckEvents
 }
+
+export let heldInterval: number = 100;
+When.setHeldInterval = (n: number) => {
+  if (typeof n !== 'number') {
+    throw new WhenError(
+      'When.setHeldInterval() expects to receive a numberic milliseconds value as the first an only ' +
+      'argument, but a [' + typeof n + '] was provided.',
+    )
+  }
+
+  heldInterval = n
+}
+
+When.focusChanges = (func: FocusHandler) => {
+  if (typeof func !== 'function') {
+    throw new WhenError(
+      'When.focusChanges() expects to receive a function as the first an only ' +
+      'argument, but a [' + typeof func + '] was provided.',
+    )
+  }
+
+  focusHandlers.push(func)
+}
+
+When.documentation = documentation
+
+// load QWERTY layout by default
+When.loadLayout('qwerty')

@@ -7,9 +7,9 @@ export const createCombinationString = (shortcut: Shortcut): string => {
     let modifierString = `${alt?'alt+':''}${ctrl?'ctrl+':''}${meta?'meta+':''}${shift?'shift+':''}`
     switch (event.type) {
       case 'pressed':
-        return `, &darr;${modifierString}${keyToString(event.key)}`
+        return `, ↓${modifierString}${keyToString(event.key)}`
       case 'released':
-        return `, &uarr;${modifierString}${keyToString(event.key)}`
+        return `, ↑${modifierString}${keyToString(event.key)}`
       case 'held':
         return ` (hold ${event.duration! / 1000}s)`
     }

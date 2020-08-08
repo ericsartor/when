@@ -1,7 +1,7 @@
 import { WhenEvent } from './types'
 import { WhenError } from './utils/error'
 import { Shortcut } from './classes/Shortcut'
-import { commands } from './when'
+import { commands, heldInterval, shouldCheckEvents } from './when'
 import { checkPreventDefault } from './default-prevention'
 import { modifierKeys, keys, keyStatus } from './keys'
 import { focusedElement } from './track-focus'
@@ -11,6 +11,7 @@ import { checkEventMatch } from './utils/check-event-match'
 import { shortcutFocusIsFulfilled } from './utils/shortcut-focus-is-fulfilled'
 import { currentMode } from './modes'
 
+// starting value for event IDs
 let eventId = 0
 
 // an array of emitted WhenEvents in chronological order
@@ -120,8 +121,8 @@ export const emitEvent = (event?: WhenEvent) => {
 
     // ensure events are within the time constraint (if there is one)
     if (shortcut.timeConstraint !== null && shortcut.timeConstraint > 0) {
-      const firstEvent = foundEvents.shift()
-      const lastEvent = foundEvents.pop()
+      const firstEvent = foundEvents[0]
+      const lastEvent = foundEvents[foundEvents.length - 1]
 
       if (lastEvent !== undefined && firstEvent !== undefined &&
         lastEvent.timestamp - firstEvent.timestamp > shortcut.timeConstraint) {
@@ -153,9 +154,9 @@ export const emitEvent = (event?: WhenEvent) => {
       commands[shortcut.command](ctx)
     }
 
-    // delete shortcut if "once" was specified on it
+    // remove shortcut if "once" was specified on it
     if (shortcut.once) {
-      shortcut.delete()
+      shortcut.remove()
     }
 
     // update event ID so we won't re-trigger a "held" command on the same event
@@ -166,6 +167,11 @@ export const emitEvent = (event?: WhenEvent) => {
 // ANCHOR: keydown listener
 // trigger a "pressed" event and update key status
 window.addEventListener('keydown', (e: KeyboardEvent) => {
+  if (!shouldCheckEvents) return
+
+  if (keys === null || modifierKeys === null) {
+    return
+  }
 
   const event: WhenEvent = {
     type: 'pressed',
@@ -199,6 +205,12 @@ window.addEventListener('keydown', (e: KeyboardEvent) => {
 // ANCHOR: keyup listener
 // trigger a "released" event and initialize key status
 window.addEventListener('keyup', (e: KeyboardEvent) => {
+  if (!shouldCheckEvents) return
+
+  if (keys === null || modifierKeys === null) {
+    return
+  }
+
   if (keyStatus[e.which].pressed !== false) {
     if (!modifierKeys.includes(e.which)) {
       const event: WhenEvent = {
@@ -222,72 +234,84 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
       keyStatus[e.which].timestamp = null
     }
   }
-})
+});
 
 // ANCHOR: "held" event interval
 // check for held keys on an interval and trigger "held" events for each pressed key
-setInterval(() => {
-  Object.keys(keyStatus).forEach((which: string | number) => {
-    which = Number(which)
-    if (!keyStatus[which].pressed) return
-    if (keyStatus[which].timestamp === null) return
+(function checkForHeldEvents() {
+  
+  if (keys === null) {
+    throw new WhenError('A layout has not been loaded yet.')
+  }
 
-    const delta = performance.now() - keyStatus[which].timestamp!
-
-    // "held" events can only be triggered after 500 ms of holding
-    if (delta < 500) {
-      return
-    }
-
-    const modifiers = {
-      shift: keyStatus[keys.shift].pressed,
-      alt: keyStatus[keys.alt].pressed,
-      ctrl: keyStatus[keys.ctrl].pressed,
-      meta: keyStatus[keys.left_meta].pressed || keyStatus[keys.right_meta].pressed,
-    }
-
-    // check to see if a "held" event has already been emitted since the last time the
-    // given key was pressed
-    let preexistingIndex = null
-    for (let i = eventHistory.length - 1; i >= 0; i--) {
-      const event = eventHistory[i]
-
-      // break if we are farther back in time than the last time the given key was pressed
-      if (event.timestamp < keyStatus[which].timestamp!) {
-        break
+  if (shouldCheckEvents) {
+    Object.keys(keyStatus).forEach((which: string | number) => {
+      which = Number(which)
+      if (!keyStatus[which].pressed) return
+      if (keyStatus[which].timestamp === null) return
+  
+      const delta = performance.now() - keyStatus[which].timestamp!
+  
+      // "held" events can only be triggered after 500 ms of holding
+      if (delta < 500) {
+        return
       }
 
-      // skip events that don't pertain to the given key
-      if (event.key !== which) continue
-
-      // skip non-held events
-      if (event.type !== 'held') continue
-
-      // ensure all modifiers are the same for this event
-      const modifiersMatch = event.modifiers.shift === modifiers.shift &&
-        event.modifiers.ctrl === modifiers.ctrl &&
-        event.modifiers.alt === modifiers.alt &&
-        event.modifiers.meta === modifiers.meta
-
-      // found a suitable held event to update
-      if (modifiersMatch) {
-        preexistingIndex = i
-        break
+      if (keys === null) {
+        throw new WhenError('A layout has not been loaded yet.')
       }
-    }
-
-    // either emit a new event or update ane existing one
-    if (preexistingIndex !== null) {
-      eventHistory[preexistingIndex].duration = delta
-      emitEvent() // empty emit to update "held" event
-    } else {
-      emitEvent({
-        type: 'held',
-        key: Number(which),
-        duration: delta,
-        timestamp: performance.now(),
-        modifiers,
-      })
-    }
-  })
-}, 100)
+  
+      const modifiers = {
+        shift: keyStatus[keys.shift].pressed,
+        alt: keyStatus[keys.alt].pressed,
+        ctrl: keyStatus[keys.ctrl].pressed,
+        meta: keyStatus[keys.left_meta].pressed || keyStatus[keys.right_meta].pressed,
+      }
+  
+      // check to see if a "held" event has already been emitted since the last time the
+      // given key was pressed
+      let preexistingIndex = null
+      for (let i = eventHistory.length - 1; i >= 0; i--) {
+        const event = eventHistory[i]
+  
+        // break if we are farther back in time than the last time the given key was pressed
+        if (event.timestamp < keyStatus[which].timestamp!) {
+          break
+        }
+  
+        // skip events that don't pertain to the given key
+        if (event.key !== which) continue
+  
+        // skip non-held events
+        if (event.type !== 'held') continue
+  
+        // ensure all modifiers are the same for this event
+        const modifiersMatch = event.modifiers.shift === modifiers.shift &&
+          event.modifiers.ctrl === modifiers.ctrl &&
+          event.modifiers.alt === modifiers.alt &&
+          event.modifiers.meta === modifiers.meta
+  
+        // found a suitable held event to update
+        if (modifiersMatch) {
+          preexistingIndex = i
+          break
+        }
+      }
+  
+      // either emit a new event or update ane existing one
+      if (preexistingIndex !== null) {
+        eventHistory[preexistingIndex].duration = delta
+        emitEvent() // empty emit to update "held" event
+      } else {
+        emitEvent({
+          type: 'held',
+          key: Number(which),
+          duration: delta,
+          timestamp: performance.now(),
+          modifiers,
+        })
+      }
+    })
+  }
+  setTimeout(checkForHeldEvents, heldInterval)
+})();

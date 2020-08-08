@@ -37,6 +37,10 @@
       console.log('triggered')
     }, 'log')
 
+    When('a').IsPressed().Execute(() => {
+      console.log('triggered')
+    }, 'log')
+
     When('class:test').IsFocused().Then('b').IsPressed().Execute((ctx) => {
       console.log('class test')
       console.log(ctx.focusedElement.className)
@@ -60,6 +64,27 @@
     When('f').IsPressed().Execute(() => {
       group.trigger()
     }, 'delete group')
+
+    When('ctrl+k ctrl+l (500ms)')
+      .IsInput()
+      .Execute(() => {
+        console.log('eric')
+      }, 'eric')
+
+    // When.quiet();
+    When('x').IsHeldFor(1).Seconds().Execute((ctx) => console.log(ctx), 'x')
+
+    // When.toggle();
+
+    When('a')
+      .IsPressed()
+      .Then('b')
+      .IsHeldFor(1).Seconds()
+      .Then('a')
+      .IsReleased()
+      .Then('num1 num2 num3')
+      .IsInput()
+      .Execute(console.log, 'weird test');
   </script>
 </body>
 </html>

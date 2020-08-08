@@ -1,0 +1,28 @@
+site_name: When
+theme: readthedocs
+repo_url: https://github.com/ericsartor/when
+nav:
+  - Installation: installation.md
+  - Overview: overview.md
+  - When(): When.md
+  - Features:
+    - Events: events.md
+  - Whenable Methods:
+    - IsPressed(): whenable-methods/IsPressed.md
+    - IsReleased(): whenable-methods/IsReleased.md
+    - IsHeldFor(): whenable-methods/IsHeldFor.md
+  - Controller Methods:
+    - AllowDefault(): controller-methods/AllowDefault.md
+    - InInput(): controller-methods/InInput.md
+    - Once(): controller-methods/Once.md
+  - Global Methods:
+    - When.setMode(): global-methods/setMode.md
+    - When.clearMode(): global-methods/clearMode.md
+    - When.newGroup(): global-methods/newGroup.md
+    - When.quiet(): global-methods/quiet.md
+    - When.loadLayout(): global-methods/loadLayout.md
+    - When.focusChanges(): global-methods/focusChanges.md
+    - When.documentation(): global-methods/documentation.md
+  - Types:
+    - ShortcutController: ShortcutController.md
+    - Whenable: Whenable.md

@@ -5,7 +5,7 @@ import { Shortcut } from './classes/Shortcut'
 export type ShortcutGroup = {
   shortcuts: Shortcut[],
   
-  delete: () => void
+  remove: () => void
 
   pause: () => void
 
@@ -101,6 +101,8 @@ export type Whenable = {
 
   lastCalledFunctionName: string,
 
+  IsInput: () => Whenable,                // triggers a pase on the current identifier to create a series of events
+
   Then: (identifier: string) => Whenable,   // sets current identifier
 
   IsExecuted: () => Whenable,               // registers current identifier as a command
@@ -128,7 +130,5 @@ export type Whenable = {
   Execute: (command: string) => Shortcut    // registers the shortcut globally,
                                             // sets the command name which the shortcut should execute,
                                             // returns a function that removes the shortcut
-
-  FocusChanges: (func: FocusHandler) => void // registers a focus change handler
 }
 

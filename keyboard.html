@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>When Keyboard Test</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap');
+		#keyboard {
+			font-family: 'Yanone Kaffeesatz', sans-serif;
+			width: 60vw;
+			min-width: 800px;
+			margin: 0 auto;
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-template-rows: 50px 20px 50px 3px 50px 3px 50px 3px 50px 3px 50px;
+			user-select: none;
+		}
+		.key {
+			height: 50px;
+			text-align: center;
+			line-height: 50px;
+			background: grey;
+		}
+		.one {
+			line-height: 50px;
+		}
+		.two {
+			line-height: 25px;
+		}
+		.pressed {
+			background: red;
+		}
+		#escape-row {
+			display: grid;
+			grid-template-columns: 1.7fr 2.0fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 1.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 1.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.7fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 8.0fr;
+		}
+		#tilde-row {
+			display: grid;
+			grid-template-columns: 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 3.5fr 0.7fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.7fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr;
+		}
+		#tab-row {
+			display: grid;
+			grid-template-columns: 2.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 2.7fr 0.7fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.7fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr;
+		}
+		#caps-row {
+			display: grid;
+			grid-template-columns: 3.2fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 4.1fr 0.7fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.7fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr;
+		}
+		#shift-row {
+			display: grid;
+			grid-template-columns: 4.1fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 5.0fr 0.7fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.7fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr;
+		}
+		#ctrl-row {
+			display: grid;
+			grid-template-columns: 2.12fr 0.1fr 2.12fr 0.1fr 2.12fr 0.1fr 11.7fr 0.1fr 2.12fr 0.1fr 2.12fr 0.1fr 2.12fr 0.1fr 2.12fr 0.7fr 1.7fr 0.1fr 1.7fr 0.1fr 1.7fr 0.7fr 3.5fr 0.1fr 1.7fr 0.1fr 1.7fr;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="keyboard">
+		<div id="escape-row">
+			<div id="escape" id="" class="key one">Esc</div>
+			<div class="spacer"></div>
+			<div id="f1" class="key one">F1</div>
+			<div class="spacer"></div>
+			<div id="f2" class="key one">F2</div>
+			<div class="spacer"></div>
+			<div id="f3" class="key one">F3</div>
+			<div class="spacer"></div>
+			<div id="f4" class="key one">F4</div>
+			<div class="spacer"></div>
+			<div id="f5" class="key one">F5</div>
+			<div class="spacer"></div>
+			<div id="f6" class="key one">F6</div>
+			<div class="spacer"></div>
+			<div id="f7" class="key one">F7</div>
+			<div class="spacer"></div>
+			<div id="f8" class="key one">F8</div>
+			<div class="spacer"></div>
+			<div id="f9" class="key one">F9</div>
+			<div class="spacer"></div>
+			<div id="f10" class="key one">F10</div>
+			<div class="spacer"></div>
+			<div id="f11" class="key one">F11</div>
+			<div class="spacer"></div>
+			<div id="f12" class="key one">F12</div>
+			<div class="spacer"></div>
+			<div id="print_screen" class="key one">PrtSc</div>
+			<div class="spacer"></div>
+			<div id="screen_lock" class="key one">ScrLk</div>
+			<div class="spacer"></div>
+			<div id="pause_break" class="key one">Pause</div>
+			<div class="spacer"></div>
+		</div>
+		<div class="spacer"></div>
+		<div id="tilde-row">
+			<div id="`" class="key two">~<br>`</div>
+			<div class="spacer"></div>
+			<div id="num1" class="key two">!<br>1</div>
+			<div class="spacer"></div>
+			<div id="num2" class="key two">@<br>2</div>
+			<div class="spacer"></div>
+			<div id="num3" class="key two">#<br>3</div>
+			<div class="spacer"></div>
+			<div id="num4" class="key two">$<br>4</div>
+			<div class="spacer"></div>
+			<div id="num5" class="key two">%<br>5</div>
+			<div class="spacer"></div>
+			<div id="num6" class="key two">^<br>6</div>
+			<div class="spacer"></div>
+			<div id="num7" class="key two">&<br>7</div>
+			<div class="spacer"></div>
+			<div id="num8" class="key two">*<br>8</div>
+			<div class="spacer"></div>
+			<div id="num9" class="key two">(<br>9</div>
+			<div class="spacer"></div>
+			<div id="num0" class="key two">)<br>0</div>
+			<div class="spacer"></div>
+			<div id="hyphen" class="key two">_<br>-</div>
+			<div class="spacer"></div>
+			<div id="=" class="key two">+<br>=</div>
+			<div class="spacer"></div>
+			<div id="backspace" class="key one">Backspace</div>
+			<div class="spacer"></div>
+			<div id="insert" class="key one">Ins</div>
+			<div class="spacer"></div>
+			<div id="home" class="key one">Home</div>
+			<div class="spacer"></div>
+			<div id="page_up" class="key one">PgUp</div>
+			<div class="spacer"></div>
+			<div id="num_lock" class="key one">Num</div>
+			<div class="spacer"></div>
+			<div id="numpad_divide" class="key one">/</div>
+			<div class="spacer"></div>
+			<div id="numpad_multiply" class="key one">*</div>
+			<div class="spacer"></div>
+			<div id="numpad_subtract" class="key one">-</div>
+			<div class="spacer"></div>
+		</div>	
+		<div class="spacer"></div>
+		<div id="tab-row">
+			<div id="tab" class="key one">Tab</div>
+			<div class="spacer"></div>
+			<div id="q" class="key one">Q</div>
+			<div class="spacer"></div>
+			<div id="w" class="key one">W</div>
+			<div class="spacer"></div>
+			<div id="e" class="key one">E</div>
+			<div class="spacer"></div>
+			<div id="r" class="key one">R</div>
+			<div class="spacer"></div>
+			<div id="t" class="key one">T</div>
+			<div class="spacer"></div>
+			<div id="y" class="key one">Y</div>
+			<div class="spacer"></div>
+			<div id="u" class="key one">U</div>
+			<div class="spacer"></div>
+			<div id="i" class="key one">I</div>
+			<div class="spacer"></div>
+			<div id="o" class="key one">O</div>
+			<div class="spacer"></div>
+			<div id="p" class="key one">P</div>
+			<div class="spacer"></div>
+			<div id="[" class="key two">{<br>[</div>
+			<div class="spacer"></div>
+			<div id="]" class="key two">}<br>]</div>
+			<div class="spacer"></div>
+			<div id="\" class="key two">|<br>\</div>
+			<div class="spacer"></div>
+			<div id="delete" class="key one">Del</div>
+			<div class="spacer"></div>
+			<div id="end" class="key one">End</div>
+			<div class="spacer"></div>
+			<div id="page_down" class="key one">PgDn</div>
+			<div class="spacer"></div>
+			<div id="numpad7" class="key one">7</div>
+			<div class="spacer"></div>
+			<div id="numpad8" class="key one">8</div>
+			<div class="spacer"></div>
+			<div id="numpad9" class="key one">9</div>
+			<div class="spacer"></div>
+			<div id="numpad_add" class="key one">+</div>
+		</div>
+		<div class="spacer"></div>
+		<div id="caps-row">
+			<div id="caps_lock" class="key one">CapsLock</div>
+			<div class="spacer"></div>
+			<div id="a" class="key one">A</div>
+			<div class="spacer"></div>
+			<div id="s" class="key one">S</div>
+			<div class="spacer"></div>
+			<div id="d" class="key one">D</div>
+			<div class="spacer"></div>
+			<div id="f" class="key one">F</div>
+			<div class="spacer"></div>
+			<div id="g" class="key one">G</div>
+			<div class="spacer"></div>
+			<div id="h" class="key one">H</div>
+			<div class="spacer"></div>
+			<div id="j" class="key one">J</div>
+			<div class="spacer"></div>
+			<div id="k" class="key one">K</div>
+			<div class="spacer"></div>
+			<div id="l" class="key one">L</div>
+			<div class="spacer"></div>
+			<div id=";" class="key two">:<br>;</div>
+			<div class="spacer"></div>
+			<div id="'" class="key two">"<br>'</div>
+			<div class="spacer"></div>
+			<div id="enter" class="key one">Enter</div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div id="numpad4" class="key one">4</div>
+			<div class="spacer"></div>
+			<div id="numpad5" class="key one">5</div>
+			<div class="spacer"></div>
+			<div id="numpad6" class="key one">6</div>
+			<div class="spacer"></div>
+			<div id="numpad_add" class="key one">+</div>
+		</div>
+		<div class="spacer"></div>
+		<div id="shift-row">
+			<div id="shift" class="key one">Shift</div>
+			<div class="spacer"></div>
+			<div id="z" class="key one">Z</div>
+			<div class="spacer"></div>
+			<div id="x" class="key one">X</div>
+			<div class="spacer"></div>
+			<div id="c" class="key one">C</div>
+			<div class="spacer"></div>
+			<div id="v" class="key one">V</div>
+			<div class="spacer"></div>
+			<div id="b" class="key one">B</div>
+			<div class="spacer"></div>
+			<div id="n" class="key one">N</div>
+			<div class="spacer"></div>
+			<div id="m" class="key one">M</div>
+			<div class="spacer"></div>
+			<div id="," class="key two">&lt;<br>,</div>
+			<div class="spacer"></div>
+			<div id="period" class="key two">&gt;<br>.</div>
+			<div class="spacer"></div>
+			<div id="forward_slash" class="key two">?<br>/</div>
+			<div class="spacer"></div>
+			<div id="shift2" class="key one">Shift</div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div id="arrow_up" class="key one">Up</div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div id="numpad1" class="key one">1</div>
+			<div class="spacer"></div>
+			<div id="numpad2" class="key one">2</div>
+			<div class="spacer"></div>
+			<div id="numpad3" class="key one">3</div>
+			<div class="spacer"></div>
+			<div id="enter2" class="key one">Enter</div>
+		</div>
+		<div class="spacer"></div>
+		<div id="ctrl-row">
+			<div id="ctrl" class="key one">Ctrl</div>
+			<div class="spacer"></div>
+			<div id="left_meta" class="key one">Meta</div>
+			<div class="spacer"></div>
+			<div id="alt" class="key one">Alt</div>
+			<div class="spacer"></div>
+			<div id="space" class="key one">Space</div>
+			<div class="spacer"></div>
+			<div id="alt2" class="key one">Alt</div>
+			<div class="spacer"></div>
+			<div id="function" class="key one">Fn</div>
+			<div class="spacer"></div>
+			<div id="context_menu" class="key one">Menu</div>
+			<div class="spacer"></div>
+			<div id="ctrl2" class="key one">Ctrl</div>
+			<div class="spacer"></div>
+			<div id="arrow_left" class="key one">Left</div>
+			<div class="spacer"></div>
+			<div id="arrow_down" class="key one">Down</div>
+			<div class="spacer"></div>
+			<div id="arrow_right" class="key one">Right</div>
+			<div class="spacer"></div>
+			<div id="numpad0" class="key one">0</div>
+			<div class="spacer"></div>
+			<div id="numpad_decimal" class="key one">.</div>
+			<div class="spacer"></div>
+			<div id="enter2" class="key one">Enter</div>
+		</div>
+	</div>
+
+	<script src="./dist/When.js"></script>
+	<script>
+		function handlePress(id) {
+			document.getElementById(id).classList.add('pressed');
+		}
+
+		function handleRelease(id) {
+			document.getElementById(id).classList.remove('pressed');
+		}
+
+		[
+			// 'ctrl',
+			// 'alt',
+			// 'shift',
+			// 'left_meta',
+			// 'right_meta',
+			'escape',
+			'f1',
+			'f2',
+			'f3',
+			'f4',
+			'f5',
+			'f6',
+			'f7',
+			'f8',
+			'f9',
+			'f10',
+			'f11',
+			'f12',
+			'f13',
+			'f14',
+			'f15',
+			'f16',
+			'f17',
+			'f18',
+			'f19',
+			'scroll_lock',
+			'pause_break',
+			'context_menu',
+			'`',
+			'num1',
+			'num2',
+			'num3',
+			'num4',
+			'num5',
+			'num6',
+			'num7',
+			'num8',
+			'num9',
+			'num0',
+			'hyphen',
+			'=',
+			'backspace',
+			'tab',
+			'caps_lock',
+			'space',
+			'[',
+			']',
+			'\\',
+			';',
+			'\'',
+			',',
+			'period',
+			'forward_slash',
+			'enter',
+			'insert',
+			'home',
+			'page_up',
+			'delete',
+			'end',
+			'page_down',
+			'arrow_up',
+			'arrow_right',
+			'arrow_down',
+			'arrow_left',
+			'num_lock',
+			'numpad_divide',
+			'numpad_multiply',
+			'numpad_subtract',
+			'numpad_add',
+			'numpad_decimal',
+			'numpad0',
+			'numpad1',
+			'numpad2',
+			'numpad3',
+			'numpad4',
+			'numpad5',
+			'numpad6',
+			'numpad7',
+			'numpad8',
+			'numpad9',
+			'a',
+			'b',
+			'c',
+			'd',
+			'e',
+			'f',
+			'g',
+			'h',
+			'i',
+			'j',
+			'k',
+			'l',
+			'm',
+			'n',
+			'o',
+			'p',
+			'q',
+			'r',
+			's',
+			't',
+			'u',
+			'v',
+			'w',
+			'x',
+			'y',
+			'z',
+		]
+			.forEach((id) => {
+				const list = [id, 'shift+' + id, 'ctrl+' + id, 'alt+' + id]
+
+				list.forEach((identifier) => {
+					const parts = identifier.split('+');
+					
+					When(identifier)
+						.IsPressed()
+						.Execute(() => {
+						
+							parts.forEach((id) => handlePress(id));
+
+						}, 'handle_press_' + (parts.length > 1 ? parts[0] + '_' : '') + id);
+					When(identifier)
+						.IsReleased()
+						.Execute(() => {
+							
+							parts.forEach((id) => handleRelease(id));
+
+						}, 'handle_release_' + (parts.length > 1 ? parts[0] + '_' : '') + id);
+				});
+			});
+
+		When('a s d num1 num2 num3').IsInput().Execute(() => {
+			alert('you did it!');
+		});
+	</script>
+</body>
+</html>

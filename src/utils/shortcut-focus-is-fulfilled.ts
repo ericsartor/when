@@ -4,10 +4,12 @@ import { Shortcut } from '../classes/Shortcut'
 export const shortcutFocusIsFulfilled = (shortcut: Shortcut) => {
   const { focusTarget } = shortcut
 
+  // if no focus target
   if (focusTarget === null) {
     return true
   }
 
+  // if there is a focus target but no element is focused
   if (focusedElement === null) {
     return false
   }
@@ -18,7 +20,7 @@ export const shortcutFocusIsFulfilled = (shortcut: Shortcut) => {
       const id = focusTarget.replace('id:', '')
       return focusedElement && focusedElement.id === id
     } else if (focusTarget.includes('class:')) {
-      const className = focusTarget.replace('class:', '')
+      const className = focusTarget.replace('class:', '') 
       return focusedElement && focusedElement.classList && focusedElement.classList.contains(className)
     }
   }
