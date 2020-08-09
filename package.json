@@ -2,13 +2,21 @@
   "name": "when",
   "version": "1.0",
   "description": "Powerful keyboard shortcut and focus library",
+  "homepage": "https://github.com/ericsartor/when","bugs": {
+    "url": "https://github.com/ericsartor/when/issues",
+    "email": "ericdavidsartor@live.ca"
+  },
   "main": "dist/When.js",
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
     "watch": "npx webpack -w --config webpack.config.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ericsartor/when.git"
+  },
   "author": "Eric Sartor",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.6",
