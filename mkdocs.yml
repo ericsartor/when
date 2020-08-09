@@ -40,9 +40,9 @@ nav:
     - Run(): whenable-methods/Run.md
     - Execute(): whenable-methods/Execute.md
   - Shortcut Qualifier Methods:
-    - AllowDefault(): types/ShortcutController#allowdefault
-    - InInput(): types/ShortcutController#ininput
-    - Once(): types/ShortcutController#once
+    - AllowDefault(): types/ShortcutController/#allowdefault
+    - InInput(): types/ShortcutController/#ininput
+    - Once(): types/ShortcutController/#once
   - Global Methods:
     - When.setMode(): global-methods/setMode.md
     - When.clearMode(): global-methods/clearMode.md

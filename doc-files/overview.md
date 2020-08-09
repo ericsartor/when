@@ -28,7 +28,7 @@ When('a')
   .Once();
 ```
 
-You can also specify key sequences like this (as long as you only plan on using [pressed](features/events#pressed) events):
+You can also specify key sequences like this (as long as you only plan on using [pressed](/features/events/#pressed) events):
 
 ```javascript
 // when the keys a, s and d are pressed consecutively within 1 second
