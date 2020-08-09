@@ -2,6 +2,33 @@
 
 [Documentation](https://ericsartor.github.io/when/)
 
+[Installation](#installation)
+
+[Features](#features)
+
+[Examples](#examples)
+
+## Installation
+
+Install from NPM
+
+```bash
+npm i --save when-key-events
+```
+
+Wherever you want to use it:
+
+```javascript
+import 'when-key-events';
+const When = window.When;
+```
+
+or use the CDN:
+
+```javascript
+<script src="https://unpkg.com/when-key-events@latest/dist/When.js"></script>
+```
+
 ### A powerful, human readable keyboard shortcut/binding library and focus system
 
 *When* aims to make complex keyboard shortcuts arbitrary and quick to set up, understand and change, while enabling features you don't get out of the box with DOM events.  The goal is to give you granular control over when/how you react to your user's keyboard inputs, while keeping the code human readable and easy to maintain.
