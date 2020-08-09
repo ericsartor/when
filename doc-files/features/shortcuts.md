@@ -66,7 +66,7 @@ const shortcut = When('a').IsPressed().Then('b').IsPressed().Execute(console.log
 }
 ```
 
-As you can see above, the controllers include some extra methods that are uppercase, which we call [qualifiers](../../types/ShortcutController/#qualifier-methods).  They control when and how the shortcut should behave, overriding some default behavior.
+As you can see above, the controllers include some extra methods that are uppercase, which we call [qualifiers](../../types/ShortcutController#qualifier-methods).  They control when and how the shortcut should behave, overriding some default behavior.
 
 These are meant to be used as part of a shortcut chain, but technically can be used from the controller after initialization as well:
 

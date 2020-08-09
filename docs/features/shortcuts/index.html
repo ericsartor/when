@@ -116,11 +116,11 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Shortcut Qualifier Methods</span></p>
                 <ul>
-                    <li class="toctree-l1"><a class="" href="../../types/ShortcutController/#allowdefault">AllowDefault()</a>
+                    <li class="toctree-l1"><a class="" href="../../types/ShortcutController#allowdefault">AllowDefault()</a>
                     </li>
-                    <li class="toctree-l1"><a class="" href="../../types/ShortcutController/#ininput">InInput()</a>
+                    <li class="toctree-l1"><a class="" href="../../types/ShortcutController#ininput">InInput()</a>
                     </li>
-                    <li class="toctree-l1"><a class="" href="../../types/ShortcutController/#once">Once()</a>
+                    <li class="toctree-l1"><a class="" href="../../types/ShortcutController#once">Once()</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Global Methods</span></p>
@@ -242,7 +242,7 @@
 }
 </code></pre>
 
-<p>As you can see above, the controllers include some extra methods that are uppercase, which we call <a href="../../types/ShortcutController/#qualifier-methods">qualifiers</a>.  They control when and how the shortcut should behave, overriding some default behavior.</p>
+<p>As you can see above, the controllers include some extra methods that are uppercase, which we call <a href="../../types/ShortcutController#qualifier-methods">qualifiers</a>.  They control when and how the shortcut should behave, overriding some default behavior.</p>
 <p>These are meant to be used as part of a shortcut chain, but technically can be used from the controller after initialization as well:</p>
 <pre><code class="javascript">// the suggested way to use qualifiers
 const shortcutA = When('a').IsPressed().Execute(console.log).Once();
