@@ -1,6 +1,6 @@
 {
   "name": "when-key-events",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Powerful keyboard shortcut and focus library",
   "keywords": ["when", "keyboard", "key", "events", "shortcuts", "bindings", "focus", "ericsartor"],
   "homepage": "https://github.com/ericsartor/when",
@@ -25,7 +25,5 @@
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12",
     "@types/node": "^14.0.24"
-  },
-  "dependencies": {
   }
 }
