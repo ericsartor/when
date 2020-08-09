@@ -1,8 +1,8 @@
 {
-  "name": "when-i",
-  "version": "0.0.1",
-  "description": "Keyboard shortcut abstraction library",
-  "main": "index.js",
+  "name": "when",
+  "version": "1.0",
+  "description": "Powerful keyboard shortcut and focus library",
+  "main": "dist/When.js",
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
     "watch": "npx webpack -w --config webpack.config.js"
