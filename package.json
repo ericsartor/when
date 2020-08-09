@@ -1,8 +1,8 @@
 {
   "name": "when-key-events",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Powerful keyboard shortcut and focus library",
-  "keywords": ["keyboard", "key", "events", "shortcuts", "bindings", "focus", "ericsartor"],
+  "keywords": ["when", "keyboard", "key", "events", "shortcuts", "bindings", "focus", "ericsartor"],
   "homepage": "https://github.com/ericsartor/when",
   "bugs": {
     "url": "https://github.com/ericsartor/when/issues",
@@ -23,9 +23,9 @@
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.6",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "@types/node": "^14.0.24"
   },
   "dependencies": {
-    "@types/node": "^14.0.24"
   }
 }
