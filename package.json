@@ -1,6 +1,6 @@
 {
   "name": "when",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Powerful keyboard shortcut and focus library",
   "homepage": "https://github.com/ericsartor/when","bugs": {
     "url": "https://github.com/ericsartor/when/issues",
