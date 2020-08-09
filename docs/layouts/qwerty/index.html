@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Eric Sartor">
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>QWERTY - When</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link href="../../style.css" rel="stylesheet" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "QWERTY";
+    var mkdocs_page_input_path = "layouts\\qwerty.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> When</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installation</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Layouts</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">QWERTY</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#modifiers">Modifiers</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#f-keys">F Keys</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#control-keys">Control Keys</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#arrow-keys">Arrow Keys</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#numbers">Numbers</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#symbols">Symbols</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#letters">Letters</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Features</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../features/shortcuts/">Shortcuts</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../features/events/">Events</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../features/focus/">Focus</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../features/groups/">Groups</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../features/modes/">Modes</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Types</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../types/ShortcutController/">ShortcutController</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../types/ShortcutHandler/">ShortcutHandler</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../types/Whenable/">Whenable</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Whenable Methods</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/When/">When()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/Then/">Then()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/ModeIs/">ModeIs()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsFocused/">IsFocused()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsInput/">IsInput()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsPressed/">IsPressed()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsReleased/">IsReleased()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsHeldFor/">IsHeldFor()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/Within/">Within()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/SecondsMilliseconds/">Milliseconds() / Seconds()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsExecuted/">IsExecuted()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/Run/">Run()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/Execute/">Execute()</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Shortcut Qualifier Methods</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="" href="../../types/ShortcutController/#allowdefault">AllowDefault()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="" href="../../types/ShortcutController/#ininput">InInput()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="" href="../../types/ShortcutController/#once">Once()</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Global Methods</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setMode/">When.setMode()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/clearMode/">When.clearMode()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/newGroup/">When.newGroup()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/quiet/">When.quiet()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/loadLayout/">When.loadLayout()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/focusChanges/">When.focusChanges()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/documentation/">When.documentation()</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">When</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Layouts &raquo;</li>
+        
+      
+    
+    <li>QWERTY</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/ericsartor/when/edit/master/docs/layouts/qwerty.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="qwerty-layout">QWERTY Layout</h1>
+<p>This layout is the default layout for <em>When</em>, and can be explicitly loaded with :</p>
+<pre><code class="javascript">When.loadLayout('qwerty');
+</code></pre>
+
+<h2 id="modifiers">Modifiers</h2>
+<table>
+<thead>
+<tr>
+<th>Identifiers</th>
+<th align="center">Which</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ctrl</td>
+<td align="center">17</td>
+<td></td>
+</tr>
+<tr>
+<td>alt</td>
+<td align="center">18</td>
+<td></td>
+</tr>
+<tr>
+<td>shift</td>
+<td align="center">16</td>
+<td></td>
+</tr>
+<tr>
+<td>left_meta<br>meta</td>
+<td align="center">91</td>
+<td></td>
+</tr>
+<tr>
+<td>right_meta</td>
+<td align="center">92</td>
+<td>not many browsers support two separate meta buttons, you should use "meta"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f-keys">F Keys</h2>
+<table>
+<thead>
+<tr>
+<th>Identifiers</th>
+<th align="center">Which</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>f1</td>
+<td align="center">112</td>
+<td></td>
+</tr>
+<tr>
+<td>f2</td>
+<td align="center">113</td>
+<td></td>
+</tr>
+<tr>
+<td>f3</td>
+<td align="center">114</td>
+<td></td>
+</tr>
+<tr>
+<td>f4</td>
+<td align="center">115</td>
+<td></td>
+</tr>
+<tr>
+<td>f5</td>
+<td align="center">116</td>
+<td></td>
+</tr>
+<tr>
+<td>f6</td>
+<td align="center">117</td>
+<td></td>
+</tr>
+<tr>
+<td>f7</td>
+<td align="center">118</td>
+<td></td>
+</tr>
+<tr>
+<td>f8</td>
+<td align="center">119</td>
+<td></td>
+</tr>
+<tr>
+<td>f9</td>
+<td align="center">120</td>
+<td></td>
+</tr>
+<tr>
+<td>f10</td>
+<td align="center">121</td>
+<td></td>
+</tr>
+<tr>
+<td>f11</td>
+<td align="center">122</td>
+<td></td>
+</tr>
+<tr>
+<td>f12</td>
+<td align="center">123</td>
+<td></td>
+</tr>
+<tr>
+<td>f13</td>
+<td align="center">124</td>
+<td></td>
+</tr>
+<tr>
+<td>f14</td>
+<td align="center">125</td>
+<td></td>
+</tr>
+<tr>
+<td>f15</td>
+<td align="center">126</td>
+<td></td>
+</tr>
+<tr>
+<td>f16</td>
+<td align="center">127</td>
+<td></td>
+</tr>
+<tr>
+<td>f17</td>
+<td align="center">128</td>
+<td></td>
+</tr>
+<tr>
+<td>f18</td>
+<td align="center">129</td>
+<td></td>
+</tr>
+<tr>
+<td>f19</td>
+<td align="center">130</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="control-keys">Control Keys</h2>
+<table>
+<thead>
+<tr>
+<th>Identifiers</th>
+<th align="center">Which</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>escape</td>
+<td align="center">27</td>
+<td></td>
+</tr>
+<tr>
+<td>scroll_lock</td>
+<td align="center">145</td>
+<td></td>
+</tr>
+<tr>
+<td>pause_break</td>
+<td align="center">19</td>
+<td></td>
+</tr>
+<tr>
+<td>context_menu</td>
+<td align="center">93</td>
+<td></td>
+</tr>
+<tr>
+<td>backspace</td>
+<td align="center">8</td>
+<td></td>
+</tr>
+<tr>
+<td>tab</td>
+<td align="center">9</td>
+<td></td>
+</tr>
+<tr>
+<td>caps_lock</td>
+<td align="center">20</td>
+<td></td>
+</tr>
+<tr>
+<td>space</td>
+<td align="center">32</td>
+<td></td>
+</tr>
+<tr>
+<td>enter</td>
+<td align="center">13</td>
+<td></td>
+</tr>
+<tr>
+<td>insert</td>
+<td align="center">45</td>
+<td></td>
+</tr>
+<tr>
+<td>home</td>
+<td align="center">36</td>
+<td></td>
+</tr>
+<tr>
+<td>page_up</td>
+<td align="center">33</td>
+<td></td>
+</tr>
+<tr>
+<td>delete</td>
+<td align="center">46</td>
+<td></td>
+</tr>
+<tr>
+<td>end</td>
+<td align="center">35</td>
+<td></td>
+</tr>
+<tr>
+<td>page_down</td>
+<td align="center">34</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="arrow-keys">Arrow Keys</h2>
+<table>
+<thead>
+<tr>
+<th>Identifiers</th>
+<th align="center">Which</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>arrow_up</td>
+<td align="center">38</td>
+<td></td>
+</tr>
+<tr>
+<td>arrow_right</td>
+<td align="center">39</td>
+<td></td>
+</tr>
+<tr>
+<td>arrow_down</td>
+<td align="center">40</td>
+<td></td>
+</tr>
+<tr>
+<td>arrow_left</td>
+<td align="center">37</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="numbers">Numbers</h2>
+<table>
+<thead>
+<tr>
+<th>Identifiers</th>
+<th align="center">Which</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>num1</td>
+<td align="center">49</td>
+<td>number row</td>
+</tr>
+<tr>
+<td>num2</td>
+<td align="center">50</td>
+<td>number row</td>
+</tr>
+<tr>
+<td>num3</td>
+<td align="center">51</td>
+<td>number row</td>
+</tr>
+<tr>
+<td>num4</td>
+<td align="center">52</td>
+<td>number row</td>
+</tr>
+<tr>
+<td>num5</td>
+<td align="center">53</td>
+<td>number row</td>
+</tr>
+<tr>
+<td>num6</td>
+<td align="center">54</td>
+<td>number row</td>
+</tr>
+<tr>
+<td>num7</td>
+<td align="center">55</td>
+<td>number row</td>
+</tr>
+<tr>
+<td>num8</td>
+<td align="center">56</td>
+<td>number row</td>
+</tr>
+<tr>
+<td>num9</td>
+<td align="center">57</td>
+<td>number row</td>
+</tr>
+<tr>
+<td>num0</td>
+<td align="center">48</td>
+<td>number row</td>
+</tr>
+<tr>
+<td>num_lock</td>
+<td align="center">144</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad_divide</td>
+<td align="center">111</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad_multiply</td>
+<td align="center">106</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad_subtract</td>
+<td align="center">109</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>clear</td>
+<td align="center">12</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad_add</td>
+<td align="center">107</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad_decimal</td>
+<td align="center">110</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad0</td>
+<td align="center">96</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad1</td>
+<td align="center">97</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad2</td>
+<td align="center">98</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad3</td>
+<td align="center">99</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad4</td>
+<td align="center">100</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad5</td>
+<td align="center">101</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad6</td>
+<td align="center">102</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad7</td>
+<td align="center">103</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad8</td>
+<td align="center">104</td>
+<td>num pad</td>
+</tr>
+<tr>
+<td>numpad9</td>
+<td align="center">105</td>
+<td>num pad</td>
+</tr>
+</tbody>
+</table>
+<h2 id="symbols">Symbols</h2>
+<table>
+<thead>
+<tr>
+<th>Identifiers</th>
+<th align="center">Which</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>`<br>~<br>grave_accent<br>tilde</td>
+<td align="center">192</td>
+<td></td>
+</tr>
+<tr>
+<td>[<br>{<br>left_square_bracket<br>left_curly_bracket</td>
+<td align="center">219</td>
+<td></td>
+</tr>
+<tr>
+<td>]<br>}<br>right_square_bracket<br>right_curly_bracket</td>
+<td align="center">221</td>
+<td></td>
+</tr>
+<tr>
+<td>\<br>|<br>backslash<br>pipe</td>
+<td align="center">220</td>
+<td></td>
+</tr>
+<tr>
+<td>;<br>:<br>colon<br>semicolon</td>
+<td align="center">186</td>
+<td></td>
+</tr>
+<tr>
+<td>'<br>"<br>apostrophe<br>quote</td>
+<td align="center">222</td>
+<td></td>
+</tr>
+<tr>
+<td>,<br>&lt;<br>comma<br>less_than</td>
+<td align="center">188</td>
+<td></td>
+</tr>
+<tr>
+<td>&gt;<br>period<br>greater_than</td>
+<td align="center">190</td>
+<td>"." cannot be used as it conflicts with the numpad_decimal character</td>
+</tr>
+<tr>
+<td>?<br>forward_slash<br>question_mark</td>
+<td align="center">191</td>
+<td>"/" cannot be used as it conflicts with the numpad_divide character</td>
+</tr>
+<tr>
+<td>_<br>hyphen<br>underscore</td>
+<td align="center">189</td>
+<td>"-" cannot be used as it conflicts with the numpad_subtract character</td>
+</tr>
+<tr>
+<td>=<br>plus<br>equals</td>
+<td align="center">187</td>
+<td>"+" cannot be used as it conflicts with the numpad_add character</td>
+</tr>
+</tbody>
+</table>
+<h2 id="letters">Letters</h2>
+<table>
+<thead>
+<tr>
+<th>Identifiers</th>
+<th align="center">Which</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td align="center">65</td>
+<td></td>
+</tr>
+<tr>
+<td>b</td>
+<td align="center">66</td>
+<td></td>
+</tr>
+<tr>
+<td>c</td>
+<td align="center">67</td>
+<td></td>
+</tr>
+<tr>
+<td>d</td>
+<td align="center">68</td>
+<td></td>
+</tr>
+<tr>
+<td>e</td>
+<td align="center">69</td>
+<td></td>
+</tr>
+<tr>
+<td>f</td>
+<td align="center">70</td>
+<td></td>
+</tr>
+<tr>
+<td>g</td>
+<td align="center">71</td>
+<td></td>
+</tr>
+<tr>
+<td>h</td>
+<td align="center">72</td>
+<td></td>
+</tr>
+<tr>
+<td>i</td>
+<td align="center">73</td>
+<td></td>
+</tr>
+<tr>
+<td>j</td>
+<td align="center">74</td>
+<td></td>
+</tr>
+<tr>
+<td>k</td>
+<td align="center">75</td>
+<td></td>
+</tr>
+<tr>
+<td>l</td>
+<td align="center">76</td>
+<td></td>
+</tr>
+<tr>
+<td>m</td>
+<td align="center">77</td>
+<td></td>
+</tr>
+<tr>
+<td>n</td>
+<td align="center">78</td>
+<td></td>
+</tr>
+<tr>
+<td>o</td>
+<td align="center">79</td>
+<td></td>
+</tr>
+<tr>
+<td>p</td>
+<td align="center">80</td>
+<td></td>
+</tr>
+<tr>
+<td>q</td>
+<td align="center">81</td>
+<td></td>
+</tr>
+<tr>
+<td>r</td>
+<td align="center">82</td>
+<td></td>
+</tr>
+<tr>
+<td>s</td>
+<td align="center">83</td>
+<td></td>
+</tr>
+<tr>
+<td>t</td>
+<td align="center">84</td>
+<td></td>
+</tr>
+<tr>
+<td>u</td>
+<td align="center">85</td>
+<td></td>
+</tr>
+<tr>
+<td>v</td>
+<td align="center">86</td>
+<td></td>
+</tr>
+<tr>
+<td>w</td>
+<td align="center">87</td>
+<td></td>
+</tr>
+<tr>
+<td>x</td>
+<td align="center">88</td>
+<td></td>
+</tr>
+<tr>
+<td>y</td>
+<td align="center">89</td>
+<td></td>
+</tr>
+<tr>
+<td>z</td>
+<td align="center">90</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../features/shortcuts/" class="btn btn-neutral float-right" title="Shortcuts">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../../overview/" class="btn btn-neutral" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/ericsartor/when/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../../overview/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../../features/shortcuts/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../style.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

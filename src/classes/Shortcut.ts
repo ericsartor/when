@@ -49,6 +49,7 @@ export class Shortcut {
 
   // created after initialization
   combination: string
+  keys: string[]
 
 
 
@@ -83,6 +84,11 @@ export class Shortcut {
 
     // create the combination string
     this.combination = createCombinationString(this)
+
+    // create the key identifier array
+    this.keys = this.timeline.map((event: WhenEvent) => {
+      return event.identifier;
+    })
 
     // turn on preventDefault
     this.timeline.forEach((event) => {

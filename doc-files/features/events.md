@@ -1,6 +1,6 @@
 # Events
 
-*When* exposes three types of keyboard events built on top of the DOM `keyup` and `keydown` events: [pressed](#pressed), [released](#released) and [held](#held), which are primarily registered using the [IsPressed()](#./methods/IsPressed.md), [IsReleased()](#./methods/IsReleased.md) and [IsHeldFor()](#./methods/IsHeldFor.md) methods, in addition to [IsInput()](#./methods/IsInput.md), which is a compound way of registering **pressed** events.
+*When* exposes three types of keyboard events built on top of the DOM `keyup` and `keydown` events: [pressed](#pressed), [released](#released) and [held](#held), which are primarily registered using the [IsPressed()](../whenable-methods/IsPressed.md), [IsReleased()](../whenable-methods/IsReleased.md) and [IsHeldFor()](../whenable-methods/IsHeldFor.md) methods, in addition to [IsInput()](../whenable-methods/IsInput), which is a compound way of registering **pressed** events.
 
 ## pressed
 
@@ -10,14 +10,14 @@ Using this *When* event will achieve similar results as using the native `keypre
 
 You can hook into the **pressed** event in the following ways:
 
-[IsPressed()](#./methods/IsPressed.md)
+[IsPressed()](../../whenable-methods/IsPressed)
 
 ```javascript
 // here we are explicitly setting up a "pressed" handler for a single press of the "a" key
 When('a').IsPressed().Execute(console.log);
 ```
 
-[IsInput()](#./methods/IsInput.md)
+[IsInput()](../../whenable-methods/IsInput)
 
 ```javascript
 // here we are setting up a handler that responds to the keys "a", "b" and "c" being pressed in sequence.

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>When Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: arial;
+    }
+    
+    .card {
+      width: 200px;
+      height: 250px;
+      background: white;
+      margin: 20px;
+      box-shadow: 0 0 5px gray;
+      position: relative;
+    }
+    .card.focused {
+      box-shadow: 0 0 5px red;
+    }
+    .card h2 {
+      padding: 10px 20px;
+      background: #f3f3f3;
+    }
+    .card p {
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card when-focus">
+    <h2>Card 1</h2>
+    <p>Body of card 1.</p>
+  </div>
+  <div class="card when-focus">
+    <h2>Card 2</h2>
+    <p>Body of card 2.</p>
+  </div>
+  <div class="card when-focus">
+    <h2>Card 3</h2>
+    <p>Body of card 3.</p>
+  </div>
+
+  <script src="dist/When.js"></script>
+  <script>
+    When('move_card').IsExecuted().Run((ctx) => {
+      const key = ctx.shortcut.keys[0];
+
+      let cssPropName = '';
+      let moveAmount = 0;
+      switch (key) {
+        case 'arrow_up':
+          cssPropName = 'top';
+          moveAmount = -10;
+          break;
+        case 'arrow_down':
+          cssPropName = 'top';
+          moveAmount = 10;
+          break;
+        case 'arrow_left':
+          cssPropName = 'left';
+          moveAmount = -10;
+          break;
+        case 'arrow_right':
+          cssPropName = 'left';
+          moveAmount = 10;
+          break;
+      }
+
+      const currentValue = parseInt(ctx.focusedElement.style[cssPropName]) || 0;
+      ctx.focusedElement.style[cssPropName] = currentValue + moveAmount + 'px';
+    });
+
+    ['arrow_up', 'arrow_down', 'arrow_left', 'arrow_right'].forEach((key) => {
+      When('class:card').IsFocused().Then(key).IsPressed().Execute('move_card');
+    });
+
+    When.focusChanges((nextEl, prevEl) => {
+      if (nextEl) {
+        nextEl.classList.add('focused');
+      }
+      if (prevEl) {
+        prevEl.classList.remove('focused');
+      }
+    });
+  </script>
+</body>
+</html>

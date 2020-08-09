@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Eric Sartor">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Overview - When</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link href="../style.css" rel="stylesheet" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Overview";
+    var mkdocs_page_input_path = "overview.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> When</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Overview</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#feature-summary">Feature Summary</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#events">Events</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#event-context">Event Context</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#registered-commands">Registered Commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#shortcut-controllers">Shortcut Controllers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sequences">Sequences</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#qualifiers">Qualifiers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#modes">Modes</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#groups">Groups</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#focus">Focus</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#self-documentation">Self Documentation</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Layouts</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../layouts/qwerty/">QWERTY</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Features</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../features/shortcuts/">Shortcuts</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../features/events/">Events</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../features/focus/">Focus</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../features/groups/">Groups</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../features/modes/">Modes</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Types</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../types/ShortcutController/">ShortcutController</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../types/ShortcutHandler/">ShortcutHandler</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../types/Whenable/">Whenable</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Whenable Methods</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/When/">When()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/Then/">Then()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/ModeIs/">ModeIs()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/IsFocused/">IsFocused()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/IsInput/">IsInput()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/IsPressed/">IsPressed()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/IsReleased/">IsReleased()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/IsHeldFor/">IsHeldFor()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/Within/">Within()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/SecondsMilliseconds/">Milliseconds() / Seconds()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/IsExecuted/">IsExecuted()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/Run/">Run()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../whenable-methods/Execute/">Execute()</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Shortcut Qualifier Methods</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="" href="../types/ShortcutController/#allowdefault">AllowDefault()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="" href="../types/ShortcutController/#ininput">InInput()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="" href="../types/ShortcutController/#once">Once()</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Global Methods</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../global-methods/setMode/">When.setMode()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../global-methods/clearMode/">When.clearMode()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../global-methods/newGroup/">When.newGroup()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../global-methods/quiet/">When.quiet()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../global-methods/loadLayout/">When.loadLayout()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../global-methods/focusChanges/">When.focusChanges()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../global-methods/documentation/">When.documentation()</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">When</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Overview</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/ericsartor/when/edit/master/docs/overview.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="overview">Overview</h1>
+<p><em>When</em> is a chainable library for creating simple or intricate keyboard shortcuts in your web apps.</p>
+<p>A basic example might look something like this:</p>
+<pre><code class="javascript">When('copy').IsExecuted().Run((context) =&gt; {
+  // your logic here...
+});
+
+When('ctrl+c').IsPressed().Execute('copy');
+</code></pre>
+
+<p>whereas a more advanced example would look something like this:</p>
+<pre><code class="javascript">When('a')
+  .IsPressed()
+  .Then('num1')
+  .IsHeldFor(1)
+  .Seconds()
+  .Then('a')
+  .IsReleased()
+  .Execute((context) =&gt; {
+    // your logic here
+  }, 'a1_command')
+  .Once();
+</code></pre>
+
+<p>You can also specify key sequences like this (as long as you only plan on using <a href="features/events/#pressed">pressed</a> events):</p>
+<pre><code class="javascript">// when the keys a, s and d are pressed consecutively within 1 second
+When('a s d (1s)').IsInput().Execute((context) =&gt; console.log('asd'));
+</code></pre>
+
+<h2 id="feature-summary">Feature Summary</h2>
+<p><em>When</em> supports many features all aimed at making managing your keyboard shortcuts easier, such as:</p>
+<ul>
+<li><a href="#events">events</a></li>
+<li><a href="#event-context">event context</a></li>
+<li><a href="#registered-commands">registered commands</a></li>
+<li><a href="#shortcut-controllers">shortcut controllers</a></li>
+<li><a href="#sequences">sequences</a></li>
+<li><a href="#qualifiers">qualifiers</a></li>
+<li><a href="#modes">modes</a></li>
+<li><a href="#groups">groups</a></li>
+<li><a href="#focus">focus</a></li>
+<li><a href="#self-documentation">self-documentation</a></li>
+</ul>
+<h3 id="events">Events</h3>
+<p><em>When</em> is triggered by <code>keyup</code> and <code>keydown</code> events bound to the window key, but exposes three event types for consumption through it's API: <strong>pressed</strong>, <strong>released</strong> and <strong>held</strong>.  These can be combined in any way you desire!</p>
+<pre><code class="javascript">// triggers as soon as the keydown event fires
+When('a').IsPressed().Execute(console.log);
+
+// triggers as soon as the keyup event fires
+When('a').IsReleased().Execute(console.log);
+
+// triggers 1 second after the keydown event fired if the keyup event has not yet fired
+When('a').IsHeldFor(1).Seconds().Execute(console.log);
+</code></pre>
+
+<h3 id="event-context">Event Context</h3>
+<p>Event handlers and <a href="#registered-commands">registered commands</a> receive an <strong>event context</strong> object as their only argument, which contains some useful properties:</p>
+<pre><code class="javascript">When('some_command').IsExecuted().Run((context) =&gt; {
+  // context.event - the native browser event that caused the shortcut to be fulfilled (depending on what the last event is in the shortcut's sequence)
+  // context.shortcut - the shortcut controller for the shortcut that was triggered
+  // context.focusedElement - the HTMLElement that When currently considers to be focused based on its built in focus system
+  // context.pressDuration - on &quot;held&quot; events, the duration in milliseconds the key was held for (if the last event in the shortcut's sequence was a &quot;held&quot; event)
+  console.log(context);
+});
+</code></pre>
+
+<h3 id="registered-commands">Registered Commands</h3>
+<p><strong>Commands</strong> are <em>When's</em> way of allowing you to separate your business logic from your shortcut logic, and aids in the <a href="#self-documentation">self-documentation</a> process.</p>
+<pre><code class="javascript">When('some_command').IsExecuted().Run((context) =&gt; {
+  // some logic here...
+});
+
+When('a').IsPressed().Execute('some_command');
+</code></pre>
+
+<h3 id="shortcut-controllers">Shortcut Controllers</h3>
+<p>When you create a shortcut, it returns a <strong>controller</strong> with a few methods attached to it:</p>
+<pre><code class="javascript">const shortcut = When('a').IsPressed().Execute(console.log);
+shortcut.pause();
+shortcut.unpause();
+shortcut.toggle();
+shortcut.trigger();
+shortcut.destroy();
+</code></pre>
+
+<p>These are the primitive ways you can control how and when your shortcut can be triggered programmatically.</p>
+<h3 id="sequences">Sequences</h3>
+<p>Instead of specifying a shortcut as a single key (with optional modifier key), you can specify a sequence of keys in multiple ways.</p>
+<pre><code class="javascript">// these create the exact same shortcut
+When('1').IsPressed().Then('2').IsPressed().Then('3').IsPressed().Within(1).Seconds().Execute(console.log);
+When('1 2 3 (1s)').IsInput().Execute(console.log);
+</code></pre>
+
+<h3 id="qualifiers">Qualifiers</h3>
+<p>Qualifiers give you access to some of the features native DOM events provide in a more readable way.</p>
+<pre><code class="javascript">When('ctrl+s')
+  .IsPressed()
+  .Execute('save')
+  .AllowDefault()  // event.preventDefault() is called by default, so this qualifier allows default browser behaviour, in this case, opening a Save prompt
+  .Once()          // the shortcut is destroyed after the first time it triggers
+  .InInput();      // allows the shortcut to trigger while the document.activeElement is an input element (input/textarea/select)
+</code></pre>
+
+<h3 id="modes">Modes</h3>
+<p><strong>Modes</strong> are a way of only allowing a certain subset of shortcuts to be active at any given time.  Shortcuts that have not been assigned a <strong>mode</strong> will always be active by default.</p>
+<pre><code class="javascript">// will be active by default
+When('a').IsPressed().Execute(console.log);
+
+// won't be active until the mode is set to &quot;mode1&quot;
+When().ModeIs('mode1').Then('b').IsPressed().Execute(console.log);
+
+When.setMode('mode1');
+</code></pre>
+
+<h3 id="groups">Groups</h3>
+<p><strong>Groups</strong> are another way of controlling multiple shortcuts at a time by creating a single controller for them.  They have all the same controller methods that a shortcut controller would have.</p>
+<pre><code class="javascript">const group1 = When.newGroup([
+  When('a').IsPressed().Execute(console.log),
+  When('b').IsPressed().Execute(console.log),
+  When('c').IsPressed().Execute(console.log),
+]);
+
+const shortcut1 = When('d').IsPressed().Execute(console.log);
+const shortcut2 = When('e').IsPressed().Execute(console.log);
+const group2 = When.newGroup([shortcut1, shortcut2]);
+
+group1.pause();
+group1.unpause();
+group1.toggle();
+group1.trigger();
+group1.destroy();
+</code></pre>
+
+<h3 id="focus">Focus</h3>
+<p><em>When</em> includes a <strong>focus</strong> system, similar to the concept of focus found in operating systems. It allows you to limit shortcuts to only trigger when a certain element (or child) has been clicked on.</p>
+<pre><code class="xml">&lt;div id=&quot;some-id&quot; class=&quot;when-focus&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;some-class&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;some-class&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<pre><code class="javascript">const box = document.getElementById('box');
+
+// these shortcut will only trigger when #some-id or one of its children were the last element to have been clicked.
+// they will cease to trigger when a sibling, parent or unrelated element has been clicked.
+When(box).IsFocused().Then('a').IsPressed().Execute(console.log);
+When('id:some-id').IsFocused().Then('b').IsPressed().Execute(console.log);
+
+// this will only trigger if any elemental with class &quot;some-class&quot; is focused
+When('class:some-class').IsFocused().Then('c').IsPressed().Execute(console.log);
+</code></pre>
+
+<p>You can also tie into this system to make the current focus apparent to the user:</p>
+<pre><code class="javascript">When.focusChanges((newFocusEl, prevFocusEl) =&gt; {
+  if (newFocusEl) {
+    newFocusEl.classList.add('focused');
+  }
+  if (prevFocusEl) {
+    prevFocusEl.classList.remove('focused');
+  }
+});
+</code></pre>
+
+<h3 id="self-documentation">Self Documentation</h3>
+<p><em>When</em> is capable of generating documentation for all the keyboard shortcuts you've registered up the to point that you call <code>When.documentation()</code>.  It returns an array of <code>{ combination: string, command: string, mode: string }</code> representing each shortcut.</p>
+<p><strong><em>NOTE</em></strong>: This is primarily meant to be used a developer tool.  Because only the shortcuts registered so far get documented, this will not necessarily document <em>all</em> of the shortcuts your app registers in its lifetime.  Only display this information to your users if you are certain all shortcuts have been registered for the lifetime of the app.  The shortcuts output by <code>When.documentation()</code> are deduplicated from the shortcuts created over the lifetime of the app so far, and are unique based on <code>mode</code>, <code>combination</code> and <code>focusTarget</code>.</p>
+<pre><code class="javascript">console.log(When.documentation());
+
+/*
+  [
+    {
+      combination: '↓a',
+      command: 'some_command',
+      mode: '',
+    }
+  ]
+*/
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../layouts/qwerty/" class="btn btn-neutral float-right" title="QWERTY">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../installation/" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/ericsartor/when/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../installation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../layouts/qwerty/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../style.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

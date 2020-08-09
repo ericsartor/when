@@ -1,20 +1,48 @@
 site_name: When
 theme: readthedocs
 repo_url: https://github.com/ericsartor/when
+repo_name: GitHub
+site_description: A powerful, human readable keyboard shortcut/binding library and focus system
+site_author: Eric Sartor
+docs_dir: doc-files
+site_dir: docs
+extra_css:
+  - style.css
+extra_javascript:
+  - style.js
 nav:
   - Installation: installation.md
   - Overview: overview.md
-  - When(): When.md
+  - Layouts:
+    - QWERTY: layouts/qwerty.md
   - Features:
-    - Events: events.md
+    - Shortcuts: features/shortcuts.md
+    - Events: features/events.md
+    - Focus: features/focus.md
+    - Groups: features/groups.md
+    - Modes: features/modes.md
+  - Types:
+    - ShortcutController: types/ShortcutController.md
+    - ShortcutHandler: types/ShortcutHandler.md
+    - Whenable: types/Whenable.md
   - Whenable Methods:
+    - When(): whenable-methods/When.md
+    - Then(): whenable-methods/Then.md
+    - ModeIs(): whenable-methods/ModeIs.md
+    - IsFocused(): whenable-methods/IsFocused.md
+    - IsInput(): whenable-methods/IsInput.md
     - IsPressed(): whenable-methods/IsPressed.md
     - IsReleased(): whenable-methods/IsReleased.md
     - IsHeldFor(): whenable-methods/IsHeldFor.md
-  - Controller Methods:
-    - AllowDefault(): controller-methods/AllowDefault.md
-    - InInput(): controller-methods/InInput.md
-    - Once(): controller-methods/Once.md
+    - Within(): whenable-methods/Within.md
+    - Milliseconds() / Seconds(): whenable-methods/SecondsMilliseconds.md
+    - IsExecuted(): whenable-methods/IsExecuted.md
+    - Run(): whenable-methods/Run.md
+    - Execute(): whenable-methods/Execute.md
+  - Shortcut Qualifier Methods:
+    - AllowDefault(): types/ShortcutController/#allowdefault
+    - InInput(): types/ShortcutController/#ininput
+    - Once(): types/ShortcutController/#once
   - Global Methods:
     - When.setMode(): global-methods/setMode.md
     - When.clearMode(): global-methods/clearMode.md
@@ -23,6 +51,3 @@ nav:
     - When.loadLayout(): global-methods/loadLayout.md
     - When.focusChanges(): global-methods/focusChanges.md
     - When.documentation(): global-methods/documentation.md
-  - Types:
-    - ShortcutController: ShortcutController.md
-    - Whenable: Whenable.md

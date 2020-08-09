@@ -1,0 +1,20 @@
+table {
+  font-family: monospace;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 5px;
+}
+
+tr:nth-child(even), thead {
+  background: rgb(235, 235, 235);
+}
+
+.caption {
+  background: rgb(39, 39, 39);
+}
+
+ul:last-child {
+  margin-bottom: 6px;
+}

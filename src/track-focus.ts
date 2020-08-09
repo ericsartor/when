@@ -3,7 +3,7 @@ import { FocusHandler } from './types'
 export const focusHandlers: FocusHandler[] = []
 export let focusedElement: HTMLElement | null = null
 
-window.addEventListener('click', (e: MouseEvent) => {
+window.addEventListener('mousedown', (e: MouseEvent) => {
   if (e.target === null) return
 
   const previousFocusedElement = focusedElement

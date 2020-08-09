@@ -44,12 +44,14 @@ function handleTime(this: Whenable, multiplier: number) {
       this.events.push({
         type: 'pressed',
         key: keys[keyName.toLowerCase()],
+        identifier: keyName.toLowerCase(),
         timestamp: 0, // this isn't necessary for timeline events
         modifiers,
       })
       this.events.push({
         type: 'held',
         key: keys[keyName.toLowerCase()],
+        identifier: keyName.toLowerCase(),
         timestamp: 0, // this isn't necessary for timeline events
         duration: milliseconds,
         modifiers,
@@ -140,6 +142,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
           this.events.push({
             type: 'pressed',
             key: keys[keyName.toLowerCase()],
+            identifier: keyName.toLowerCase(),
             timestamp: 0, // this isn't necessary for timeline events
             modifiers,
           })
@@ -297,6 +300,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       this.events.push({
         type: 'pressed',
         key: keys[keyName.toLowerCase()],
+        identifier: keyName.toLowerCase(),
         timestamp: 0, // this isn't necessary for timeline events
         modifiers,
       })
@@ -324,6 +328,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       this.events.push({
         type: 'released',
         key: keys[keyName.toLowerCase()],
+        identifier: keyName.toLowerCase(),
         timestamp: 0, // this isn't necessary for timeline events
         modifiers,
       })

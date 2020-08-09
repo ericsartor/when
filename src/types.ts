@@ -25,6 +25,7 @@ export type WhenEvent = {
   id?: number,
   type: WhenEventType,
   key: number,
+  identifier: string,
   timestamp: number,
   duration?: number, // for "held" events
   modifiers: {

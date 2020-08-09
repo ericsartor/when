@@ -48,7 +48,7 @@ export const keys: { [key: string]: number } = {
   'num0': 48,
 
   '_': 189, 'hyphen': 189, 'underscore': 189,
-  '=': 187,'equals': 187,
+  '=': 187, 'plus': 187, 'equals': 187,
 
   'backspace': 8,
   'tab': 9,
@@ -58,7 +58,7 @@ export const keys: { [key: string]: number } = {
   '[': 219, '{': 219, 'left_square_bracket': 219, 'left_curly_bracket': 219,
   ']': 221, '}': 221, 'right_square_bracket': 221, 'right_curly_bracket': 221,
   '\\': 220, '|': 220, 'backslash': 220, 'pipe': 220,
-  ';': 186, ':': 186, 'semicolon': 186,
+  ';': 186, ':': 186, 'colon': 186, 'semicolon': 186,
   '\'': 222, '"': 222, 'apostrophe': 222, 'quote': 222,
   ',': 188, '<': 188, 'comma': 188, 'less_than': 188,
   '>': 190, 'period': 190, 'greater_than': 190,
