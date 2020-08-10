@@ -133,9 +133,17 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/quiet/">When.quiet()</a>
                     </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/togglepauseunpause/">When.toggle() / When.pause() / When.unpause()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/loadLayout/">When.loadLayout()</a>
                     </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/keyGroups/">When.keyGroups()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setFocus/">When.setFocus()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/focusChanges/">When.focusChanges()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setHeldInterval/">When.setHeldInterval()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/documentation/">When.documentation()</a>
                     </li>
@@ -190,8 +198,12 @@
 <pre><code class="javascript">When();
 </code></pre>
 
-<p>To set which <a href="../../Layouts">keys</a> (and potentially modifiers like <em>ctrl</em>, <em>alt</em>, <em>shift</em> and <em>meta</em>) will be involved in your shortcut, you can pass them as strings to either <a href="../../whenable-methods/When">When()</a> or <a href="../../whenable-methods/Then">Then()</a>:</p>
-<pre><code class="javascript">When('a').IsPressed().Then('b').IsPressed();
+<p>To set which keys (and potentially modifiers like <em>ctrl</em>, <em>alt</em>, <em>shift</em> and <em>meta</em>) will be involved in your shortcut, you can pass them as strings to either <a href="../../whenable-methods/When">When()</a> or <a href="../../whenable-methods/Then">Then()</a>:</p>
+<p><strong>NOTE</strong>: To see a list of all available key identifiers, check the Layout page for the layout you're using, such as <a href="../../layouts/qwerty">QWERTY</a>.</p>
+<pre><code class="javascript">When('a').IsPressed();
+When('ctrl+a').IsPressed();
+When('ctrl+alt+a').IsPressed();
+
 </code></pre>
 
 <p><a href="../../whenable-methods/Then">Then()</a> is like a stripped down version of <a href="../../whenable-methods/When">When()</a> that only accepts key identifiers as strings.</p>

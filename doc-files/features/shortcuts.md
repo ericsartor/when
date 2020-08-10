@@ -16,10 +16,15 @@ To create a shortcut, you must always start with a call to  [When()](../../whena
 When();
 ```
 
-To set which [keys](../../Layouts) (and potentially modifiers like *ctrl*, *alt*, *shift* and *meta*) will be involved in your shortcut, you can pass them as strings to either [When()](../../whenable-methods/When) or [Then()](../../whenable-methods/Then):
+To set which keys (and potentially modifiers like *ctrl*, *alt*, *shift* and *meta*) will be involved in your shortcut, you can pass them as strings to either [When()](../../whenable-methods/When) or [Then()](../../whenable-methods/Then):
+
+**NOTE**: To see a list of all available key identifiers, check the Layout page for the layout you're using, such as [QWERTY](../../layouts/qwerty).
 
 ```javascript
-When('a').IsPressed().Then('b').IsPressed();
+When('a').IsPressed();
+When('ctrl+a').IsPressed();
+When('ctrl+alt+a').IsPressed();
+
 ```
 
 [Then()](../../whenable-methods/Then) is like a stripped down version of [When()](../../whenable-methods/When) that only accepts key identifiers as strings.

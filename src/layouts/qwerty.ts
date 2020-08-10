@@ -171,17 +171,17 @@ if (isFirefox) {
 // find an error suggestion based on the string passed in
 export const keySuggestions = (str: string) => {
   switch (str) {
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-      return `Numbers should be specified as either "num${str}" or "numpad${str}"`
+    // case '0':
+    // case '1':
+    // case '2':
+    // case '3':
+    // case '4':
+    // case '5':
+    // case '6':
+    // case '7':
+    // case '8':
+    // case '9':
+    //   return `Numbers should be specified as either "num${str}" or "numpad${str}"`
     case '.':
       return `Instead of ".", you must use either "period" or "numpad_decimal", ` +
         `as these are interpreted as two different keys`
@@ -212,3 +212,76 @@ export const keySuggestions = (str: string) => {
 }
 
 export const modifierKeys =  [ keys.alt, keys.ctrl, keys.left_meta, keys.right_meta, keys.shift ]
+
+export const keyGroups = {
+  arrowKeys: [
+    'arrow_up',
+    'arrow_right',
+    'arrow_down',
+    'arrow_left',
+  ],
+
+  fKeys: [
+    'f1',
+    'f2',
+    'f3',
+    'f4',
+    'f5',
+    'f6',
+    'f7',
+    'f8',
+    'f9',
+    'f10',
+    'f11',
+    'f12',
+    'f13',
+    'f14',
+    'f15',
+    'f16',
+    'f17',
+    'f18',
+    'f19',
+  ],
+
+  letters: [
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+  ],
+
+  numbers: [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '0',
+  ],
+}

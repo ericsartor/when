@@ -60,6 +60,8 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">QWERTY</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#key-groups">Key Groups</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#modifiers">Modifiers</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#f-keys">F Keys</a>
@@ -147,9 +149,17 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/quiet/">When.quiet()</a>
                     </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/togglepauseunpause/">When.toggle() / When.pause() / When.unpause()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/loadLayout/">When.loadLayout()</a>
                     </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/keyGroups/">When.keyGroups()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setFocus/">When.setFocus()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/focusChanges/">When.focusChanges()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setHeldInterval/">When.setHeldInterval()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/documentation/">When.documentation()</a>
                     </li>
@@ -194,8 +204,31 @@
             <div class="section">
               
                 <h1 id="qwerty-layout">QWERTY Layout</h1>
-<p>This layout is the default layout for <em>When</em>, and can be explicitly loaded with :</p>
+<p>This layout is the default layout for <em>When</em>, and can be explicitly loaded with:</p>
 <pre><code class="javascript">When.loadLayout('qwerty');
+</code></pre>
+
+<h2 id="key-groups">Key Groups</h2>
+<p>See: <a href="../../global-methods/keyGroups">When.keyGroups()</a></p>
+<pre><code class="javascript">{
+  arrowKeys: [
+    'arrow_up', 'arrow_right', 'arrow_down', 'arrow_left',
+  ],
+
+  fKeys: [
+    'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'f10',
+    'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19',
+  ],
+
+  letters: [
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+  ],
+
+  numbers: [
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+  ],
+}
 </code></pre>
 
 <h2 id="modifiers">Modifiers</h2>
@@ -472,6 +505,61 @@
 </thead>
 <tbody>
 <tr>
+<td>0</td>
+<td align="center">48<br>96</td>
+<td>both number row and numpad</td>
+</tr>
+<tr>
+<td>1</td>
+<td align="center">49<br>97</td>
+<td>both number row and numpad</td>
+</tr>
+<tr>
+<td>2</td>
+<td align="center">50<br>98</td>
+<td>both number row and numpad</td>
+</tr>
+<tr>
+<td>3</td>
+<td align="center">51<br>99</td>
+<td>both number row and numpad</td>
+</tr>
+<tr>
+<td>4</td>
+<td align="center">52<br>100</td>
+<td>both number row and numpad</td>
+</tr>
+<tr>
+<td>5</td>
+<td align="center">53<br>101</td>
+<td>both number row and numpad</td>
+</tr>
+<tr>
+<td>6</td>
+<td align="center">54<br>102</td>
+<td>both number row and numpad</td>
+</tr>
+<tr>
+<td>7</td>
+<td align="center">55<br>103</td>
+<td>both number row and numpad</td>
+</tr>
+<tr>
+<td>8</td>
+<td align="center">56<br>104</td>
+<td>both number row and numpad</td>
+</tr>
+<tr>
+<td>9</td>
+<td align="center">57<br>105</td>
+<td>both number row and numpad</td>
+</tr>
+<tr>
+<td>num0</td>
+<td align="center">48</td>
+<td>number row</td>
+</tr>
+<tr>
 <td>num1</td>
 <td align="center">49</td>
 <td>number row</td>
@@ -514,11 +602,6 @@
 <tr>
 <td>num9</td>
 <td align="center">57</td>
-<td>number row</td>
-</tr>
-<tr>
-<td>num0</td>
-<td align="center">48</td>
 <td>number row</td>
 </tr>
 <tr>

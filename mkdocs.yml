@@ -48,6 +48,10 @@ nav:
     - When.clearMode(): global-methods/clearMode.md
     - When.newGroup(): global-methods/newGroup.md
     - When.quiet(): global-methods/quiet.md
+    - When.toggle() / When.pause() / When.unpause(): global-methods/togglepauseunpause.md
     - When.loadLayout(): global-methods/loadLayout.md
+    - When.keyGroups(): global-methods/keyGroups.md
+    - When.setFocus(): global-methods/setFocus.md
     - When.focusChanges(): global-methods/focusChanges.md
+    - When.setHeldInterval(): global-methods/setHeldInterval.md
     - When.documentation(): global-methods/documentation.md

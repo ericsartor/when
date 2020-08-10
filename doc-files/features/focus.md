@@ -130,3 +130,27 @@ When.focusChanges((newFocusElement, prevFocusElement) => {
   }
 });
 ```
+
+## Setting Focus Explicitly
+
+You can change the focus programmatically using [When.setFocus()](../../global-methods/setFocus).  Simply provide an `HTMLElement` as the first argument and make sure it has the `when-focus` class (it wouldn't be a valid focusable element otherwise), and the focus will be updated!
+
+This could be used if you implement a keyboard shortcut that is meant to change focus, similar to Alt + Tab on Windows and Cmd + Tab on Mac.
+
+**Note**: this will still trigger all your [When.focusChanges()](../../global-methods/focusChanges) handlers.
+
+```xml
+<div id="div1"></div>
+<div id="div2" class="when-focus"></div>
+```
+
+```javascript
+const div1 = document.getElementById('div1');
+const div2 = document.getElementById('div2');
+
+// throws error
+When.setFocus(div1);
+
+// succeeds
+When.setFocus(div2);
+```

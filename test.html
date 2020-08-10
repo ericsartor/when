@@ -85,6 +85,10 @@
       .Then('num1 num2 num3')
       .IsInput()
       .Execute(console.log, 'weird test');
+
+    When('1').IsPressed().Execute(() => console.log('both 1s'));
+    When('num1').IsPressed().Execute(() => console.log('num1'));
+    When('numpad1').IsPressed().Execute(() => console.log('numpad1'));
   </script>
 </body>
 </html>

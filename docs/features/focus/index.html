@@ -83,6 +83,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#reacting-to-focus-changes">Reacting To Focus Changes</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#setting-focus-explicitly">Setting Focus Explicitly</a>
+    </li>
     </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../groups/">Groups</a>
@@ -147,9 +149,17 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/quiet/">When.quiet()</a>
                     </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/togglepauseunpause/">When.toggle() / When.pause() / When.unpause()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/loadLayout/">When.loadLayout()</a>
                     </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/keyGroups/">When.keyGroups()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setFocus/">When.setFocus()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/focusChanges/">When.focusChanges()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setHeldInterval/">When.setHeldInterval()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/documentation/">When.documentation()</a>
                     </li>
@@ -297,6 +307,24 @@ When.focusChanges((newFocusElement, prevFocusElement) =&gt; {
     prevFocusedElement.classList.remove('focused');
   }
 });
+</code></pre>
+
+<h2 id="setting-focus-explicitly">Setting Focus Explicitly</h2>
+<p>You can change the focus programmatically using <a href="../../global-methods/setFocus">When.setFocus()</a>.  Simply provide an <code>HTMLElement</code> as the first argument and make sure it has the <code>when-focus</code> class (it wouldn't be a valid focusable element otherwise), and the focus will be updated!</p>
+<p>This could be used if you implement a keyboard shortcut that is meant to change focus, similar to Alt + Tab on Windows and Cmd + Tab on Mac.</p>
+<p><strong>Note</strong>: this will still trigger all your <a href="../../global-methods/focusChanges">When.focusChanges()</a> handlers.</p>
+<pre><code class="xml">&lt;div id=&quot;div1&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;div2&quot; class=&quot;when-focus&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<pre><code class="javascript">const div1 = document.getElementById('div1');
+const div2 = document.getElementById('div2');
+
+// throws error
+When.setFocus(div1);
+
+// succeeds
+When.setFocus(div2);
 </code></pre>
               
             </div>

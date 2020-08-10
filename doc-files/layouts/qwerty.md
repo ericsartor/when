@@ -1,9 +1,35 @@
 # QWERTY Layout
 
-This layout is the default layout for *When*, and can be explicitly loaded with :
+This layout is the default layout for *When*, and can be explicitly loaded with:
 
 ```javascript
 When.loadLayout('qwerty');
+```
+
+## Key Groups
+
+See: [When.keyGroups()](../../global-methods/keyGroups)
+
+```javascript
+{
+  arrowKeys: [
+    'arrow_up', 'arrow_right', 'arrow_down', 'arrow_left',
+  ],
+
+  fKeys: [
+    'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'f10',
+    'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19',
+  ],
+
+  letters: [
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+  ],
+
+  numbers: [
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+  ],
+}
 ```
 
 ## Modifiers
@@ -73,6 +99,17 @@ arrow_left|37|
 
 | Identifiers | Which | Notes |
 |-------------|:-----:|-------|
+|0|48<br>96|both number row and numpad|
+|1|49<br>97|both number row and numpad|
+|2|50<br>98|both number row and numpad|
+|3|51<br>99|both number row and numpad|
+|4|52<br>100|both number row and numpad|
+|5|53<br>101|both number row and numpad|
+|6|54<br>102|both number row and numpad|
+|7|55<br>103|both number row and numpad|
+|8|56<br>104|both number row and numpad|
+|9|57<br>105|both number row and numpad|
+|num0|48|number row|
 |num1|49|number row|
 |num2|50|number row|
 |num3|51|number row|
@@ -82,7 +119,6 @@ arrow_left|37|
 |num7|55|number row|
 |num8|56|number row|
 |num9|57|number row|
-|num0|48|number row|
 |num_lock|144|num pad|
 |numpad_divide|111|num pad|
 |numpad_multiply|106|num pad|

@@ -1,7 +1,28 @@
 import { FocusHandler } from './types'
+import { WhenError } from './utils/error'
 
 export const focusHandlers: FocusHandler[] = []
 export let focusedElement: HTMLElement | null = null
+
+export const setFocus = (el: HTMLElement) => {
+  if (!el || (el instanceof HTMLElement) === false) {
+    throw new WhenError(
+      'When.setFocus() was not provided an HTMLElement as its first argument, received: ' + typeof el,
+    )
+  }
+  if (el.classList.contains('when-focus') === false) {
+    throw new WhenError(
+      'When.setFocus() was provided an HTMLElement that did not have the "when-focus" class.',
+    )
+  }
+
+  const previousFocusedElement = focusedElement
+  focusedElement = el
+
+  if (focusedElement !== previousFocusedElement) {
+    focusHandlers.forEach((func) => func(focusedElement, previousFocusedElement))
+  }
+}
 
 window.addEventListener('mousedown', (e: MouseEvent) => {
   if (e.target === null) return

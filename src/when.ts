@@ -1,11 +1,11 @@
 import { CommandMap, Whenable, WhenEventHandler, FocusHandler } from './types'
-import { keys, validateKeyName, loadLayout } from './keys'
+import { keys, validateKeyName, loadLayout, keyGroups } from './keys'
 import { Shortcut } from './classes/Shortcut'
-import { focusHandlers } from './track-focus'
+import { focusHandlers, setFocus } from './track-focus'
 import { WhenError, warn, warnAboutChainOrder, quiet, setQuiet } from './utils/error'
 import { setMode, clearMode } from './modes'
 import { newGroup } from './groups'
-import { documentedShortcuts, documentation } from './documentation'
+import { documentation } from './documentation'
 
 // helpers
 import { getKeyFromIdentifier } from './utils/get-key-from-identifier'
@@ -445,15 +445,68 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         )
       }
 
-      this.lastCalledFunctionName = 'Execute()'
-      return new Shortcut({
-        timeline: this.events,
-        command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
-        handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
-        mode: this.mode,
-        timeConstraint: this.timeConstraint,
-        focusTarget: this.focusRequired ? this.focusTarget : null,
+      const hasCompoundNumbers = this.events.some((event) => {
+        return event.identifier >= '0' && event.identifier <= '9'
       })
+
+      // if shortcut event timeline contains compound number identifiers ("1" vs "num1" or "numpad1")
+      // create two shortcuts, replacing any compound numbers in each with their "num"/"numpad" versions
+      if (hasCompoundNumbers) {
+        const numRowEvents = this.events.map((event) => {
+          if (event.identifier >= '0' && event.identifier <= '9') {
+            return {
+              ...event,
+              identifier: 'num' + event.identifier,
+              key: keys!['num' + event.identifier],
+            }
+          } else {
+            return event
+          }
+        })
+        const numpadEvents = this.events.map((event) => {
+          if (event.identifier >= '0' && event.identifier <= '9') {
+            return {
+              ...event,
+              identifier: 'numpad' + event.identifier,
+              key: keys!['numpad' + event.identifier],
+            }
+          } else {
+            return event
+          }
+        })
+
+        // register a shortcut with numpad numbers
+        new Shortcut({
+          timeline: numpadEvents,
+          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
+          handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
+          mode: this.mode,
+          timeConstraint: this.timeConstraint,
+          focusTarget: this.focusRequired ? this.focusTarget : null,
+        })
+
+        this.lastCalledFunctionName = 'Execute()'
+
+        // register a shortcut with num row numbers
+        return new Shortcut({
+          timeline: numRowEvents,
+          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
+          handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
+          mode: this.mode,
+          timeConstraint: this.timeConstraint,
+          focusTarget: this.focusRequired ? this.focusTarget : null,
+        })
+      } else {
+        this.lastCalledFunctionName = 'Execute()'
+        return new Shortcut({
+          timeline: this.events,
+          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
+          handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
+          mode: this.mode,
+          timeConstraint: this.timeConstraint,
+          focusTarget: this.focusRequired ? this.focusTarget : null,
+        })
+      }
     },
 
     Run(func: WhenEventHandler) {
@@ -483,11 +536,19 @@ When.clearMode = clearMode
 When.newGroup = newGroup
 When.quiet = setQuiet
 When.loadLayout = loadLayout
+When.documentation = documentation
+When.setFocus = setFocus
 
 // stops When from actually handling events
 export let shouldCheckEvents = true
 When.toggle = () => {
   shouldCheckEvents = !shouldCheckEvents
+}
+When.pause = () => {
+  shouldCheckEvents = false
+}
+When.unpause = () => {
+  shouldCheckEvents = true
 }
 
 export let heldInterval: number = 100;
@@ -513,7 +574,10 @@ When.focusChanges = (func: FocusHandler) => {
   focusHandlers.push(func)
 }
 
-When.documentation = documentation
+When.keyGroups = () => {
+  return keyGroups
+}
+
 
 // load QWERTY layout by default
 When.loadLayout('qwerty')

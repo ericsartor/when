@@ -10,6 +10,7 @@ export const layouts = {
 // this is what gets overwritten when a layout is loaded
 export let keys: { [key: string]: number } | null = null
 export let modifierKeys: number[] | null = null
+export let keyGroups: { [name: string]: string[] } | null = null
 export let keyStatus: KeyStatusMap = {}                      // map key numbers to an object that describes if the key is pressed, and when it was last pressed
 let keySuggestions: ((key: string) => string) | null = null
 
@@ -34,7 +35,7 @@ export const validateKeyName = (name: string, whenable?: Whenable) => {
     return
   }
 
-  if (keys[name] !== undefined) return
+  if (name >= '0' || name <= '9' || keys[name] !== undefined) return
 
   // unknown key identifier, try to find suggestion for error
   const suggestion = keySuggestions(name)
@@ -53,6 +54,7 @@ export const loadLayout = (layoutName: 'qwerty') => {
   keys = layout.keys
   keySuggestions = layout.keySuggestions
   modifierKeys = layout.modifierKeys
+  keyGroups = layout.keyGroups
 
   // initialize key statuses
   keyStatus = {}
