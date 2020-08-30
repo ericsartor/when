@@ -135,9 +135,13 @@ export const emitEvent = (event?: WhenEvent) => {
     // run command handler
     const lastEvent = foundEvents[foundEvents.length - 1]
     const eventType = lastEvent.type
-    const browserEvent = eventType === 'released' ? lastKeyupEvent : lastKeydownEvent
+    const browserEvent = eventType === 'released' ? lastKeyupEvent! : lastKeydownEvent!
     const ctx = {
-      event: browserEvent!,
+      event: browserEvent,
+      alt: browserEvent.altKey,
+      ctrl: browserEvent.ctrlKey,
+      shift: browserEvent.shiftKey,
+      meta: browserEvent.metaKey,
       shortcut,
       keys: shortcut.keys,
       focusedElement: focusedElement,

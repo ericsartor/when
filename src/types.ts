@@ -42,6 +42,10 @@ export interface WhenEventContext {
   keys: string[],
   focusedElement: HTMLElement | null,
   pressDuration?: number,
+  alt: boolean,
+  ctrl: boolean,
+  shift: boolean,
+  meta: boolean,
 }
 
 export type WhenEventHandler = (event: WhenEventContext | undefined) => void
