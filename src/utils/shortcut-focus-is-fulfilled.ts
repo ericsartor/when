@@ -16,11 +16,11 @@ export const shortcutFocusIsFulfilled = (shortcut: Shortcut) => {
 
   // check to see if ID or class name are present on the current focused element
   if (typeof focusTarget === 'string') {
-    if (focusTarget.includes('id:')) {
-      const id = focusTarget.replace('id:', '')
+    if (focusTarget.includes('id:') || focusTarget.includes('#')) {
+      const id = focusTarget.replace('id:', '').replace('#', '')
       return focusedElement && focusedElement.id === id
-    } else if (focusTarget.includes('class:')) {
-      const className = focusTarget.replace('class:', '') 
+    } else if (focusTarget.includes('class:') || focusTarget.includes('.')) {
+      const className = focusTarget.replace('class:', '').replace('.', '') 
       return focusedElement && focusedElement.classList && focusedElement.classList.contains(className)
     }
   }

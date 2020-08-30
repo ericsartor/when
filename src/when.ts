@@ -118,8 +118,21 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       const sequence = this.identifier.split(' ')
 
       sequence.forEach((input) => {
+        const focusTargetMatch = input.match(/id:[\w_-]+|class:[\w_-]+|\.[\w_-]+|#[\w_-]+/)
         const timeMatch = input.match(/^\((\d+)(s|ms)\)$/)
-        if (timeMatch) {
+
+
+        if (focusTargetMatch) {
+          if (this.focusTarget !== null) {
+            throw new WhenError(
+              'Only one focus constraint be placed on a shortcut.',
+              this,
+            )
+          }
+
+          this.focusRequired = true
+          this.focusTarget = input
+        } else if (timeMatch) {
           if (this.timeConstraint !== null) {
             throw new WhenError(
               'Only one time constraint be placed on a shortcut.',
@@ -360,6 +373,8 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       return this
     },
 
+    // ANCHOR time funcs
+
     Within(n: number) {
       warnAboutChainOrder('Within()', this, [
         'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()',
@@ -407,17 +422,16 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       return this
     },
 
+    // ANCHOR Execute()
+
     Execute(commandNameOrFunc: string | WhenEventHandler, commandName?: string) {
       warnAboutChainOrder('Execute()', this, [
         'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()', 'PreventDefault()', 'IsInput()',
       ])
 
+      // for simple commands, assume "IsInput()" should be called
       if (this.events.length === 0) {
-        throw new WhenError(
-          'Execute() was called before any key events were registered in the shortcut chain.  '+
-            'You need to call either IsPressed(), IsReleased() or IsHeldFor() to register a key event.',
-          this
-        )
+        this.IsInput()
       }
 
       const type = typeof commandNameOrFunc

@@ -91,10 +91,14 @@
     When('numpad1').IsPressed().Execute(() => console.log('numpad1'));
 
     When.focusIs('class:red').Register([
-      When('h').IsPressed().Execute(console.log),
-      When('i').IsPressed().Execute(console.log),
-      When('j').IsPressed().Execute(console.log),
+      When('h').Execute(console.log),
+      When('i').Execute(console.log),
+      When('j').Execute(console.log),
     ])
+
+    console.log(When('.red l').Execute(console.log));
+
+    When.focusChanges(console.log);
   </script>
 </body>
 </html>
