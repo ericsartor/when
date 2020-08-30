@@ -90,6 +90,21 @@
         prevEl.classList.remove('focused');
       }
     });
+
+    When('switch_focus').IsExecuted().Run((ctx) => {
+      if (ctx.focusedElement && ctx.focusedElement.classList.contains('card')) {
+        const index = cards.indexOf(ctx.focusedElement);
+        const increment = ctx.shortcut.timeline[0].modifiers.shift ? cards.length - 1 : 1;
+        const nextIndex = (index + increment) % cards.length;
+        When.setFocus(cards[nextIndex]);
+      } else {
+        When.setFocus(cards[0]);
+      }
+    })
+
+    const cards = Array.from(document.querySelectorAll('.card'));
+    When('tab').IsPressed().Execute('switch_focus');
+    When('shift+tab').IsPressed().Execute('switch_focus');
   </script>
 </body>
 </html>

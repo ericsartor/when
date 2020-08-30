@@ -39,6 +39,7 @@ export type WhenEvent = {
 export interface WhenEventContext {
   event: KeyboardEvent,
   shortcut: Shortcut,
+  keys: string[],
   focusedElement: HTMLElement | null,
   pressDuration?: number,
 }

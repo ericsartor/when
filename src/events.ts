@@ -139,6 +139,7 @@ export const emitEvent = (event?: WhenEvent) => {
     const ctx = {
       event: browserEvent!,
       shortcut,
+      keys: shortcut.keys,
       focusedElement: focusedElement,
       pressDuration: eventType === 'held' ? lastEvent.duration : undefined
     }
