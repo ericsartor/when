@@ -89,6 +89,12 @@
     When('1').IsPressed().Execute(() => console.log('both 1s'));
     When('num1').IsPressed().Execute(() => console.log('num1'));
     When('numpad1').IsPressed().Execute(() => console.log('numpad1'));
+
+    When.focusIs('class:red').Register([
+      When('h').IsPressed().Execute(console.log),
+      When('i').IsPressed().Execute(console.log),
+      When('j').IsPressed().Execute(console.log),
+    ])
   </script>
 </body>
 </html>

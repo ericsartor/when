@@ -574,6 +574,17 @@ When.focusChanges = (func: FocusHandler) => {
   focusHandlers.push(func)
 }
 
+// grouping mechanism for applying the same focus target to multiple shortcuts
+When.focusIs = (focusTarget: string | HTMLElement) => {
+  return {
+    Register(shortcuts: Shortcut[]) {
+      shortcuts.forEach((shortcut) => {
+        shortcut.focusTarget = focusTarget;
+      });
+    },
+  }
+}
+
 When.keyGroups = () => {
   return keyGroups
 }
