@@ -424,7 +424,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
 
     // ANCHOR Execute()
 
-    Execute(commandNameOrFunc: string | WhenEventHandler, commandName?: string) {
+    Execute(commandNameOrFunc: string | WhenEventHandler, commandNameOrSuffix?: string) {
       warnAboutChainOrder('Execute()', this, [
         'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()', 'PreventDefault()', 'IsInput()',
       ])
@@ -450,13 +450,18 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
           'call to When([command_name]).IsExecuted().Run([function]): ' + commandNameOrFunc, this)
       }
 
-      if (type === 'function' && !commandName) {
+      if (type === 'function' && !commandNameOrSuffix) {
         warn(
           'You should provide a string command name as the second argument to Execute() ' +
             'so that When.Documentation() has a name to use, but it is not required and ' +
             'functionality is not effected.',
           this
         )
+      }
+
+      // add command name suffix if present
+      if (typeof commandNameOrFunc === 'string' && commandNameOrSuffix) {
+        commandNameOrFunc += `_${commandNameOrSuffix}`
       }
 
       const hasCompoundNumbers = this.events.some((event) => {
@@ -492,7 +497,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         // register a shortcut with numpad numbers
         new Shortcut({
           timeline: numpadEvents,
-          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
+          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandNameOrSuffix || '',
           handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
           mode: this.mode,
           timeConstraint: this.timeConstraint,
@@ -504,7 +509,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         // register a shortcut with num row numbers
         return new Shortcut({
           timeline: numRowEvents,
-          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
+          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandNameOrSuffix || '',
           handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
           mode: this.mode,
           timeConstraint: this.timeConstraint,
@@ -514,7 +519,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         this.lastCalledFunctionName = 'Execute()'
         return new Shortcut({
           timeline: this.events,
-          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
+          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandNameOrSuffix || '',
           handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
           mode: this.mode,
           timeConstraint: this.timeConstraint,

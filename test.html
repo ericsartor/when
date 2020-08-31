@@ -99,7 +99,7 @@
     When('l_command').IsExecuted().Run((ctx) => console.log(ctx.ctrl));
 
     When('.red l').Execute('l_command');
-    When('.red ctrl+l').Execute('l_command');
+    When('.red ctrl+l').Execute('l_command', 'ctrl');
 
     When.focusChanges(console.log);
   </script>
