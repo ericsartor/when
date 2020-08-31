@@ -1,4 +1,4 @@
-import { CommandMap, Whenable, WhenEventHandler, FocusHandler } from './types'
+import { CommandMap, Whenable, WhenEventHandler, FocusHandler, WhenEventContext } from './types'
 import { keys, validateKeyName, loadLayout, keyGroups } from './keys'
 import { Shortcut } from './classes/Shortcut'
 import { focusHandlers, setFocus } from './track-focus'
@@ -424,7 +424,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
 
     // ANCHOR Execute()
 
-    Execute(commandNameOrFunc: string | WhenEventHandler, commandNameOrSuffix?: string) {
+    Execute(commandNameOrFunc: string | WhenEventHandler, commandName?: string) {
       warnAboutChainOrder('Execute()', this, [
         'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()', 'PreventDefault()', 'IsInput()',
       ])
@@ -450,18 +450,13 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
           'call to When([command_name]).IsExecuted().Run([function]): ' + commandNameOrFunc, this)
       }
 
-      if (type === 'function' && !commandNameOrSuffix) {
+      if (type === 'function' && !commandName) {
         warn(
           'You should provide a string command name as the second argument to Execute() ' +
             'so that When.Documentation() has a name to use, but it is not required and ' +
             'functionality is not effected.',
           this
         )
-      }
-
-      // add command name suffix if present
-      if (typeof commandNameOrFunc === 'string' && commandNameOrSuffix) {
-        commandNameOrFunc += `_${commandNameOrSuffix}`
       }
 
       const hasCompoundNumbers = this.events.some((event) => {
@@ -497,7 +492,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         // register a shortcut with numpad numbers
         new Shortcut({
           timeline: numpadEvents,
-          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandNameOrSuffix || '',
+          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
           handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
           mode: this.mode,
           timeConstraint: this.timeConstraint,
@@ -509,7 +504,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         // register a shortcut with num row numbers
         return new Shortcut({
           timeline: numRowEvents,
-          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandNameOrSuffix || '',
+          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
           handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
           mode: this.mode,
           timeConstraint: this.timeConstraint,
@@ -519,7 +514,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         this.lastCalledFunctionName = 'Execute()'
         return new Shortcut({
           timeline: this.events,
-          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandNameOrSuffix || '',
+          command: typeof commandNameOrFunc === 'string' ? commandNameOrFunc : commandName || '',
           handler: typeof commandNameOrFunc === 'function' ? commandNameOrFunc : null,
           mode: this.mode,
           timeConstraint: this.timeConstraint,
@@ -603,6 +598,16 @@ When.focusIs = (focusTarget: string | HTMLElement) => {
     },
   }
 }
+
+// registers an command (named event handler) with a string name
+When.command = (commandName: string, func: WhenEventHandler) => {
+  if (typeof commandName !== 'string')
+    throw new WhenError('When.command did not receive a string command name as the first argument')
+  else if (typeof func  !== 'function')
+    throw new WhenError('When.command did not receive a function as the second argument')
+  
+  commands[commandName] = func
+};
 
 When.keyGroups = () => {
   return keyGroups
