@@ -68,9 +68,9 @@ When('EXAMPLE_COMMAND').IsExecuted().Run(() => {
 A simple, single key shortcut
 
 ```javascript
-When('a').IsPressed().Execute('EXAMPLE_COMMAND');
+When('a').Execute('EXAMPLE_COMMAND');
 
-When('b').IsPressed().Execute(() => {
+When('b').Execute(() => {
   console.log('You can also use function literals!');
 });
 ```
@@ -78,52 +78,44 @@ When('b').IsPressed().Execute(() => {
 A sequential shortcut that must be completed within a time limit
 
 ```javascript
-When('a b c (500ms)').IsInput().Execute('EXAMPLE_COMMAND');
-
-// or
-
-When('a').IsPressed()
-  .Then('b').IsPressed()
-  .Then('c').IsPressed()
-  .Within(500).Milliseconds()
-  .Execute('EXAMPLE_COMMAND');
+When('ctrl+k ctrl+l (500ms)').Execute('EXAMPLE_COMMAND');
 ```
 
 A shortcut combining pressed, released and held events
 ```javascript
-When('q').IsPressed()
-  .Then('w').IsHeldFor(1).Seconds()
-  .Then('q').IsReleased()
+When('1').IsPressed()
+  .Then('2').IsHeldFor(1).Seconds()
+  .Then('1').IsReleased()
   .Execute('EXAMPLE_COMMAND');
 ```
 
 A shortcut implementing various behaviour modifiers
 ```javascript
-When('ctrl+s').IsPressed().Execute('EXAMPLE_COMMAND')
+When('ctrl+s').Execute('EXAMPLE_COMMAND')
   .Once()           // shortcut will be deleted after its first use
-  .PreventDefault() // default browser action for any shortcuts involved in the chain are prevented
+  .AllowDefault()   // allow default browser behaviour for any shortcuts involved in the chain (disabled by default)
   .InInput();       // allows the shortcut to work in text inputs, which is disabled by default
 ```
 
 Shortcut Controllers
 
 ```javascript
-const shortcut = When('a').IsPressed().Execute(console.log);
+const shortcut = When('a').Execute(console.log);
 
-shortcut.pause();
-shortcut.unpause();
-shortcut.toggle();
-shortcut.trigger();
-shortcut.remove();
+shortcut.pause();   // temporarily stop shortcut from triggering  
+shortcut.unpause(); // re-enable shortcut if paused
+shortcut.toggle();  // toggle paused state of shortcut
+shortcut.trigger(); // programmatically trigger the event handler
+shortcut.remove();  // stop shortcut from triggering permanently
 ```
 
 Group Controllers
 
 ```javascript
 const group = When.newGroup([
-  When('a').IsPressed().Execute(console.log),
-  When('b').IsPressed().Execute(console.log),
-  When('c').IsPressed().Execute(console.log),
+  When('a').Execute(console.log),
+  When('b').Execute(console.log),
+  When('c').Execute(console.log),
 ]);
 
 group.pause();
@@ -136,10 +128,16 @@ group.remove();
 Modes
 
 ```javascript
-When().ModeIs('mode1').Then('a').IsPressed().Execute(console.log);
+When.modeIs('mode1').Register([
+  When('a').Execute(console.log),
+]);
 
-When.setMode('mode1');
-When.clearMode();
+// OR
+
+When().ModeIs('mode1').Then('a').Execute(console.log);
+
+When.setMode('mode1'); // actives all shortcuts with this mode constraint
+When.clearMode();      // any shortcuts with mode constraints get disabled
 ```
 
 Using the focus system to create a shortcut that only works if a certain element is focused,
@@ -171,10 +169,12 @@ and to display the focus to the user
     <script>
       const el = document.getElementById('shortcut-element');
 
-      When(el).IsFocused().Then('enter').IsPressed().Execute(console.log);
+      When.focusIs(el).Register([
+        When('enter').Execute(console.log),
+      ]);
 
       // highlight the focused element
-      When().FocusChanges((newFocusEl, prevFocusEl) => {
+      When.focusChanges((newFocusEl, prevFocusEl) => {
         if (newFocusEl !== null) {
           newFocusEl.classList.add('focused');
         }
