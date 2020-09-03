@@ -200,8 +200,8 @@ When.documentation().forEach((shortcut) => {
 
 | combination | command | mode |
 |-|-|-|
-| ↓a | example_command |
+| ↓a | example_command | mode1 |
 | ↓num1, ↓num2, ↓num3 (within 500ms) | example_command |
-| ↓q, ↓w (hold 1s), ↑q | example_command |
+| ↓1, ↓2 (hold 500ms), ↑1 | example_command |
 | ↓ctrl+s | example_command |
 | ↓enter | example_command |
