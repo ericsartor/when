@@ -32,6 +32,10 @@
       When.setMode(modeInput.value)
     })
 
+    When.modeIs('mode1').Register([
+      When('b').Execute(() => console.log('sick mode bro'), 'mode test'),
+    ]);
+
 
     When('a').IsPressed().Execute(() => {
       console.log('triggered')
@@ -50,10 +54,6 @@
       console.log('id test')
       console.log(ctx.focusedElement.className)
     }, 'id test')
-
-    When().ModeIs('mode1').Then('b').IsPressed().Execute(() => {
-      console.log('sick mode bro')
-    }, 'mode test')
 
     const group = When.newGroup([
       When('c').IsPressed().Execute(() => console.log('c'), 'test'),

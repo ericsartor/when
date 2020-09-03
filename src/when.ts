@@ -599,6 +599,17 @@ When.focusIs = (focusTarget: string | HTMLElement) => {
   }
 }
 
+// grouping mechanism for applying the same focus target to multiple shortcuts
+When.modeIs = (modeName: string) => {
+  return {
+    Register(shortcuts: Shortcut[]) {
+      shortcuts.forEach((shortcut) => {
+        shortcut.mode = modeName;
+      });
+    },
+  }
+}
+
 // registers an command (named event handler) with a string name
 When.command = (commandName: string, func: WhenEventHandler) => {
   if (typeof commandName !== 'string')
