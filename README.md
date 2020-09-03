@@ -60,7 +60,7 @@ A "focus" system is included in *When* which facilitates the same concept of "fo
 Setting up a named event handler
 
 ```javascript
-When('EXAMPLE_COMMAND').IsExecuted().Run(() => {
+When.command('EXAMPLE_COMMAND', () => {
   console.log('Thanks for using When!')
 });
 ```
