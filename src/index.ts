@@ -14,5 +14,5 @@ if (typeof window !== 'undefined')
   window.When = When
 
 // make When available in Node
-if (typeof module !== 'undefined')
-  module.exports = When
+if (typeof global['module'] !== 'undefined')
+  global['module'].exports = When
