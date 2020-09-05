@@ -19,8 +19,7 @@ npm i --save when-key-events
 Wherever you want to use it:
 
 ```javascript
-import 'when-key-events';
-const When = window.When;
+import When from 'when-key-events';
 ```
 
 or use the CDN:
