@@ -10,4 +10,9 @@ declare global {
 }
 
 // make When available in a browser setting
-window.When = When
+if (typeof window !== 'undefined')
+  window.When = When
+
+// make When available in Node
+if (typeof module !== 'undefined')
+  module.exports = When
