@@ -17,7 +17,7 @@ module.exports = {
   output: {
     filename: 'When.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'When',
+    library: 'when',
     libraryTarget: 'umd',
   },
 };

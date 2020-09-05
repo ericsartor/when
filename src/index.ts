@@ -9,7 +9,7 @@ declare global {
   }
 }
 
+export default When
+
 // make When available in a browser setting
 window.When = When
-
-export default When
