@@ -133,7 +133,7 @@ export type Whenable = {
 
   Run: (func: WhenEventHandler) => void     // registers current identifier as a command globally
 
-  Execute: (command: string) => Shortcut    // registers the shortcut globally,
+  Execute: (commandNameOrFunc: string | WhenEventHandler, commandName?: string) => Shortcut    // registers the shortcut globally,
                                             // sets the command name which the shortcut should execute,
                                             // returns a function that removes the shortcut
 }
