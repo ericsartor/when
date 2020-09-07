@@ -1,5 +1,7 @@
 ## *Whenable*.IsExecuted()
 
+*depreciated*: prefer [When.command()](../global-methods/command.md)
+
 args: *none*
 
 returns: [*Whenable*](../../types/Whenable)

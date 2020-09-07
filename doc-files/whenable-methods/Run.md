@@ -1,5 +1,7 @@
 ## *Whenable*.Run(*handler*)
 
+*depreciated*: prefer [When.command()](../global-methods/command.md)
+
 args:
 
 ***handler***: [*ShortcutHandler*](../../types/ShorcutHandler), the function to run when the command name is used in a shortcut

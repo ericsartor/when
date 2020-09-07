@@ -27,54 +27,81 @@
   <div class="box blue when-focus" id="test-id"></div>
   <script src="dist/When.js"></script>
   <script>
-    const modeInput = document.getElementById('mode')
-    modeInput.addEventListener('input', () => {
-      When.setMode(modeInput.value)
-    })
+    // const modeInput = document.getElementById('mode')
+    // modeInput.addEventListener('input', () => {
+    //   When.setMode(modeInput.value)
+    // })
 
-    When.modeIs('mode1', [
-      When('b').Execute(() => console.log('sick mode bro'), 'mode test'),
-    ]);
+    // When.modeIs('mode1', [
+    //   When('b').Execute(() => console.log('sick mode bro'), 'mode test'),
+    // ]);
 
 
-    When('a').IsPressed().Execute(() => {
-      console.log('triggered')
-    }, 'log')
+    // When('a').IsPressed().Execute(() => {
+    //   console.log('triggered')
+    // }, 'log')
 
-    When('a').IsPressed().Execute(() => {
-      console.log('triggered')
-    }, 'log')
+    // When('a').IsPressed().Execute(() => {
+    //   console.log('triggered')
+    // }, 'log')
 
-    When('.test').IsFocused().Then('b').IsPressed().Execute((ctx) => {
-      console.log('class test')
-      console.log(ctx.focusedElement.className)
-    }, 'class test')
+    // When('.test').IsFocused().Then('b').IsPressed().Execute((ctx) => {
+    //   console.log('class test')
+    //   console.log(ctx.focusedElement.className)
+    // }, 'class test')
 
-    When('#test-id').IsFocused().Then('c').IsPressed().Execute((ctx) => {
-      console.log('id test')
-      console.log(ctx.focusedElement.className)
-    }, 'id test')
+    // When('#test-id').IsFocused().Then('c').IsPressed().Execute((ctx) => {
+    //   console.log('id test')
+    //   console.log(ctx.focusedElement.className)
+    // }, 'id test')
 
-    const group = When.newGroup([
-      When('c').IsPressed().Execute(() => console.log('c'), 'test'),
-      When('d').IsPressed().Execute(() => console.log('d'), 'test'),
-      When('e').IsPressed().Execute(() => console.log('e'), 'test'),
-    ])
+    // const group = When.newGroup([
+    //   When('c').IsPressed().Execute(() => console.log('c'), 'test'),
+    //   When('d').IsPressed().Execute(() => console.log('d'), 'test'),
+    //   When('e').IsPressed().Execute(() => console.log('e'), 'test'),
+    // ])
 
-    When('f').Execute(() => {
-      group.trigger()
-    }, 'delete group')
+    // When('f').Execute(() => {
+    //   group.trigger()
+    // }, 'delete group')
 
-    When('ctrl+k ctrl+l (500ms)')
-      .IsInput()
-      .Execute(() => {
-        console.log('eric')
-      }, 'eric')
+    // When('ctrl+k ctrl+l (500ms)')
+    //   .IsInput()
+    //   .Execute(() => {
+    //     console.log('eric')
+    //   }, 'eric')
 
-    // When.quiet();
-    When('x').IsHeldFor(1).Seconds().Execute((ctx) => console.log(ctx), 'x')
+    // // When.quiet();
+    // When('x').IsHeldFor(1).Seconds().Execute((ctx) => console.log(ctx), 'x')
 
-    // When.toggle();
+    // // When.toggle();
+
+    // When('a')
+    //   .IsPressed()
+    //   .Then('b')
+    //   .IsHeldFor(1).Seconds()
+    //   .Then('a')
+    //   .IsReleased()
+    //   .Then('num1 num2 num3')
+    //   .IsInput()
+    //   .Execute(console.log, 'weird test');
+
+    // When('1').IsPressed().Execute(() => console.log('both 1s'));
+    // When('num1').IsPressed().Execute(() => console.log('num1'));
+    // When('numpad1').IsPressed().Execute(() => console.log('numpad1'));
+
+    // When.focusIs('class:red', [
+    //   When('h').Execute(console.log),
+    //   When('i').Execute(console.log),
+    //   When('j').Execute(console.log),
+    // ])
+
+    // When.command('l_command', (ctx) => console.log(ctx.ctrl));
+
+    // When('.red l').Execute('l_command');
+    // When('.red ctrl+l').Execute('l_command');
+
+    // When.focusChanges(console.log);
 
     When('a')
       .IsPressed()
@@ -82,26 +109,9 @@
       .IsHeldFor(1).Seconds()
       .Then('a')
       .IsReleased()
-      .Then('num1 num2 num3')
+      .Then('1 2 3')
       .IsInput()
-      .Execute(console.log, 'weird test');
-
-    When('1').IsPressed().Execute(() => console.log('both 1s'));
-    When('num1').IsPressed().Execute(() => console.log('num1'));
-    When('numpad1').IsPressed().Execute(() => console.log('numpad1'));
-
-    When.focusIs('class:red', [
-      When('h').Execute(console.log),
-      When('i').Execute(console.log),
-      When('j').Execute(console.log),
-    ])
-
-    When.command('l_command', (ctx) => console.log(ctx.ctrl));
-
-    When('.red l').Execute('l_command');
-    When('.red ctrl+l').Execute('l_command');
-
-    When.focusChanges(console.log);
+      .Execute(console.log);
   </script>
 </body>
 </html>

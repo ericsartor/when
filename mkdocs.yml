@@ -13,7 +13,7 @@ extra_javascript:
 nav:
   - Installation: installation.md
   - Overview: overview.md
-  - Layouts:
+  - Keyboard Layouts:
     - QWERTY: layouts/qwerty.md
   - Features:
     - Shortcuts: features/shortcuts.md
@@ -28,22 +28,24 @@ nav:
   - Whenable Methods:
     - When(): whenable-methods/When.md
     - Then(): whenable-methods/Then.md
-    - ModeIs(): whenable-methods/ModeIs.md
-    - IsFocused(): whenable-methods/IsFocused.md
+    - ModeIs() (depreciated): whenable-methods/ModeIs.md
+    - IsFocused() (depreciated): whenable-methods/IsFocused.md
     - IsInput(): whenable-methods/IsInput.md
     - IsPressed(): whenable-methods/IsPressed.md
     - IsReleased(): whenable-methods/IsReleased.md
     - IsHeldFor(): whenable-methods/IsHeldFor.md
     - Within(): whenable-methods/Within.md
     - Milliseconds() / Seconds(): whenable-methods/SecondsMilliseconds.md
-    - IsExecuted(): whenable-methods/IsExecuted.md
-    - Run(): whenable-methods/Run.md
+    - IsExecuted() (depreciated): whenable-methods/IsExecuted.md
+    - Run() (depreciated): whenable-methods/Run.md
     - Execute(): whenable-methods/Execute.md
   - Shortcut Qualifier Methods:
     - AllowDefault(): types/ShortcutController/#allowdefault
     - InInput(): types/ShortcutController/#ininput
     - Once(): types/ShortcutController/#once
   - Global Methods:
+    - When.command(): global-methods/command.md
+    - When.modeIs(): global-methods/modeIs.md
     - When.setMode(): global-methods/setMode.md
     - When.clearMode(): global-methods/clearMode.md
     - When.newGroup(): global-methods/newGroup.md
@@ -51,6 +53,7 @@ nav:
     - When.toggle() / When.pause() / When.unpause(): global-methods/togglepauseunpause.md
     - When.loadLayout(): global-methods/loadLayout.md
     - When.keyGroups(): global-methods/keyGroups.md
+    - When.focusIs(): global-methods/focusIs.md
     - When.setFocus(): global-methods/setFocus.md
     - When.focusChanges(): global-methods/focusChanges.md
     - When.setHeldInterval(): global-methods/setHeldInterval.md

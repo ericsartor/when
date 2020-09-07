@@ -56,7 +56,7 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
                     </li>
                 </ul>
-                <p class="caption"><span class="caption-text">Layouts</span></p>
+                <p class="caption"><span class="caption-text">Keyboard Layouts</span></p>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../../layouts/qwerty/">QWERTY</a>
                     </li>
@@ -107,9 +107,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/Then/">Then()</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/ModeIs/">ModeIs()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/ModeIs/">ModeIs() (depreciated)</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsFocused/">IsFocused()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsFocused/">IsFocused() (depreciated)</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsInput/">IsInput()</a>
                     </li>
@@ -123,9 +123,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/SecondsMilliseconds/">Milliseconds() / Seconds()</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsExecuted/">IsExecuted()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsExecuted/">IsExecuted() (depreciated)</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/Run/">Run()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/Run/">Run() (depreciated)</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/Execute/">Execute()</a>
                     </li>
@@ -141,6 +141,10 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Global Methods</span></p>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/command/">When.command()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/modeIs/">When.modeIs()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setMode/">When.setMode()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/clearMode/">When.clearMode()</a>
@@ -154,6 +158,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/loadLayout/">When.loadLayout()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/keyGroups/">When.keyGroups()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/focusIs/">When.focusIs()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setFocus/">When.setFocus()</a>
                     </li>
@@ -230,10 +236,12 @@
 </code></pre>
 
 <pre><code class="javascript">const div = document.getElementsByTagName('div')[0];
-When(div).IsFocused().Then('a').IsPressed().Execute((context) =&gt; {
-  const content = context.focusedElement.textContent;
-  console.log(content);
-});
+When.focusIs(div, [
+  When('a').Execute((context) =&gt; {
+    const content = context.focusedElement.textContent;
+    console.log(content);
+  })
+]);
 </code></pre>
 
 <h3 id="id">id</h3>
@@ -244,10 +252,20 @@ When(div).IsFocused().Then('a').IsPressed().Execute((context) =&gt; {
 &lt;/div&gt;
 </code></pre>
 
-<pre><code class="javascript">When('id:test').IsFocused().Then('a').IsPressed().Execute((context) =&gt; {
-  const content = context.focusedElement.textContent;
+<pre><code class="javascript">When.command('get_content', (context) =&gt; {
+  const content = context.focusedElement.getElementsByTagName('p')[0].textContent;
   console.log(content);
 });
+
+// either way here works
+
+When.focusIs('#test', [
+  When('a').Execute('get_content'),
+]);
+
+When.focusIs('id:test', [
+  When('a').Execute('get_content'),
+]);
 </code></pre>
 
 <h3 id="class">class</h3>
@@ -264,10 +282,20 @@ When(div).IsFocused().Then('a').IsPressed().Execute((context) =&gt; {
 &lt;/div&gt;
 </code></pre>
 
-<pre><code class="javascript">When('class:card').IsFocused().Then('a').IsPressed().Execute((context) =&gt; {
+<pre><code class="javascript">When.command('get_content', (context) =&gt; {
   const content = context.focusedElement.getElementsByTagName('p')[0].textContent;
   console.log(content);
 });
+
+// either way here works
+
+When.focusIs('.test', [
+  When('a').Execute('get_content'),
+]);
+
+When.focusIs('class:test', [
+  When('a').Execute('get_content'),
+]);
 </code></pre>
 
 <h2 id="reacting-to-focus-changes">Reacting To Focus Changes</h2>
@@ -294,10 +322,12 @@ When(div).IsFocused().Then('a').IsPressed().Execute((context) =&gt; {
 &lt;/div&gt;
 </code></pre>
 
-<pre><code class="javascript">When('class:card').IsFocused().Then('a').IsPressed().Execute((context) =&gt; {
-  const content = context.focusedElement.getElementsByTagName('p')[0].textContent;
-  console.log(content);
-});
+<pre><code class="javascript">When.focusIs('.card', [
+  When('a').IsPressed().Execute((context) =&gt; {
+    const content = context.focusedElement.getElementsByTagName('p')[0].textContent;
+    console.log(content);
+  })
+]);
 
 When.focusChanges((newFocusElement, prevFocusElement) =&gt; {
   if (newFocusElement) {

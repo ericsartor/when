@@ -56,7 +56,7 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
                     </li>
                 </ul>
-                <p class="caption"><span class="caption-text">Layouts</span></p>
+                <p class="caption"><span class="caption-text">Keyboard Layouts</span></p>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../../layouts/qwerty/">QWERTY</a>
                     </li>
@@ -89,9 +89,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../Then/">Then()</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../ModeIs/">ModeIs()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../ModeIs/">ModeIs() (depreciated)</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../IsFocused/">IsFocused()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../IsFocused/">IsFocused() (depreciated)</a>
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">IsInput()</a>
     <ul class="current">
@@ -107,9 +107,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../SecondsMilliseconds/">Milliseconds() / Seconds()</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../IsExecuted/">IsExecuted()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../IsExecuted/">IsExecuted() (depreciated)</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../Run/">Run()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../Run/">Run() (depreciated)</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../Execute/">Execute()</a>
                     </li>
@@ -125,6 +125,10 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Global Methods</span></p>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/command/">When.command()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/modeIs/">When.modeIs()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setMode/">When.setMode()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/clearMode/">When.clearMode()</a>
@@ -138,6 +142,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/loadLayout/">When.loadLayout()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/keyGroups/">When.keyGroups()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/focusIs/">When.focusIs()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setFocus/">When.setFocus()</a>
                     </li>
@@ -192,16 +198,26 @@
 <p>returns: <a href="../../types/Whenable">Whenable</a></p>
 <p>IsInput() is used to register one or more <a href="../features/events#pressed">pressed</a> events for the most recent identifier sequence in a <em>When</em> chain.</p>
 <p>It allows you to create simple multi key shortcuts without having to create a long chain.</p>
-<p>The string identifier you provide must have valid key identifiers separated by spaces, with an optional time constraint at the end in penthesis in the form of <code>([Number]s)</code> or <code>([Number]ms)</code></p>
+<p>The string identifier you provide must have valid key identifiers separated by spaces, with an optional time constraint at the end in penthesis in the form of <code>([Number]s)</code> or <code>([Number]ms)</code>.</p>
+<p>It will be called by default if no event registration function has been called before <a href="../Execute/">Execute()</a>.</p>
 <pre><code class="javascript">// creates a shortcut that registers three pressed events for keys &quot;a&quot;, &quot;b&quot; and &quot;c&quot;
 // to be pressed in sequence within 1 second
 When('a b c (1s)').IsInput().Execute(console.log);
+
+// this is functionally equivalent as IsInput() gets called automatically
+When('a b c (1s)').Execute(console.log);
 
 // this is the equivalent &quot;long&quot; way to achieve the same thing
 When('a').IsPressed()
   .Then('b').IsPressed()
   .Then('c').IsPressed()
   .Within(1).Seconds()
+  .Execute(console.log);
+
+// if using more than one sequence, or a sequence is not the 
+// first portion of a shortcut, IsInput() must be called explicitly
+When('a').IsPressed()
+  .Then('b c').IsInput()
   .Execute(console.log);
 </code></pre>
               
@@ -214,7 +230,7 @@ When('a').IsPressed()
         <a href="../IsPressed/" class="btn btn-neutral float-right" title="IsPressed()">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../IsFocused/" class="btn btn-neutral" title="IsFocused()"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../IsFocused/" class="btn btn-neutral" title="IsFocused() (depreciated)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   

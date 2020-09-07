@@ -7,7 +7,9 @@ Shortcuts can be assigned a **mode** and will only be active if that **mode** is
 Creating a shortcut with a **mode**:
 
 ```javascript
-When().ModeIs('mode1').Then('a').IsPressed().Execute(console.log);
+When.modeIs('mode1', [
+  When('a').Execute(console.log),
+]);
 ```
 
 *When's* **mode** is `null` by default, so you must change it using [When.setMode()](../../global-methods/setMode) in order for the shortcut to be active:

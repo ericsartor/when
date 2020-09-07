@@ -9,17 +9,17 @@ args:
 Execute() defines which [*ShortcutHandler*](../../types/ShortcutHandler) should be used for the shortcut, either by specifying one explicitly or providng a command name for a previously registered handler.
 
 ```javascript
-When('some_command').IsExecuted().Run((context) => {
+When.command('some_command', (context) => {
   console.log(context);
 });
 
 // in When.documentation(), this shortcut will have a "command" property value of 'some_command'
-When('a').IsPressed().Execute('some_command');
+When('a').Execute('some_command');
 
 // in When.documentation(), this shortcut will have a "command" property value of ''
-When('b').IsPressed().Execute(console.log);
+When('b').Execute(console.log);
 
 // in When.documentation(), this shortcut will have a "command" property value of 'log',
 // even though 'log' is not a registered command name
-When('c').IsPressed().Execute(console.log, 'log');
+When('c').Execute(console.log, 'log');
 ```

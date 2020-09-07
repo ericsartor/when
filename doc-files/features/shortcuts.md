@@ -21,35 +21,35 @@ To set which keys (and potentially modifiers like *ctrl*, *alt*, *shift* and *me
 **NOTE**: To see a list of all available key identifiers, check the Layout page for the layout you're using, such as [QWERTY](../../layouts/qwerty).
 
 ```javascript
-When('a').IsPressed();
-When('ctrl+a').IsPressed();
-When('ctrl+alt+a').IsPressed();
-
+When('a');
+When('ctrl+a');
+When('ctrl+alt+a');
 ```
-
-[Then()](../../whenable-methods/Then) is like a stripped down version of [When()](../../whenable-methods/When) that only accepts key identifiers as strings.
 
 In your shortcut chain, you can include things like:
 
 - event registers
-    - [IsPressed()](../../whenable-methods/IsPressed)
-    - [IsReleased()](../../whenable-methods/IsReleased)
-    - [IsHeldFor()](../../whenable-methods/IsHeldFor)
+    - [IsPressed()](../whenable-methods/IsPressed.md)
+    - [IsInput()](../whenable-methods/IsInput.md)
+    - [IsReleased()](../whenable-methods/IsReleased.md)
+    - [IsHeldFor()](../whenable-methods/IsHeldFor.md)
 - time constraints
-    - [Within()](../../whenable-methods/Within)
-    - [Seconds()](../../whenable-methods/SecondsMilliseconds)
-    - [Milliseconds()](../../whenable-methods/SecondsMilliseconds)
+    - [Within()](../whenable-methods/Within.md)
+    - [Seconds()](../whenable-methods/SecondsMilliseconds.md)
+    - [Milliseconds()](../whenable-methods/SecondsMilliseconds.md)
 - focus constraints
-    - [IsFocused()](../../whenable-methods/IsFocused)
+    - [IsFocused()](../whenable-methods/IsFocused.md) (depreicated, see [When.focusIs()](../global-methods/focusIs.md))
 - mode constraints
-    - [ModeIs()](../../whenable-methods/ModeIs)
+    - [ModeIs()](../whenable-methods/ModeIs.md) (depreicated, see [When.modeIs()](../global-methods/modeIs.md))
 
 all of which are explained in detail on their own pages.
 
 Once you call [Execute()](../../whenable-methods/Execute), you will receive a [*ShortcutController*](../../types/ShortcutController), which looks like this:
 
 ```javascript
-const shortcut = When('a').IsPressed().Then('b').IsPressed().Execute(console.log);
+const shortcut = When('a').IsPressed()
+  .Then('b').IsReleased()
+  .Execute(console.log);
 
 // shortcut controller:
 {
@@ -87,3 +87,17 @@ shortcutB.Once();
 Using shortcut controllers is one of the ways *When* gives you fine grained control over how and when your keyboard shortcuts are triggered.
 
 For even more control, check out [groups](./groups.md), [modes](./modes.md) and [focus](./focus.md).
+
+## Implicit "pressed" Events
+
+Most of the time, you will be registering simple [pressed](../features/events.md#pressed) events as opposed to [released](../features/events.md#released) or [held](../features/events.md#held) events.  Because of this, *When* gives you a more concise way to specify these shortcuts without having to call [IsPressed()](../whenable-methods/IsPressed.md) or [IsInput()](../whenable-methods/IsInput.md):
+
+```javascript
+// registers a pressed handler for the "a" key
+When('a').Execute(console.log);
+
+// registers a pressed handler for when the keys "a", "b" and "c" are pressed in sequence within 1 second
+When('a b c (1s)').Execute(console.log);
+```
+
+In these two cases, because [Execute()](../whenable-methods/Execute.md) was called immediately after [When()](../whenable-methods/When.md), [IsInput()](../whenable-methods/IsInput.md) is called implicitly for you.

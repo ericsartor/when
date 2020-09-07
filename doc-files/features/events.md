@@ -1,6 +1,6 @@
 # Events
 
-*When* exposes three types of keyboard events built on top of the DOM `keyup` and `keydown` events: [pressed](#pressed), [released](#released) and [held](#held), which are primarily registered using the [IsPressed()](../whenable-methods/IsPressed.md), [IsReleased()](../whenable-methods/IsReleased.md) and [IsHeldFor()](../whenable-methods/IsHeldFor.md) methods, in addition to [IsInput()](../whenable-methods/IsInput), which is a compound way of registering **pressed** events.
+*When* exposes three types of keyboard events built on top of the DOM `keyup` and `keydown` events: [pressed](#pressed), [released](#released) and [held](#held), which are primarily registered using the [IsPressed()](../whenable-methods/IsPressed.md), [IsReleased()](../whenable-methods/IsReleased.md) and [IsHeldFor()](../whenable-methods/IsHeldFor.md) methods.  [IsInput()](../whenable-methods/IsInput.md) also registers a series of [pressed](#pressed) events.
 
 ## pressed
 
@@ -10,18 +10,27 @@ Using this *When* event will achieve similar results as using the native `keypre
 
 You can hook into the **pressed** event in the following ways:
 
-[IsPressed()](../../whenable-methods/IsPressed)
+By default:
+
+```javascript
+// "pressed" events are registered by default here because IsInput() is called implicitly,
+// but this is only possible when Execute() is called immediately after When()
+
+When('a').Execute(console.log);
+When('a b c').Execute(console.log); // this is a sequential shortcut, meaning the keys must be pressed one after another
+```
+
+Explicitly with [IsPressed()](../../whenable-methods/IsPressed):
 
 ```javascript
 // here we are explicitly setting up a "pressed" handler for a single press of the "a" key
 When('a').IsPressed().Execute(console.log);
 ```
 
-[IsInput()](../../whenable-methods/IsInput)
+Explicitly with [IsInput()](../../whenable-methods/IsInput):
 
 ```javascript
-// here we are setting up a handler that responds to the keys "a", "b" and "c" being pressed in sequence.
-// using IsInput() allows you to enter sequences of characters into When() and Then(), and assumes you want "pressed" events for each
+// here we are explicitly setting up a series of "pressed" events
 When('a b c').IsInput().Execute(console.log);
 ```
 
@@ -58,7 +67,7 @@ When('a')
   .IsHeldFor(1).Seconds()
   .Then('a')
   .IsReleased()
-  .Then('num1 num2 num3')
+  .Then('1 2 3')
   .IsInput()
   .Execute(console.log);
 ```

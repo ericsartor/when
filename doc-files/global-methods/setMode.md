@@ -12,7 +12,9 @@ It is the counterpart to [When.clearMode()](./clearMode.md).
 
 ```javascript
 // this shortcut is inactive by default
-When().ModeIs('mode1').Then('a').IsPressed().Execute(console.log);
+When.modeIs('mode1', [
+  When('a').Execute(console.log),
+]);
 
 // the shortcut is now active
 When.setMode('mode1');

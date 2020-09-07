@@ -1,5 +1,7 @@
 ## *Whenable*.IsFocused()
 
+*depreciated*: prefer [When.focusIs()](../global-methods/focusIs.md)
+
 args: *none*
 
 returns: [*Whenable*](../../types/Whenable)

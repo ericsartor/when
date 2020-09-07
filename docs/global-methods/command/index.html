@@ -9,7 +9,7 @@
   <meta name="author" content="Eric Sartor">
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>When.clearMode() - When</title>
+  <title>When.command() - When</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -19,8 +19,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "When.clearMode()";
-    var mkdocs_page_input_path = "global-methods\\clearMode.md";
+    var mkdocs_page_name = "When.command()";
+    var mkdocs_page_input_path = "global-methods\\command.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -123,15 +123,15 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Global Methods</span></p>
                 <ul class="current">
-                    <li class="toctree-l1"><a class="reference internal" href="../command/">When.command()</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">When.command()</a>
+    <ul class="current">
+    </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../modeIs/">When.modeIs()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../setMode/">When.setMode()</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">When.clearMode()</a>
-    <ul class="current">
-    </ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../clearMode/">When.clearMode()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../newGroup/">When.newGroup()</a>
                     </li>
@@ -179,10 +179,10 @@
         
       
     
-    <li>When.clearMode()</li>
+    <li>When.command()</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/ericsartor/when/edit/master/docs/global-methods/clearMode.md"
+        <a href="https://github.com/ericsartor/when/edit/master/docs/global-methods/command.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -193,20 +193,17 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="whenclearmode">When.clearMode()</h2>
-<p>args: none</p>
+                <h2 id="whencommandcommandname-handlerfunc">When.command(<em>commandName</em>, <em>handlerFunc</em>)</h2>
+<p>args: </p>
+<p><strong><em>commandName</em></strong>: <code>String</code>, name of the command to be used in <a href="../../whenable-methods/Execute/">When.Execute()</a></p>
+<p><strong><em>handlerFunc</em></strong>: <code>Function</code>, the function to register to the command, receives an <a href="../../overview/#event-context">event context</a> as first argument</p>
 <p>returns: <code>undefined</code></p>
-<p>When.clearMode() is used to clear the current <a href="../../features/modes">mode</a>, so that any shortcuts with a mode constraint become inactive.</p>
-<p>It is the counterpart to <a href="../setMode/">When.setMode()</a>.</p>
-<pre><code class="javascript">When.setMode('mode1');
+<p>When.command() is used to register an event handler to a command name.</p>
+<pre><code class="javascript">When.command('some_command', (context) =&gt; {
+  console.log(context);
+});
 
-// this shortcut will be active until the mode is changed or cleared
-When.modeIs('mode1', [
-  When('a').Execute(console.log),
-]);
-
-// this would make the shortcut inactive
-When.clearMode();
+When('a').Execute('some_command');
 </code></pre>
               
             </div>
@@ -215,10 +212,10 @@ When.clearMode();
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../newGroup/" class="btn btn-neutral float-right" title="When.newGroup()">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../modeIs/" class="btn btn-neutral float-right" title="When.modeIs()">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../setMode/" class="btn btn-neutral" title="When.setMode()"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../whenable-methods/Execute/" class="btn btn-neutral" title="Execute()"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -246,10 +243,10 @@ When.clearMode();
           <a href="https://github.com/ericsartor/when/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../setMode/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../../whenable-methods/Execute/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../newGroup/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../modeIs/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

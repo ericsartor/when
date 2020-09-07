@@ -8,9 +8,9 @@ With **groups**, you can create [ShortcutController](../../types/ShortcutControl
 
 ```javascript
 const group = When.newGroup([
-  When('a').IsPressed().Execute(console.log),
-  When('b').IsPressed().Execute(console.log),
-  When('c').IsPressed().Execute(console.log),
+  When('a').Execute(console.log),
+  When('b').Execute(console.log),
+  When('c').Execute(console.log),
 ]);
 
 // turns all the shortcuts in the group off
@@ -22,9 +22,9 @@ These group controllers have all the same features as [ShortcutController](../..
 You can still access each shortcut's controllers if you save a reference to them before creating the group, but this is rarely a wise thing to do:
 
 ```javascript
-const shortcutA = When('a').IsPressed().Execute(console.log); // active by default
-const shortcutB = When('b').IsPressed().Execute(console.log); // active by default
-const shortcutC = When('c').IsPressed().Execute(console.log); // active by default
+const shortcutA = When('a').Execute(console.log); // active by default
+const shortcutB = When('b').Execute(console.log); // active by default
+const shortcutC = When('c').Execute(console.log); // active by default
 
 shortcutB.toggle(); // shortcutB is now inactive
 

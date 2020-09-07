@@ -10,6 +10,9 @@ When.documentation() generates objects that can be used to document the keyboard
 
 ```javascript
 When('a').IsPressed().Execute(console.log, 'console log');
+
+console.log(When.documentation());
+
 // would produce:
 [
   {

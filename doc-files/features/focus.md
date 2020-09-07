@@ -35,10 +35,12 @@ One way to specify a focus constraint on a shortcut to is pass a reference to th
 
 ```javascript
 const div = document.getElementsByTagName('div')[0];
-When(div).IsFocused().Then('a').IsPressed().Execute((context) => {
-  const content = context.focusedElement.textContent;
-  console.log(content);
-});
+When.focusIs(div, [
+  When('a').Execute((context) => {
+    const content = context.focusedElement.textContent;
+    console.log(content);
+  })
+]);
 ```
 
 ### id
@@ -54,10 +56,20 @@ Note that the target element *doesn't* have to exist at the time the shortcut is
 ```
 
 ```javascript
-When('id:test').IsFocused().Then('a').IsPressed().Execute((context) => {
-  const content = context.focusedElement.textContent;
+When.command('get_content', (context) => {
+  const content = context.focusedElement.getElementsByTagName('p')[0].textContent;
   console.log(content);
 });
+
+// either way here works
+
+When.focusIs('#test', [
+  When('a').Execute('get_content'),
+]);
+
+When.focusIs('id:test', [
+  When('a').Execute('get_content'),
+]);
 ```
 
 ### class
@@ -79,10 +91,20 @@ Again, the elements need not exist at the moment you create the shortcut, but *W
 ```
 
 ```javascript
-When('class:card').IsFocused().Then('a').IsPressed().Execute((context) => {
+When.command('get_content', (context) => {
   const content = context.focusedElement.getElementsByTagName('p')[0].textContent;
   console.log(content);
 });
+
+// either way here works
+
+When.focusIs('.test', [
+  When('a').Execute('get_content'),
+]);
+
+When.focusIs('class:test', [
+  When('a').Execute('get_content'),
+]);
 ```
 
 ## Reacting To Focus Changes
@@ -116,10 +138,12 @@ A modified version of the `class:` selector example can be seen below utilizing 
 ```
 
 ```javascript
-When('class:card').IsFocused().Then('a').IsPressed().Execute((context) => {
-  const content = context.focusedElement.getElementsByTagName('p')[0].textContent;
-  console.log(content);
-});
+When.focusIs('.card', [
+  When('a').IsPressed().Execute((context) => {
+    const content = context.focusedElement.getElementsByTagName('p')[0].textContent;
+    console.log(content);
+  })
+]);
 
 When.focusChanges((newFocusElement, prevFocusElement) => {
   if (newFocusElement) {

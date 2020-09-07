@@ -1,8 +1,23 @@
 # Type: ShortcutHandler
 
-ShortcutHandlers are functions that react to shortcuts.  They are registered either through [Run()](../../whenable-methods/Run) in association with a [command](../../features/Command), or through [Execute()](../../whenable-methods/Execute) as an unregistered handler.
+ShortcutHandlers are functions that react to shortcuts.  They are registered with a *command name* through [When.command()](../../global-methods/command), or set with [Execute()](../../whenable-methods/Execute) as an unregistered handler.
 
-They are provided with a *context* object that contains multiple useful properties that allow you to make very generalized handlers:
+```javascript
+// registration for re-use
+When.command('some_command', (context) => {
+  console.log(context);
+});
+When('a').Execute('some_command');
+
+// one-time use
+When('a').Execute((context) => {
+  console.log(context);
+});
+```
+
+## Event Context
+
+Shortcut handlers are provided with a *context* object that contains multiple useful properties that allow you to make very generalized handlers:
 
 ```typescript
 {
@@ -16,6 +31,14 @@ They are provided with a *context* object that contains multiple useful properti
 
   pressDuration?: number,             // the exact millisecond value of the duration of a held event,
                                       // which will differ slightly from the value it was registered with
+
+  keys: string[]                      // array of string key identifiers involved in the shortcut's timeline
+
+  ctrl: boolean,                      // these are pulled right off of context.event for convenience,
+  alt: boolean,                       // so it is only relevant to the last event in the shortcut
+  shift: boolean,
+  meta: boolean,
+
 }
 ```
 
@@ -23,8 +46,8 @@ Using the *context* object allows you to create generalized commands, such as th
 
 ```javascript
 const vowels = ['a', 'e', 'i', 'o', 'u'];
-When('log_letter_type').IsExecuted().Run((context) => {
-  const key = context.shortcut.keys[0];
+When.command('log_letter_type', (context) => {
+  const key = context.keys[0];
   if (vowels.includes(key)) {
     console.log('vowel');
   } else {
@@ -32,7 +55,7 @@ When('log_letter_type').IsExecuted().Run((context) => {
   }
 });
 
-['a', 'b', 'c', 'd'].forEach((letter) => {
-  When(letter).IsPressed().Execute('log_letter_type');
+When.keyGroups().letters.forEach((letter) => {
+  When(letter).Execute('log_letter_type');
 });
 ```

@@ -9,7 +9,7 @@
   <meta name="author" content="Eric Sartor">
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>IsFocused() - When</title>
+  <title>IsFocused() (depreciated) - When</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -19,7 +19,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "IsFocused()";
+    var mkdocs_page_name = "IsFocused() (depreciated)";
     var mkdocs_page_input_path = "whenable-methods\\IsFocused.md";
     var mkdocs_page_url = null;
   </script>
@@ -56,7 +56,7 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
                     </li>
                 </ul>
-                <p class="caption"><span class="caption-text">Layouts</span></p>
+                <p class="caption"><span class="caption-text">Keyboard Layouts</span></p>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../../layouts/qwerty/">QWERTY</a>
                     </li>
@@ -89,9 +89,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../Then/">Then()</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../ModeIs/">ModeIs()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../ModeIs/">ModeIs() (depreciated)</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">IsFocused()</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">IsFocused() (depreciated)</a>
     <ul class="current">
     </ul>
                     </li>
@@ -107,9 +107,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../SecondsMilliseconds/">Milliseconds() / Seconds()</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../IsExecuted/">IsExecuted()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../IsExecuted/">IsExecuted() (depreciated)</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../Run/">Run()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../Run/">Run() (depreciated)</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../Execute/">Execute()</a>
                     </li>
@@ -125,6 +125,10 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Global Methods</span></p>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/command/">When.command()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/modeIs/">When.modeIs()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setMode/">When.setMode()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/clearMode/">When.clearMode()</a>
@@ -138,6 +142,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/loadLayout/">When.loadLayout()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/keyGroups/">When.keyGroups()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/focusIs/">When.focusIs()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setFocus/">When.setFocus()</a>
                     </li>
@@ -173,7 +179,7 @@
         
       
     
-    <li>IsFocused()</li>
+    <li>IsFocused() (depreciated)</li>
     <li class="wy-breadcrumbs-aside">
       
         <a href="https://github.com/ericsartor/when/edit/master/docs/whenable-methods/IsFocused.md"
@@ -188,6 +194,7 @@
             <div class="section">
               
                 <h2 id="whenableisfocused"><em>Whenable</em>.IsFocused()</h2>
+<p><em>depreciated</em>: prefer <a href="../../global-methods/focusIs/">When.focusIs()</a></p>
 <p>args: <em>none</em></p>
 <p>returns: <a href="../../types/Whenable"><em>Whenable</em></a></p>
 <p>IsFocused() registers the focus target provided to <a href="../When/">When()</a> as a <a href="../../features/focus">focus</a> constraint on a shortcut.  That target must be focused in order for the shortcut to fire.</p>
@@ -204,7 +211,7 @@ When('id:some-id').IsFocused().Then('a').IsPressed().Execute(console.log);
         <a href="../IsInput/" class="btn btn-neutral float-right" title="IsInput()">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../ModeIs/" class="btn btn-neutral" title="ModeIs()"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ModeIs/" class="btn btn-neutral" title="ModeIs() (depreciated)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   

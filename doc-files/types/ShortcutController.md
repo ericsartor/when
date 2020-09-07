@@ -5,7 +5,7 @@ ShortcutControllers are what [*Whenable*.Execute()](../../whenable-methods/Execu
 They are used as such:
 
 ```javascript
-const controller = When('a').IsPressed().Execute(console.log);
+const controller = When('a').Execute(console.log);
 
 controller.toggle();
 controller.pause();
@@ -65,11 +65,11 @@ They include:
 ```javascript
 // this shortcut would trigger both its handler and the default browser behavior of
 // opening a "save" prompt for the page
-When('ctrl+s').IsPressed().Execute(console.log).AllowDefault();
+When('ctrl+s').Execute(console.log).AllowDefault();
 
 // this shortcut would follow When's default behavior of calling KeyboardEvent.preventDefault(),
 // this preventing the save prompt from opening
-When('ctrl+s').IsPressed().Execute(console.log);
+When('ctrl+s').Execute(console.log);
 ```
 
 ### InInput
@@ -78,10 +78,10 @@ When('ctrl+s').IsPressed().Execute(console.log);
 
 ```javascript
 // this shortcut would trigger even if the user was trying to type the letter "a" in a textarea
-When('a').IsPressed().Execute(console.log).InInput();
+When('a').Execute(console.log).InInput();
 
 // this shortcut will only trigger if the user is not trying to type/use a select dropdown
-When('a').IsPressed().Execute(console.log);
+When('a').Execute(console.log);
 ```
 
 ### Once
@@ -90,8 +90,8 @@ When('a').IsPressed().Execute(console.log);
 
 ```javascript
 // this shortcut is removed after the first time it is triggered
-When('a').IsPressed().Execute(console.log).Once();
+When('a').Execute(console.log).Once();
 
 // this shortcut triggers any time its constraints are met and it is active
-When('a').IsPressed().Execute(console.log);
+When('a').Execute(console.log);
 ```

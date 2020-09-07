@@ -1,0 +1,7 @@
+node_modules/
+indexbackup
+todo
+doc-files/
+docs/
+*.html
+mkdocs.yml

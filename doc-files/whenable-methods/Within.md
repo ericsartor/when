@@ -14,3 +14,5 @@ Within() should be followed by either [Seconds()](./SecondsMilliseconds) or [Mil
 // creates a shortcut for pressing "a" then "b" sequentially within 1 second of each other
 When('a').IsPressed().Then('b').IsPressed().Within(1).Seconds().Execute(console.log);
 ```
+
+**Note**: It is generally easier to use the [IsInput()](./IsInput.md) syntax for specifying a time constraint.

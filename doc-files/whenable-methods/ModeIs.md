@@ -1,5 +1,7 @@
 ## *Whenable*.ModeIs(*modeName*)
 
+*depreciated*: prefer [When.modeIs()](../global-methods/modeIs.md)
+
 args:
 
 ***modeName***: `String`, name of the mode for the constraint

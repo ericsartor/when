@@ -7,8 +7,8 @@ The [When()](../../whenable-methods/When) function returns a *Whenable* when cal
 A *Whenable* contains the following methods, documented on separate pages:
 
 - [Then()](../../whenable-methods/Then)
-- [ModeIs()](../../whenable-methods/ModeIs)
-- [IsFocused()](../../whenable-methods/IsFocused)
+- [ModeIs()](../../whenable-methods/ModeIs) (depreciated)
+- [IsFocused()](../../whenable-methods/IsFocused) (depreciated)
 - [IsInput()](../../whenable-methods/IsInput)
 - [IsPressed()](../../whenable-methods/IsPressed)
 - [IsReleased()](../../whenable-methods/IsReleased)
@@ -16,6 +16,6 @@ A *Whenable* contains the following methods, documented on separate pages:
 - [Within()](../../whenable-methods/Within)
 - [Milliseconds()](../../whenable-methods/Milliseconds)
 - [Seconds()](../../whenable-methods/Seconds)
-- [IsExecuted()](../../whenable-methods/IsExecuted)
-- [Run()](../../whenable-methods/Run)
+- [IsExecuted()](../../whenable-methods/IsExecuted) (depreciated)
+- [Run()](../../whenable-methods/Run) (depreciated)
 - [Execute()](../../whenable-methods/Execute)

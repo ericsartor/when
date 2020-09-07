@@ -5,23 +5,20 @@
 A basic example might look something like this:
 
 ```javascript
-When('copy').IsExecuted().Run((context) => {
+When.command('copy', (context) => {
   // your logic here...
 });
 
-When('ctrl+c').IsPressed().Execute('copy');
+// a "pressed" event is assumed here
+When('ctrl+c').Execute('copy');
 ```
 
 whereas a more advanced example would look something like this:
 
 ```javascript
-When('a')
-  .IsPressed()
-  .Then('num1')
-  .IsHeldFor(1)
-  .Seconds()
-  .Then('a')
-  .IsReleased()
+When('a').IsPressed()
+  .Then('1').IsHeldFor(1).Seconds()
+  .Then('a').IsReleased()
   .Execute((context) => {
     // your logic here
   }, 'a1_command')
@@ -32,8 +29,10 @@ You can also specify key sequences like this (as long as you only plan on using 
 
 ```javascript
 // when the keys a, s and d are pressed consecutively within 1 second
-When('a s d (1s)').IsInput().Execute((context) => console.log('asd'));
+When('a s d (1s)').Execute((context) => console.log('asd'));
 ```
+
+See the [Shortcuts](./features/shortcuts.md) page for a more thorough explanation of how shortcuts/chaining works in *When*.
 
 ## Feature Summary
 
@@ -52,11 +51,13 @@ When('a s d (1s)').IsInput().Execute((context) => console.log('asd'));
 
 ### Events
 
+Full *event* documentation [here](./features/events.md).
+
 *When* is triggered by `keyup` and `keydown` events bound to the window key, but exposes three event types for consumption through it's API: **pressed**, **released** and **held**.  These can be combined in any way you desire!
 
 ```javascript
-// triggers as soon as the keydown event fires
-When('a').IsPressed().Execute(console.log);
+// triggers as soon as the keydown event fires ("pressed" event assumed)
+When('a').Execute(console.log);
 
 // triggers as soon as the keyup event fires
 When('a').IsReleased().Execute(console.log);
@@ -67,14 +68,30 @@ When('a').IsHeldFor(1).Seconds().Execute(console.log);
 
 ### Event Context
 
+Full *event context* documentation [here](./types/ShortcutHandler.md#event-context).
+
 Event handlers and [registered commands](#registered-commands) receive an **event context** object as their only argument, which contains some useful properties:
 
 ```javascript
-When('some_command').IsExecuted().Run((context) => {
-  // context.event - the native browser event that caused the shortcut to be fulfilled (depending on what the last event is in the shortcut's sequence)
-  // context.shortcut - the shortcut controller for the shortcut that was triggered
-  // context.focusedElement - the HTMLElement that When currently considers to be focused based on its built in focus system
-  // context.pressDuration - on "held" events, the duration in milliseconds the key was held for (if the last event in the shortcut's sequence was a "held" event)
+When('a').Execute((context) => {
+  console.log(context);
+});
+
+When.command('some_command', (context) => {
+  /*
+    context.event - the native browser event that caused the shortcut to be fulfilled (depending on what the last event is in the shortcut's sequence)
+
+    context.shortcut - the shortcut controller for the shortcut that was triggered
+    
+    context.keys - array of string key identifiers involved in the shortcut's timeline
+
+    context.focusedElement - the HTMLElement that When currently considers to be focused based on its built in focus system
+
+    context.ctrl/alt/shift/meta - this is pulled right off of context.event for convenience, so it is only relevant to the last event in the shortcut
+
+    context.pressDuration - on "held" events, the duration in milliseconds the key was held for (if the last event in the shortcut's sequence was a "held" event)
+
+  */
   console.log(context);
 });
 ```
@@ -84,11 +101,11 @@ When('some_command').IsExecuted().Run((context) => {
 **Commands** are *When's* way of allowing you to separate your business logic from your shortcut logic, and aids in the [self-documentation](#self-documentation) process.
 
 ```javascript
-When('some_command').IsExecuted().Run((context) => {
+When('some_command', (context) => {
   // some logic here...
 });
 
-When('a').IsPressed().Execute('some_command');
+When('a').Execute('some_command');
 ```
 
 ### Shortcut Controllers
@@ -96,7 +113,7 @@ When('a').IsPressed().Execute('some_command');
 When you create a shortcut, it returns a **controller** with a few methods attached to it:
 
 ```javascript
-const shortcut = When('a').IsPressed().Execute(console.log);
+const shortcut = When('a').Execute(console.log);
 shortcut.pause();
 shortcut.unpause();
 shortcut.toggle();
@@ -111,9 +128,20 @@ These are the primitive ways you can control how and when your shortcut can be t
 Instead of specifying a shortcut as a single key (with optional modifier key), you can specify a sequence of keys in multiple ways.
 
 ```javascript
-// these create the exact same shortcut
-When('1').IsPressed().Then('2').IsPressed().Then('3').IsPressed().Within(1).Seconds().Execute(console.log);
-When('1 2 3 (1s)').IsInput().Execute(console.log);
+// these create the exact same shortcut, generally the shorter syntax is preferable if you only need "pressed" events"
+When('1 2 3 (1s)').Execute(console.log);
+
+When('1').IsPressed()
+  .Then('2').IsPressed()
+  .Then('3').IsPressed().Within(1).Seconds()
+  .Execute(console.log);
+
+// you need to use the longer syntax when using "released" or "held" events
+When('1').IsPressed()
+  .Then('2').IsPressed()
+  .Then('1').IsReleased()
+  .Then('3').IsHeldFor(1).Seconds()
+  .Execute(console.log);
 ```
 
 ### Qualifiers
@@ -122,7 +150,6 @@ Qualifiers give you access to some of the features native DOM events provide in 
 
 ```javascript
 When('ctrl+s')
-  .IsPressed()
   .Execute('save')
   .AllowDefault()  // event.preventDefault() is called by default, so this qualifier allows default browser behaviour, in this case, opening a Save prompt
   .Once()          // the shortcut is destroyed after the first time it triggers
@@ -135,12 +162,16 @@ When('ctrl+s')
 
 ```javascript
 // will be active by default
-When('a').IsPressed().Execute(console.log);
+When('a').Execute(console.log);
 
 // won't be active until the mode is set to "mode1"
-When().ModeIs('mode1').Then('b').IsPressed().Execute(console.log);
+When.modeIs('mode1').Register([
+  When('b').Execute(console.log),
+]);
 
 When.setMode('mode1');
+
+When.clearMode(); // sets the mode back to "null"
 ```
 
 ### Groups
@@ -175,15 +206,26 @@ group1.destroy();
 ```
 
 ```javascript
-const box = document.getElementById('box');
+// this shortcut will only trigger when this specific element has been set as the focus target (either with When.setFocus() or by the user clicking it)
+const div = document.getElementById('some-id');
+When.focusIs(div).Register([
+  When('a').Execute(console.log),
+]);
 
-// these shortcut will only trigger when #some-id or one of its children were the last element to have been clicked.
-// they will cease to trigger when a sibling, parent or unrelated element has been clicked.
-When(box).IsFocused().Then('a').IsPressed().Execute(console.log);
-When('id:some-id').IsFocused().Then('b').IsPressed().Execute(console.log);
+// this shortcut will triger any time the focus target has the ID "some-id", even if it isn't always the same instance of the node
+When.focusIs('#some-id').Register([
+  When('b').Execute(console.log),
+]);
 
-// this will only trigger if any elemental with class "some-class" is focused
-When('class:some-class').IsFocused().Then('c').IsPressed().Execute(console.log);
+// this shortcut will triger any time the focus target has the class name "some-class"
+When.focusIs('.some-class').Register([
+  When('c').Execute(console.log),
+]);
+
+// you can also set focus explicitly if desired
+function focusBox() {
+  When.setFocus(document.querySelector('#some-id'));
+}
 ```
 
 You can also tie into this system to make the current focus apparent to the user:

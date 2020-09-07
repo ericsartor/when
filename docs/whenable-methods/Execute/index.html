@@ -56,7 +56,7 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
                     </li>
                 </ul>
-                <p class="caption"><span class="caption-text">Layouts</span></p>
+                <p class="caption"><span class="caption-text">Keyboard Layouts</span></p>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../../layouts/qwerty/">QWERTY</a>
                     </li>
@@ -89,9 +89,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../Then/">Then()</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../ModeIs/">ModeIs()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../ModeIs/">ModeIs() (depreciated)</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../IsFocused/">IsFocused()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../IsFocused/">IsFocused() (depreciated)</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../IsInput/">IsInput()</a>
                     </li>
@@ -105,9 +105,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../SecondsMilliseconds/">Milliseconds() / Seconds()</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../IsExecuted/">IsExecuted()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../IsExecuted/">IsExecuted() (depreciated)</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../Run/">Run()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../Run/">Run() (depreciated)</a>
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Execute()</a>
     <ul class="current">
@@ -125,6 +125,10 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Global Methods</span></p>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/command/">When.command()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/modeIs/">When.modeIs()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setMode/">When.setMode()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/clearMode/">When.clearMode()</a>
@@ -138,6 +142,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/loadLayout/">When.loadLayout()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/keyGroups/">When.keyGroups()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/focusIs/">When.focusIs()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setFocus/">When.setFocus()</a>
                     </li>
@@ -192,19 +198,19 @@
 <p><strong><em>handler</em></strong>: <a href="../../types/ShortcutHandler"><em>ShortcutHandler</em></a> <em>or</em> <strong><em>commandName</em></strong>: <code>String</code>, the name of a command registered via <a href="./Run">Run()</a></p>
 <p><strong><em>docName</em></strong>: <em>optional</em> <code>String</code>, the name that will show up as the command in <a href="../../global-methods/documentation">When.documentation()</a></p>
 <p>Execute() defines which <a href="../../types/ShortcutHandler"><em>ShortcutHandler</em></a> should be used for the shortcut, either by specifying one explicitly or providng a command name for a previously registered handler.</p>
-<pre><code class="javascript">When('some_command').IsExecuted().Run((context) =&gt; {
+<pre><code class="javascript">When.command('some_command', (context) =&gt; {
   console.log(context);
 });
 
 // in When.documentation(), this shortcut will have a &quot;command&quot; property value of 'some_command'
-When('a').IsPressed().Execute('some_command');
+When('a').Execute('some_command');
 
 // in When.documentation(), this shortcut will have a &quot;command&quot; property value of ''
-When('b').IsPressed().Execute(console.log);
+When('b').Execute(console.log);
 
 // in When.documentation(), this shortcut will have a &quot;command&quot; property value of 'log',
 // even though 'log' is not a registered command name
-When('c').IsPressed().Execute(console.log, 'log');
+When('c').Execute(console.log, 'log');
 </code></pre>
               
             </div>
@@ -213,10 +219,10 @@ When('c').IsPressed().Execute(console.log, 'log');
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../global-methods/setMode/" class="btn btn-neutral float-right" title="When.setMode()">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../../global-methods/command/" class="btn btn-neutral float-right" title="When.command()">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../Run/" class="btn btn-neutral" title="Run()"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Run/" class="btn btn-neutral" title="Run() (depreciated)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -247,7 +253,7 @@ When('c').IsPressed().Execute(console.log, 'log');
         <span><a href="../Run/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../../global-methods/setMode/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../../global-methods/command/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

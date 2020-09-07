@@ -56,7 +56,7 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../overview/">Overview</a>
                     </li>
                 </ul>
-                <p class="caption"><span class="caption-text">Layouts</span></p>
+                <p class="caption"><span class="caption-text">Keyboard Layouts</span></p>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../../layouts/qwerty/">QWERTY</a>
                     </li>
@@ -95,9 +95,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../Then/">Then()</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../ModeIs/">ModeIs()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../ModeIs/">ModeIs() (depreciated)</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../IsFocused/">IsFocused()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../IsFocused/">IsFocused() (depreciated)</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../IsInput/">IsInput()</a>
                     </li>
@@ -111,9 +111,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../SecondsMilliseconds/">Milliseconds() / Seconds()</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../IsExecuted/">IsExecuted()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../IsExecuted/">IsExecuted() (depreciated)</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../Run/">Run()</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../Run/">Run() (depreciated)</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../Execute/">Execute()</a>
                     </li>
@@ -129,6 +129,10 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Global Methods</span></p>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/command/">When.command()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/modeIs/">When.modeIs()</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setMode/">When.setMode()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/clearMode/">When.clearMode()</a>
@@ -142,6 +146,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/loadLayout/">When.loadLayout()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/keyGroups/">When.keyGroups()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../global-methods/focusIs/">When.focusIs()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../global-methods/setFocus/">When.setFocus()</a>
                     </li>
@@ -196,37 +202,34 @@
 <p><strong><em>identifier</em></strong> / <strong><em>focusTarget</em></strong> / <strong><em>commandName</em></strong> / <strong><em>undefined</em></strong>: <code>String</code> / <code>HTMLElement</code>, this argument can mean a few different things depending on what methods are called next on the <a href="../../types/Whenable"><em>Whenable</em></a> that When() returns:</p>
 <ul>
 <li><strong><em>identifier</em></strong>: a <code>String</code> key identifier used to register one or more keyboard events with <a href="./IsPressed">IsPressed()</a>, <a href="./IsReleased">IsReleased()</a>, <a href="./IsHeldFor">IsHeldFor()</a> or <a href="./IsInput">IsInput()</a></li>
-<li><strong><em>focusTarget</em></strong>: either a <code>String</code> <code>id:</code> / <code>class:</code> target string, or an <code>HTMLElement</code> <a href="../../features/Focus">focus</a> target</li>
-<li><strong><em>commandName</em></strong>: a <code>String</code> command name used for registering a <a href="../../features/Commands">command</a></li>
-<li><strong><em>undefined</em></strong>: When() may not be passed an argument, for example when using <a href="../../features/Modes">modes</a></li>
+<li><strong><em>focusTarget</em></strong> (depreciated): either a <code>String</code> <code>id:</code> / <code>class:</code> target string, or an <code>HTMLElement</code> <a href="../../features/Focus">focus</a> target</li>
+<li><strong><em>commandName</em></strong> (depreciated): a <code>String</code> command name used for registering a <a href="../../features/Commands">command</a></li>
+<li><strong><em>undefined</em></strong> (depreciated): When() may not be passed an argument, for example when using <a href="../../features/Modes">modes</a></li>
 </ul>
 <p>returns: <a href="../../types/Whenable"><em>Whenable</em></a></p>
 <p>When() is the starting point for everything you will do in <em>When</em>.</p>
 <h2 id="use-in-shortcut-chains">Use In Shortcut Chains</h2>
 <p>Used as a function (with <code>()</code>), it returns a <a href="../../types/Whenable"><em>Whenable</em></a> that can be used to create a keyboard shortcut:</p>
 <pre><code class="javascript">// here, the argument is an &quot;identifier&quot; used to register a &quot;pressed&quot; event
-When('a').IsPressed().Execute(console.log);
-
-// here, the argument is a &quot;focusTarget&quot; used to apply a &quot;focus&quot; constarint on the shortcut
-const el = document.getElementById('some-id');
-When(el).IsFocused().Then('a').IsPressed().Execute(console.log);
-
-// here, the argument is a &quot;command&quot; name, used to register a command
-When('some_command').IsExecuted().Run(console.log);
-
-// here, the argument is undefined, in order to use a &quot;mode&quot; constraint on the shortcut
-When().ModeIs('mode1').Then('a').IsPressed().Execute(console.log);
+When('a').Execute(console.log);
 </code></pre>
 
 <h2 id="methods">Methods</h2>
 <p>When() also has its own methods that can be accessed to do global actions:</p>
 <ul>
+<li><a href="../../global-methods/command">When.command()</a></li>
+<li><a href="../../global-methods/modeIs">When.modeIs()</a></li>
 <li><a href="../../global-methods/setMode">When.setMode()</a></li>
-<li><a href="../../global-methods/clearMod">When.clearMode()</a></li>
-<li><a href="../../global-methods/newGrou">When.newGroup()</a></li>
-<li><a href="../../global-methods/quie">When.quiet()</a></li>
-<li><a href="../../global-methods/loadLayou">When.loadLayout()</a></li>
-<li><a href="../../global-methods/focusChange">When.focusChanges()</a></li>
+<li><a href="../../global-methods/clearMode">When.clearMode()</a></li>
+<li><a href="../../global-methods/newGroup">When.newGroup()</a></li>
+<li><a href="../../global-methods/quiet">When.quiet()</a></li>
+<li><a href="../../global-methods/togglepauseunpause">When.toggle() / When.parse() / When.unpause()</a></li>
+<li><a href="../../global-methods/loadLayout">When.loadLayout()</a></li>
+<li><a href="../../global-methods/keyGroups">When.keyGroups()</a></li>
+<li><a href="../../global-methods/focusIs">When.focusIs()</a></li>
+<li><a href="../../global-methods/setFocus">When.setFocus()</a></li>
+<li><a href="../../global-methods/focusChanges">When.focusChanges()</a></li>
+<li><a href="../../global-methods/setHeldInterval">When.setHeldInterval()</a></li>
 <li><a href="../../global-methods/documentation">When.documentation()</a></li>
 </ul>
               
