@@ -1,7 +1,7 @@
 import { CommandMap, Whenable, WhenEventHandler, FocusHandler, WhenEventContext } from './types'
 import { keys, validateKeyName, loadLayout, keyGroups } from './keys'
 import { Shortcut } from './classes/Shortcut'
-import { focusHandlers, setFocus } from './track-focus'
+import { focusHandlers, setFocus, validateFocusTarget } from './track-focus'
 import { WhenError, warn, warnAboutChainOrder, quiet, setQuiet } from './utils/error'
 import { setMode, clearMode } from './modes'
 import { newGroup } from './groups'
@@ -213,40 +213,12 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
 
       // validation
       if (this.identifier) {
-        let validIdentifier = this.identifier.includes('id:') || this.identifier.includes('class:')
-        if (!validIdentifier) {
+        if (!validateFocusTarget(this.identifier)) {
           throw new WhenError(
             'IsFocused() was called but the string identifier provided to When() was neither an ' +
               '"id:" or a "class:" selector',
             this
           )
-        }
-
-        if (this.identifier.includes('id:')) {
-          const id = this.identifier.replace('id:', '')
-          const el = document.getElementById(id)
-          if (el && el.classList.contains('when-focus') === false) {
-            warn(
-              'IsFocused() was called with identifier "' + this.identifier + '", but the element ' +
-                'with that ID currently does not have the "when-focus" class on it, and therefore ' +
-                'cannot be focused by When.',
-              this,
-            )
-          }
-        } else if (this.identifier.includes('class:')) {
-          const className = this.identifier.replace('class:', '')
-          const elements = Array.from(document.getElementsByClassName(className))
-          const atLeastOneMissingClass = elements.some((el) => {
-            return el.classList.contains('when-focus') === false
-          })
-          if (atLeastOneMissingClass) {
-            warn(
-              'IsFocused() was called with identifier "' + this.identifier + '", but at least one ' +
-                'of the elements with that class currently does not have the "when-focus" class ' +
-                'on it, and therefore cannot be focused by When.',
-              this,
-            )
-          }
         }
       } else if (this.element) {
         if (!this.element.classList || !this.element.classList.contains('when-focus')) {
@@ -426,7 +398,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
 
     Execute(commandNameOrFunc: string | WhenEventHandler, commandName?: string) {
       warnAboutChainOrder('Execute()', this, [
-        'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()', 'PreventDefault()', 'IsInput()',
+        'When()', 'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()', 'PreventDefault()', 'IsInput()',
       ])
 
       // for simple commands, assume "IsInput()" should be called
@@ -589,25 +561,41 @@ When.focusChanges = (func: FocusHandler) => {
 }
 
 // grouping mechanism for applying the same focus target to multiple shortcuts
-When.focusIs = (focusTarget: string | HTMLElement) => {
-  return {
-    Register(shortcuts: Shortcut[]) {
-      shortcuts.forEach((shortcut) => {
-        shortcut.focusTarget = focusTarget;
-      });
-    },
+When.focusIs = (focusTarget: string | HTMLElement, shortcuts: Shortcut[]) => {
+  if (Array.isArray(shortcuts) === false) {
+    throw new WhenError(
+      'When.focusIs() must receive an array of shortcuts as its second argument, ' +
+      `but a ${typeof shortcuts} was received: ${shortcuts}`,
+    )
   }
+
+  if ((focusTarget instanceof HTMLElement) === true) {
+    focusTarget = focusTarget as HTMLElement
+    if (!focusTarget.classList || !focusTarget.classList.contains('when-focus')) {
+      warn(
+        'The element provided to When.focusIs() ' +
+          'did not have the "when-focus" class assigned to it.',
+      )
+    }
+  }
+  
+  shortcuts.forEach((shortcut) => {
+    shortcut.focusTarget = focusTarget;
+  });
 }
 
 // grouping mechanism for applying the same focus target to multiple shortcuts
-When.modeIs = (modeName: string) => {
-  return {
-    Register(shortcuts: Shortcut[]) {
-      shortcuts.forEach((shortcut) => {
-        shortcut.mode = modeName;
-      });
-    },
+When.modeIs = (modeName: string, shortcuts: Shortcut[]) => {
+  if (Array.isArray(shortcuts) === false) {
+    throw new WhenError(
+      'When.modeIs() must receive an array of shortcuts as its second argument, ' +
+      `but a ${typeof shortcuts} was received: ${shortcuts}`,
+    )
   }
+
+  shortcuts.forEach((shortcut) => {
+    shortcut.mode = modeName;
+  });
 }
 
 // registers an command (named event handler) with a string name

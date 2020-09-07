@@ -58,3 +58,12 @@ window.addEventListener('mousedown', (e: MouseEvent) => {
     focusHandlers.forEach((func) => func(focusedElement, previousFocusedElement))
   }
 })
+
+export const validateFocusTarget = (focusTarget: string) => {
+  const oldIdTarget = focusTarget.indexOf('id:') === 0;
+  const oldClassTarget = focusTarget.indexOf('class:') === 0;
+  const newIdTarget = focusTarget.indexOf('#') === 0;
+  const newClassTarget = focusTarget.indexOf('.') === 0;
+
+  return oldIdTarget || oldClassTarget || newIdTarget || newClassTarget;
+}

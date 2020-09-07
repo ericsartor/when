@@ -32,7 +32,7 @@
       When.setMode(modeInput.value)
     })
 
-    When.modeIs('mode1').Register([
+    When.modeIs('mode1', [
       When('b').Execute(() => console.log('sick mode bro'), 'mode test'),
     ]);
 
@@ -45,12 +45,12 @@
       console.log('triggered')
     }, 'log')
 
-    When('class:test').IsFocused().Then('b').IsPressed().Execute((ctx) => {
+    When('.test').IsFocused().Then('b').IsPressed().Execute((ctx) => {
       console.log('class test')
       console.log(ctx.focusedElement.className)
     }, 'class test')
 
-    When('id:test-id').IsFocused().Then('c').IsPressed().Execute((ctx) => {
+    When('#test-id').IsFocused().Then('c').IsPressed().Execute((ctx) => {
       console.log('id test')
       console.log(ctx.focusedElement.className)
     }, 'id test')
@@ -61,7 +61,7 @@
       When('e').IsPressed().Execute(() => console.log('e'), 'test'),
     ])
 
-    When('f').IsPressed().Execute(() => {
+    When('f').Execute(() => {
       group.trigger()
     }, 'delete group')
 
@@ -90,7 +90,7 @@
     When('num1').IsPressed().Execute(() => console.log('num1'));
     When('numpad1').IsPressed().Execute(() => console.log('numpad1'));
 
-    When.focusIs('class:red').Register([
+    When.focusIs('class:red', [
       When('h').Execute(console.log),
       When('i').Execute(console.log),
       When('j').Execute(console.log),
