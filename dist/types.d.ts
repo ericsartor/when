@@ -83,5 +83,5 @@ export declare type Whenable = {
     IsHeldFor: (n: number) => Whenable;
     Within: (n: number) => Whenable;
     Run: (func: WhenEventHandler) => void;
-    Execute: (command: string) => Shortcut;
+    Execute: (commandNameOrFunc: string | WhenEventHandler, commandName?: string) => Shortcut;
 };
