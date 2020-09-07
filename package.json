@@ -18,6 +18,7 @@
     "email": "ericdavidsartor@live.ca"
   },
   "main": "dist/When.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
     "watch": "npx webpack -w --config webpack.config.js"
