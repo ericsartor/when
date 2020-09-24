@@ -197,12 +197,18 @@
               
                 <h2 id="whenablewithinn"><em>Whenable</em>.Within(<em>n</em>)</h2>
 <p>args:</p>
-<p><strong><em>n</em></strong>: <code>Number</code>, representing a quantity of seconds or milliseconds</p>
+<p><strong><em>n</em></strong>: <code>Number</code> or <code>String</code>, when a number it is meant to represent either a seconds or milliseconds value.  When a string, it must be a template like <code>1s</code> or <code>1000ms</code>, similar to in <a href="./isInput">isInput()</a>.</p>
 <p>returns: <a href="../../types/Whenable"><em>Whenable</em></a></p>
 <p>Within() is used to place a time constraint on a sequential shortcut (one involving multiple key events).</p>
 <p>Within() should be followed by either <a href="./SecondsMilliseconds">Seconds()</a> or <a href="./SecondsMilliseconds">Milliseconds()</a> in order to apply the time constraint.</p>
-<pre><code class="javascript">// creates a shortcut for pressing &quot;a&quot; then &quot;b&quot; sequentially within 1 second of each other
+<pre><code class="javascript">// both produce the same shortcut
+
+// creates a shortcut for pressing &quot;a&quot; then &quot;b&quot; sequentially within 1 second of each other
 When('a').IsPressed().Then('b').IsPressed().Within(1).Seconds().Execute(console.log);
+When('a').Then('b').Within('1s').Execute(console.log);
+
+// can also be done as
+When('a b (1s)').Execute(console.log);
 </code></pre>
 
 <p><strong>Note</strong>: It is generally easier to use the <a href="../IsInput/">IsInput()</a> syntax for specifying a time constraint.</p>

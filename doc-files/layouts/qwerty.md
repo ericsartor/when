@@ -90,10 +90,10 @@ page_down|34|
 
 | Identifiers | Which | Notes |
 |-------------|:-----:|-------|
-arrow_up|38|
-arrow_right|39|
-arrow_down|40|
-arrow_left|37|
+arrow_up<br>up|38|
+arrow_right<br>right|39|
+arrow_down<br>down|40|
+arrow_left<br>left|37|
 
 ## Numbers
 

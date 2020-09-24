@@ -197,11 +197,14 @@
               
                 <h2 id="whenableisheldforn"><em>Whenable</em>.IsHeldFor(<em>n</em>)</h2>
 <p>args:</p>
-<p><strong><em>n</em></strong>: <code>Number</code>, meant to represent either a seconds or milliseconds value</p>
+<p><strong><em>n</em></strong>: <code>Number</code> or <code>String</code>, when a number it is meant to represent either a seconds or milliseconds value.  When a string, it must be a template like <code>1s</code> or <code>1000ms</code>, similar to in <a href="./isInput">isInput()</a>.</p>
 <p>returns: <a href="../../types/Whenable">Whenable</a></p>
 <p>IsHeldFor() is used in conjunction with <a href="./Seconds">Seconds()</a> and <a href="./Milliseconds">Milliseconds()</a> to register a <a href="../features/events#held">held</a> event for the most recent identifier in a <em>When</em> chain.</p>
-<pre><code class="javascript">// registers a &quot;held&quot; event for the &quot;a&quot; key that triggers after &quot;a&quot; is held for 1 second
+<pre><code class="javascript">// both of these register the same shortcut
+
+// registers a &quot;held&quot; event for the &quot;a&quot; key that triggers after &quot;a&quot; is held for 1 second
 When('a').IsHeldFor(1).Seconds().Execute(console.log);
+When('a').IsHeldFor('1s').Execute(console.log);
 </code></pre>
               
             </div>
