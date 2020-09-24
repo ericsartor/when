@@ -33,6 +33,8 @@ In your shortcut chain, you can include things like:
     - [IsInput()](../whenable-methods/IsInput.md)
     - [IsReleased()](../whenable-methods/IsReleased.md)
     - [IsHeldFor()](../whenable-methods/IsHeldFor.md)
+- multipliers
+	  - [Times()](../whenable-methods/Times.md)
 - time constraints
     - [Within()](../whenable-methods/Within.md)
     - [Seconds()](../whenable-methods/SecondsMilliseconds.md)
@@ -96,8 +98,16 @@ Most of the time, you will be registering simple [pressed](../features/events.md
 // registers a pressed handler for the "a" key
 When('a').Execute(console.log);
 
-// registers a pressed handler for when the keys "a", "b" and "c" are pressed in sequence within 1 second
+// registers a shortcut that responds to for when the keys "a" then "b" then "c" are pressed in sequence within 1 second
+When('a').Then('b').Then('c').Within('1s').Execute(console.log);
+
+// does the same as above with a more compact syntax
 When('a b c (1s)').Execute(console.log);
+
+// for when you need non-pressed events as well
+
+// when "a" is pressed then "b" is held for 1 second
+When('a').Then('b').IsHeldFor('1s').Execute(console.log);
 ```
 
-In these two cases, because [Execute()](../whenable-methods/Execute.md) was called immediately after [When()](../whenable-methods/When.md), [IsInput()](../whenable-methods/IsInput.md) is called implicitly for you.
+In these cases, because a either [Execute()](../whenable-methods/Execute.md) was called or a new identifier was registered with [Then()](../whenable-methods/Then.md) before the previous one registered an event (with [IsPressed()](../whenable-methods/IsPressed.md), [IsReleased()](../whenable-methods/IsReleased.md), [IsHeldFor()](../whenable-methods/IsHeldFor.md) or [IsInput()](../whenable-methods/IsInput.md)), [IsInput()](../whenable-methods/IsInput.md) is called implicitly for you.

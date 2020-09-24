@@ -2,7 +2,7 @@
 
 args:
 
-***identifier***: `String`, a key identifier (or sequence of key identifiers, see [IsInput()](./IsInput.md))
+- ***identifier***: a `String` key identifier used to register one or more keyboard events with [IsPressed()](./IsPressed), [IsReleased()](./IsReleased), [IsHeldFor()](./IsHeldFor) or [IsInput()](./IsInput)
 
 returns: [*Whenable*](../../types/Whenable)
 

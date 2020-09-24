@@ -13,6 +13,7 @@ export declare type WhenEvent = {
     type: WhenEventType;
     key: number;
     identifier: string;
+    rawIdentifier: string;
     timestamp: number;
     duration?: number;
     modifiers: {
@@ -71,6 +72,7 @@ export declare type Whenable = {
     inInput: boolean;
     shortcut: Shortcut | null;
     lastCalledFunctionName: string;
+    eventsFromLastIdentifier: WhenEvent[] | null;
     IsInput: () => Whenable;
     Then: (identifier: string) => Whenable;
     IsExecuted: () => Whenable;
@@ -80,8 +82,9 @@ export declare type Whenable = {
     IsReleased: () => Whenable;
     Seconds: () => Whenable;
     Milliseconds: () => Whenable;
-    IsHeldFor: (n: number) => Whenable;
-    Within: (n: number) => Whenable;
+    IsHeldFor: (n: number | string) => Whenable;
+    Within: (n: number | string) => Whenable;
+    Times: (n: number) => Whenable;
     Run: (func: WhenEventHandler) => void;
     Execute: (commandNameOrFunc: string | WhenEventHandler, commandName?: string) => Shortcut;
 };

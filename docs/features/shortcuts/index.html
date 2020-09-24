@@ -20,7 +20,7 @@
   <script>
     // Current page data
     var mkdocs_page_name = "Shortcuts";
-    var mkdocs_page_input_path = "features\\shortcuts.md";
+    var mkdocs_page_input_path = "features/shortcuts.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -108,6 +108,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/Within/">Within()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/SecondsMilliseconds/">Milliseconds() / Seconds()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/Times/">Times()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../whenable-methods/IsExecuted/">IsExecuted() (depreciated)</a>
                     </li>
@@ -222,6 +224,10 @@ When('ctrl+alt+a');
 <li><a href="../../whenable-methods/IsHeldFor/">IsHeldFor()</a></li>
 </ul>
 </li>
+<li>multipliers<ul>
+<li><a href="../../whenable-methods/Times/">Times()</a></li>
+</ul>
+</li>
 <li>time constraints<ul>
 <li><a href="../../whenable-methods/Within/">Within()</a></li>
 <li><a href="../../whenable-methods/SecondsMilliseconds/">Seconds()</a></li>
@@ -280,11 +286,19 @@ shortcutB.Once();
 <pre><code class="javascript">// registers a pressed handler for the &quot;a&quot; key
 When('a').Execute(console.log);
 
-// registers a pressed handler for when the keys &quot;a&quot;, &quot;b&quot; and &quot;c&quot; are pressed in sequence within 1 second
+// registers a shortcut that responds to for when the keys &quot;a&quot; then &quot;b&quot; then &quot;c&quot; are pressed in sequence within 1 second
+When('a').Then('b').Then('c').Within('1s').Execute(console.log);
+
+// does the same as above with a more compact syntax
 When('a b c (1s)').Execute(console.log);
+
+// for when you need non-pressed events as well
+
+// when &quot;a&quot; is pressed then &quot;b&quot; is held for 1 second
+When('a').Then('b').IsHeldFor('1s').Execute(console.log);
 </code></pre>
 
-<p>In these two cases, because <a href="../../whenable-methods/Execute/">Execute()</a> was called immediately after <a href="../../whenable-methods/When/">When()</a>, <a href="../../whenable-methods/IsInput/">IsInput()</a> is called implicitly for you.</p>
+<p>In these cases, because a either <a href="../../whenable-methods/Execute/">Execute()</a> was called or a new identifier was registered with <a href="../../whenable-methods/Then/">Then()</a> before the previous one registered an event (with <a href="../../whenable-methods/IsPressed/">IsPressed()</a>, <a href="../../whenable-methods/IsReleased/">IsReleased()</a>, <a href="../../whenable-methods/IsHeldFor/">IsHeldFor()</a> or <a href="../../whenable-methods/IsInput/">IsInput()</a>), <a href="../../whenable-methods/IsInput/">IsInput()</a> is called implicitly for you.</p>
               
             </div>
           </div>

@@ -73,10 +73,10 @@ export const keys: { [key: string]: number } = {
   'end': 35,
   'page_down': 34,
 
-  'arrow_up': 38,
-  'arrow_right': 39,
-  'arrow_down': 40,
-  'arrow_left': 37,
+  'arrow_up': 38, 'up': 38,
+  'arrow_right': 39, 'right': 39,
+  'arrow_down': 40, 'down': 40,
+  'arrow_left': 37, 'left': 37,
 
   'num_lock': 144,
   'numpad_divide': 111,

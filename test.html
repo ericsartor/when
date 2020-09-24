@@ -103,15 +103,24 @@
 
     // When.focusChanges(console.log);
 
-    When('a')
-      .IsPressed()
-      .Then('b')
-      .IsHeldFor(1).Seconds()
-      .Then('a')
-      .IsReleased()
-      .Then('1 2 3')
-      .IsInput()
-      .Execute(console.log);
+    // When('a')
+    //   .IsPressed()
+    //   .Then('b')
+    //   .IsHeldFor(1).Seconds()
+    //   .Then('a')
+    //   .IsReleased()
+    //   .Then('1 2 3')
+    //   .IsInput()
+		//   .Execute(console.log);
+		
+		// console.log(When('ctrl+a').Then('b').Within('1s').Execute(console.log));
+
+		// When('a').Times(5).Execute(console.log);
+		// When('up down up down left right left right b a s t a r t').Execute(console.log);
+		// When('a b c (1s)').Then('1 2 3 (1s)').Execute(console.log);
+
+		// When('a').IsPressed().Times(5).Within('1s').Execute(console.log);
+		When('a (1s)').Times(5).Execute(console.log);
   </script>
 </body>
 </html>

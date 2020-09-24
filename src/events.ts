@@ -181,7 +181,8 @@ window.addEventListener('keydown', (e: KeyboardEvent) => {
   const event: WhenEvent = {
     type: 'pressed',
     key: e.which,
-    identifier: '',
+		identifier: '',
+		rawIdentifier: '',
     timestamp: performance.now(),
     modifiers: {
       shift: e.shiftKey,
@@ -222,7 +223,8 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
       const event: WhenEvent = {
         type: 'released',
         key: e.which,
-        identifier: '',
+				identifier: '',
+				rawIdentifier: '',
         timestamp: performance.now(),
         modifiers: {
           shift: e.shiftKey,
@@ -313,7 +315,8 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
         emitEvent({
           type: 'held',
           key: Number(which),
-          identifier: '',
+					identifier: '',
+					rawIdentifier: '',
           duration: delta,
           timestamp: performance.now(),
           modifiers,

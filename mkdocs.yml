@@ -36,6 +36,7 @@ nav:
     - IsHeldFor(): whenable-methods/IsHeldFor.md
     - Within(): whenable-methods/Within.md
     - Milliseconds() / Seconds(): whenable-methods/SecondsMilliseconds.md
+    - Times(): whenable-methods/Times.md
     - IsExecuted() (depreciated): whenable-methods/IsExecuted.md
     - Run() (depreciated): whenable-methods/Run.md
     - Execute(): whenable-methods/Execute.md

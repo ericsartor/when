@@ -20,7 +20,7 @@
   <script>
     // Current page data
     var mkdocs_page_name = "Then()";
-    var mkdocs_page_input_path = "whenable-methods\\Then.md";
+    var mkdocs_page_input_path = "whenable-methods/Then.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -106,6 +106,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../Within/">Within()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../SecondsMilliseconds/">Milliseconds() / Seconds()</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../Times/">Times()</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../IsExecuted/">IsExecuted() (depreciated)</a>
                     </li>
@@ -195,7 +197,9 @@
               
                 <h2 id="whenablethenidentifier"><em>Whenable</em>.Then(<em>identifier</em>)</h2>
 <p>args:</p>
-<p><strong><em>identifier</em></strong>: <code>String</code>, a key identifier (or sequence of key identifiers, see <a href="../IsInput/">IsInput()</a>)</p>
+<ul>
+<li><strong><em>identifier</em></strong>: a <code>String</code> key identifier used to register one or more keyboard events with <a href="./IsPressed">IsPressed()</a>, <a href="./IsReleased">IsReleased()</a>, <a href="./IsHeldFor">IsHeldFor()</a> or <a href="./IsInput">IsInput()</a></li>
+</ul>
 <p>returns: <a href="../../types/Whenable"><em>Whenable</em></a></p>
 <p>Then() is a stripped down version of <a href="../When/">When()</a> that only accepts the <em>identifier</em> argument.</p>
 <p>It's used to register a subsequent event in a <em>Whenable</em> chain for multi-key shortcuts where events other than <a href="../../features/events/#pressed">pressed</a> are required.</p>

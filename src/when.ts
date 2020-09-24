@@ -21,17 +21,16 @@ function handleTime(this: Whenable, multiplier: number) {
     throw new WhenError('n value was null', this)
   }
 
-  if (this.identifier === null) {
-    throw new WhenError('identifier value was null', this)
-  }
-
   const milliseconds = multiplier * this.n
 
-  const keyName = getKeyFromIdentifier(this.identifier, this)
-  validateKeyName(keyName)
-  const modifiers = getModifiersFromIdentifier(this.identifier)
   switch (this.nType) {
-    case 'held':
+		case 'held':
+			if (this.identifier === null) {
+				throw new WhenError('identifier value was null', this)
+			}
+			const keyName = getKeyFromIdentifier(this.identifier, this)
+			validateKeyName(keyName)
+			const modifiers = getModifiersFromIdentifier(this.identifier)
       if (keys === null) {
         throw new WhenError('A layout has not been loaded yet.')
       } else if (milliseconds < 500) {
@@ -45,6 +44,7 @@ function handleTime(this: Whenable, multiplier: number) {
         type: 'pressed',
         key: keys[keyName.toLowerCase()],
         identifier: keyName.toLowerCase(),
+				rawIdentifier: this.identifier,
         timestamp: 0, // this isn't necessary for timeline events
         modifiers,
       })
@@ -52,10 +52,13 @@ function handleTime(this: Whenable, multiplier: number) {
         type: 'held',
         key: keys[keyName.toLowerCase()],
         identifier: keyName.toLowerCase(),
+				rawIdentifier: this.identifier,
         timestamp: 0, // this isn't necessary for timeline events
         duration: milliseconds,
         modifiers,
-      })
+			})
+			this.eventsFromLastIdentifier = this.events.slice(this.events.length - 2);
+			this.identifier = null
       break
     case 'constraint':
       if (this.timeConstraint !== null) {
@@ -83,8 +86,8 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
   }
 
   return {
-    identifier: typeof identifierOrElement !== 'string' ? null :  identifierOrElement, // set the identifier that was passed in
-    element: typeof identifierOrElement === 'string' ? null :  identifierOrElement, // set the identifier that was passed in
+    identifier: typeof identifierOrElement !== 'string' ? null : identifierOrElement, // set the identifier that was passed in
+    element: typeof identifierOrElement === 'string' ? null : identifierOrElement, // set the identifier that was passed in
     events: [],
     timeConstraint: null,
     focusRequired: false,
@@ -97,7 +100,8 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
     once: false,
     inInput: false,
     shortcut: null,
-    lastCalledFunctionName: 'When()',
+		lastCalledFunctionName: 'When()',
+		eventsFromLastIdentifier: null,
 
 
     IsInput() {
@@ -116,6 +120,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       }
 
       const sequence = this.identifier.split(' ')
+			this.eventsFromLastIdentifier = []
 
       sequence.forEach((input) => {
         const focusTargetMatch = input.match(/id:[\w_-]+|class:[\w_-]+|\.[\w_-]+|#[\w_-]+/)
@@ -156,9 +161,15 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
             type: 'pressed',
             key: keys[keyName.toLowerCase()],
             identifier: keyName.toLowerCase(),
+						rawIdentifier: input,
             timestamp: 0, // this isn't necessary for timeline events
             modifiers,
-          })
+					})
+					if (this.eventsFromLastIdentifier === null) {
+						this.eventsFromLastIdentifier = [];
+					}
+					this.eventsFromLastIdentifier.push(this.events[this.events.length - 1])
+					this.identifier = null
         }
       })
       
@@ -169,15 +180,22 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
     // changes current identifier
     Then(identifier: string) {
       warnAboutChainOrder('Then()', this, [
-        'ModeIs()', 'IsFocused()', 'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()',
-      ])
+				'When()', 'ModeIs()', 'IsFocused()', 'IsPressed()', 'IsReleased()',
+				'Seconds()', 'Milliseconds()', 'Times()',
+			])
+			
+      // register an event if there is an unhandled identifier
+      if (this.identifier !== null) {
+        this.IsInput()
+      }
 
       // validate identifier
       if (typeof identifier !== 'string') {
         throw new WhenError('Then() must be called with a string key identifier (optionally with modifiers).', this)
-      }
+			}
 
-      this.identifier = identifier
+			this.identifier = identifier
+			this.eventsFromLastIdentifier = null
       this.lastCalledFunctionName = 'Then()'
       return this
     },
@@ -286,9 +304,15 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
         type: 'pressed',
         key: keys[keyName.toLowerCase()],
         identifier: keyName.toLowerCase(),
+				rawIdentifier: this.identifier,
         timestamp: 0, // this isn't necessary for timeline events
         modifiers,
-      })
+			})
+			if (this.eventsFromLastIdentifier === null) {
+				this.eventsFromLastIdentifier = [];
+			}
+			this.eventsFromLastIdentifier.push(this.events[this.events.length - 1])
+			this.identifier = null
       this.lastCalledFunctionName = 'IsPressed()'
       return this
     },
@@ -313,15 +337,21 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       this.events.push({
         type: 'released',
         key: keys[keyName.toLowerCase()],
-        identifier: keyName.toLowerCase(),
+				identifier: keyName.toLowerCase(),
+				rawIdentifier: this.identifier,
         timestamp: 0, // this isn't necessary for timeline events
         modifiers,
-      })
+			})
+			if (this.eventsFromLastIdentifier === null) {
+				this.eventsFromLastIdentifier = [];
+			}
+			this.eventsFromLastIdentifier.push(this.events[this.events.length - 1])
+			this.identifier = null
       this.lastCalledFunctionName = 'IsReleased()'
       return this
     },
 
-    IsHeldFor(n: number) {
+    IsHeldFor(n: number | string) {
       warnAboutChainOrder('IsHeldFor()', this, [
         'When()', 'Then()',
       ])
@@ -330,40 +360,94 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       if (this.identifier === null) {
         throw new WhenError('IsHeldFor() cannot be called before a string key identifier has been passed to When() or Then()', this)
       }
-      if (isNaN(n) || n === 0) {
+      if (typeof n !== 'string' && typeof n !== 'number' || n < 1) {
         throw new WhenError(
-          'IsHeldFor() expects to receive a number greater than 0, but received ' +
-          'a value of type [' + typeof n + ']: ' + n,
+					'IsHeldFor() expects to receive a number greater than 0 ' +
+						'or a string like "1s" or "1000ms", but received ' +
+						'a value of type [' + typeof n + ']: ' + n,
           this
         )
       }
       
-      validateKeyName(getKeyFromIdentifier(this.identifier, this))
-      this.n = n
-      this.nType = 'held'
-      this.lastCalledFunctionName = 'IsHeldFor()'
-      return this
+			validateKeyName(getKeyFromIdentifier(this.identifier, this))
+			
+			this.nType = 'held'
+			this.lastCalledFunctionName = 'IsHeldFor()'
+
+			if (typeof n === 'number') {
+      	this.n = n
+				return this
+			} else {
+				const match = n.match(/(\d)(s|ms)/);
+				if (match === null) {
+					throw new WhenError(
+						'IsHeldFor() received a string but it didn\'t match the template ' +
+							'"1s" or "1000ms"',
+						this
+					)
+				}
+
+				this.n = Number(match[1]);
+				switch (match[2]) {
+					case 's':
+						return this.Seconds();
+					case 'ms':
+						return this.Milliseconds();
+					default:
+						throw new WhenError(
+							'IsHeldFor() received a string that did not contain "s" or "ms"',
+							this
+						)
+				}
+			}
     },
 
     // ANCHOR time funcs
 
-    Within(n: number) {
+    Within(n: number | string) {
       warnAboutChainOrder('Within()', this, [
-        'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()',
+        'Then()', 'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()', 'Times()'
       ])
 
-      if (isNaN(n) || n === 0) {
+      // validate
+      if (typeof n !== 'string' && typeof n !== 'number' || n < 1) {
         throw new WhenError(
-          'Within() expects to receive a number greater than 0, but received ' +
-          'a value of type [' + typeof n + ']: ' + n,
+					'Within() expects to receive a number greater than 0 ' +
+						'or a string like "1s" or "1000ms", but received ' +
+						'a value of type [' + typeof n + ']: ' + n,
           this
         )
       }
+			
+			this.nType = 'constraint'
+			this.lastCalledFunctionName = 'Within()'
 
-      this.n = Number(n)
-      this.nType = 'constraint'
-      this.lastCalledFunctionName = 'Within()'
-      return this
+			if (typeof n === 'number') {
+      	this.n = n
+				return this
+			} else {
+				const match = n.match(/(\d)(s|ms)/);
+				if (match === null) {
+					throw new WhenError(
+						'Within() received a string but it didn\'t match the template ' +
+							'"1s" or "1000ms"',
+						this
+					)
+				}
+
+				this.n = Number(match[1]);
+				switch (match[2]) {
+					case 's':
+						return this.Seconds();
+					case 'ms':
+						return this.Milliseconds();
+					default:
+						throw new WhenError(
+							'Within() received a string that did not contain "s" or "ms"',
+							this
+						)
+				}
+			}
     },
 
     Milliseconds() {
@@ -392,17 +476,52 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       handleTime.call(this, 1000)
       this.lastCalledFunctionName = 'Seconds()'
       return this
-    },
+		},
+		
+		Times(n: number) {
+			warnAboutChainOrder('Times()', this, [
+        'When()', 'Then()', 'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()',
+      ])
+
+			if (typeof n !== 'number' || n < 2) {
+				throw new WhenError(
+					`Times() expects to receive a number greater than 1, ' +
+						'but a ${typeof n} value was received: ${n}`,
+					this
+				)
+			}
+
+      // register an event if there is an unhandled identifier
+      if (this.identifier !== null) {
+        this.IsInput()
+      }
+
+			if (this.eventsFromLastIdentifier === null) {
+				throw new WhenError(
+					'Times() cannot be called if the current identifier hasn\'t ' +
+						'registered any events yet',
+					this
+				)
+			}
+
+			for (let i = 0; i < n-1; i++) {
+				this.events.push(...this.eventsFromLastIdentifier);
+			}
+
+      this.lastCalledFunctionName = 'Times()'
+      return this
+		},
 
     // ANCHOR Execute()
 
     Execute(commandNameOrFunc: string | WhenEventHandler, commandName?: string) {
       warnAboutChainOrder('Execute()', this, [
-        'When()', 'IsPressed()', 'IsReleased()', 'Seconds()', 'Milliseconds()', 'PreventDefault()', 'IsInput()',
+				'When()', 'Then()', 'IsPressed()', 'IsReleased()', 'Seconds()',
+				'Milliseconds()', 'PreventDefault()', 'IsInput()', 'Times()',
       ])
 
-      // for simple commands, assume "IsInput()" should be called
-      if (this.events.length === 0) {
+      // register an event if there is an unhandled identifier
+      if (this.identifier !== null) {
         this.IsInput()
       }
 
@@ -422,14 +541,15 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
           'call to When([command_name]).IsExecuted().Run([function]): ' + commandNameOrFunc, this)
       }
 
-      if (type === 'function' && !commandName) {
-        warn(
-          'You should provide a string command name as the second argument to Execute() ' +
-            'so that When.Documentation() has a name to use, but it is not required and ' +
-            'functionality is not effected.',
-          this
-        )
-      }
+			// warn about missing documentation command name
+      // if (type === 'function' && !commandName) {
+      //   warn(
+      //     'You should provide a string command name as the second argument to Execute() ' +
+      //       'so that When.Documentation() has a name to use, but it is not required and ' +
+      //       'functionality is not effected.',
+      //     this
+      //   )
+      // }
 
       const hasCompoundNumbers = this.events.some((event) => {
         return event.identifier >= '0' && event.identifier <= '9'

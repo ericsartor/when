@@ -25,7 +25,8 @@ export type WhenEvent = {
   id?: number,
   type: WhenEventType,
   key: number,
-  identifier: string,
+	identifier: string,
+	rawIdentifier: string,
   timestamp: number,
   duration?: number, // for "held" events
   modifiers: {
@@ -105,7 +106,9 @@ export type Whenable = {
 
   shortcut: Shortcut | null                 // the actual shortcut, once created with Execute
 
-  lastCalledFunctionName: string,
+	lastCalledFunctionName: string,
+	
+	eventsFromLastIdentifier: WhenEvent[] | null,		// the event(s) added from the last identifier
 
   IsInput: () => Whenable,                // triggers a pase on the current identifier to create a series of events
 
@@ -127,9 +130,11 @@ export type Whenable = {
   Milliseconds: () => Whenable,             // uses "n" to either register a "held" event or set a
                                             // time constraint on the shortcut
 
-  IsHeldFor: (n: number) => Whenable,       // sets the current n value and sets nValue as "held"
+  IsHeldFor: (n: number | string) => Whenable, // sets the current n value and sets nValue as "held"
 
-  Within: (n: number) => Whenable           // sets the current n value and sets nValue as "constraint"
+  Within: (n: number | string) => Whenable  // sets the current n value and sets nValue as "constraint"
+
+	Times: (n: number) => Whenable						// repeats the events from the current identifier
 
   Run: (func: WhenEventHandler) => void     // registers current identifier as a command globally
 

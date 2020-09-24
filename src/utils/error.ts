@@ -5,8 +5,7 @@ export class WhenError extends Error {
 
   constructor(message: string, whenable?: Whenable) {
     if (whenable) {
-      message += `\n\nLast identifier in chain: "${whenable.identifier}"`
-      message += `\nLast succesful chain call: ${whenable.lastCalledFunctionName}`
+      message += `\n\nLast succesful chain call: ${whenable.lastCalledFunctionName}`
     }
 
     super(message)
@@ -28,8 +27,7 @@ export const warn = (message: string, whenable?: Whenable) => {
   message = 'WhenWarning: ' + message
 
   if (whenable) {
-    message += `\n\nLast identifier in chain: "${whenable.identifier}"`
-    message += `\nLast succesful chain call: ${whenable.lastCalledFunctionName}`
+    message += `\n\nLast succesful chain call: ${whenable.lastCalledFunctionName}`
   }
   
   console.warn(message)
