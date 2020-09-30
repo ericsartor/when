@@ -23,5 +23,7 @@ export const shortcutFocusIsFulfilled = (shortcut: Shortcut) => {
       const className = focusTarget.replace('class:', '').replace('.', '') 
       return focusedElement && focusedElement.classList && focusedElement.classList.contains(className)
     }
-  }
+  } else {
+		return focusTarget === focusedElement;
+	}
 }
