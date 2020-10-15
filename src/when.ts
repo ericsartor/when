@@ -701,7 +701,9 @@ When.focusIs = (focusTarget: string | HTMLElement, shortcuts: Shortcut[]) => {
   
   shortcuts.forEach((shortcut) => {
     shortcut.focusTarget = focusTarget;
-  });
+	});
+
+	return shortcuts;
 }
 
 // grouping mechanism for applying the same focus target to multiple shortcuts
@@ -715,7 +717,9 @@ When.modeIs = (modeName: string, shortcuts: Shortcut[]) => {
 
   shortcuts.forEach((shortcut) => {
     shortcut.mode = modeName;
-  });
+	});
+	
+	return shortcuts;
 }
 
 // registers an command (named event handler) with a string name

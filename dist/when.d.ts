@@ -19,8 +19,8 @@ export declare namespace When {
     var unpause: () => void;
     var setHeldInterval: (n: number) => void;
     var focusChanges: (func: FocusHandler) => void;
-    var focusIs: (focusTarget: string | HTMLElement, shortcuts: Shortcut[]) => void;
-    var modeIs: (modeName: string, shortcuts: Shortcut[]) => void;
+    var focusIs: (focusTarget: string | HTMLElement, shortcuts: Shortcut[]) => Shortcut[];
+    var modeIs: (modeName: string, shortcuts: Shortcut[]) => Shortcut[];
     var command: (commandName: string, func: WhenEventHandler) => void;
     var keyGroups: () => {
         [name: string]: string[];
