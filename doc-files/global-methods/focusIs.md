@@ -6,7 +6,7 @@ args:
 
 ***shortcuts***: `Array`, the shortcuts to apply the focus constraint on
 
-returns: `undefined`
+returns: `Array` of shortcuts that were passed in
 
 When.focusIs() is used to register one or more shortcuts with a focus contraint.
 

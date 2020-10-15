@@ -6,7 +6,7 @@ args:
 
 ***shortcuts***: `Array`, the shortcuts to apply the mode constraint on
 
-returns: `undefined`
+returns: `Array` of shortcuts that were passed in
 
 When.modeIs() is used to register one or more shortcuts with a mode contraint.
 
