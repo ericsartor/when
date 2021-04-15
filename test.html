@@ -122,8 +122,24 @@
 		// When('a').IsPressed().Times(5).Within('1s').Execute(console.log);
 		// When('a (1s)').Times(5).Execute(console.log);
 
-		When.focusIs(modeInput, [
-			When('a').Execute(() => console.log('pressed')).InInput()
+		// When.focusIs(modeInput, [
+		// 	When('a').Execute(() => console.log('pressed')).InInput()
+		// ]);
+
+		// When.modeIs('mode1', [
+			When('f').Execute(() => console.log('a from when'));
+		// ]);
+		
+		// window.addEventListener('keydown', (event) => {
+		// 	if (event.key === 'f') {
+		// 		console.log('f from keydown');
+		// 		return;
+		// 	}
+		// });
+		window.addEventListener('keyup', ({ key }) => key === 'f' && console.log('f from keyup'));
+
+		When.focusIs('.box', [
+			When('enter').Execute(console.log),
 		]);
   </script>
 </body>

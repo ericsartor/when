@@ -127,7 +127,7 @@ group.remove();
 Modes
 
 ```javascript
-When.modeIs('mode1').Register([
+When.modeIs('mode1', [
   When('a').Execute(console.log),
 ]);
 
@@ -168,7 +168,7 @@ and to display the focus to the user
     <script>
       const el = document.getElementById('shortcut-element');
 
-      When.focusIs(el).Register([
+      When.focusIs(el, [
         When('enter').Execute(console.log),
       ]);
 
