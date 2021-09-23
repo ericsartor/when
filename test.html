@@ -127,7 +127,7 @@
 		// ]);
 
 		// When.modeIs('mode1', [
-			When('f').Execute(() => console.log('a from when'));
+			// When('f').Execute(() => console.log('a from when'));
 		// ]);
 		
 		// window.addEventListener('keydown', (event) => {
@@ -136,11 +136,13 @@
 		// 		return;
 		// 	}
 		// });
-		window.addEventListener('keyup', ({ key }) => key === 'f' && console.log('f from keyup'));
+		// window.addEventListener('keyup', ({ key }) => key === 'f' && console.log('f from keyup'));
 
-		When.focusIs('.box', [
-			When('enter').Execute(console.log),
-		]);
+		// When.focusIs('.box', [
+		// 	When('enter').Execute(console.log),
+		// ]);
+
+		When('a').Execute(console.log).InInput();
   </script>
 </body>
 </html>

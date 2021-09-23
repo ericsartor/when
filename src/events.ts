@@ -10,6 +10,7 @@ import { focusedElement } from './track-focus'
 import { checkEventMatch } from './utils/check-event-match'
 import { shortcutFocusIsFulfilled } from './utils/shortcut-focus-is-fulfilled'
 import { currentMode } from './modes'
+import { getActiveElement } from './utils/get-active-element'
 
 // starting value for event IDs
 let eventId = 0
@@ -50,8 +51,8 @@ export const emitEvent = (event?: WhenEvent) => {
     if (!shortcutFocusIsFulfilled(shortcut)) return
 
     // skip shortcuts that shouldn't trigger in inputs (if an input is focused)
-    const activeTagName: string = document.activeElement ? document.activeElement.tagName.toLowerCase() : ''
-    if (!shortcut.inInput && ['textarea', 'input', 'select', 'button'].includes(activeTagName)) {
+		const activeElement = getActiveElement()
+    if (!shortcut.inInput && activeElement && ['textarea', 'input', 'select', 'button'].includes(activeElement.tagName.toLowerCase())) {
       return
     }
 
