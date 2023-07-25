@@ -3,7 +3,7 @@ import { Whenable } from '../types'
 
 export const getKeyFromIdentifier = (identifier: string, whenable: Whenable): string => {
   const nonModifierKeys = identifier.split('+').filter((str) => {
-    return !['shift', 'alt', 'ctrl', 'meta', 'left_meta', 'right_meta'].includes(str)
+    return !['shift', 'alt', 'ctrl', 'meta'].includes(str)
   })
 
   if (nonModifierKeys.length > 1) {

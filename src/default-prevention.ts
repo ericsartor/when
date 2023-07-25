@@ -12,7 +12,12 @@ export const checkPreventDefault = (event: WhenEvent, browserEvent: KeyboardEven
 		const activeElement = getActiveElement();
 		if (activeElement) {
 			// skip shortcuts that shouldn't trigger in inputs (if an input is focused)
-			if (['textarea', 'input', 'select', 'button'].includes(activeElement.tagName.toLowerCase())) {
+      const inputElements = ['textarea', 'input', 'select'];
+      if (
+        ['Enter', 'NumpadEnter', 'Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab', 'Escape']
+          .includes(event.key)
+      ) inputElements.push('button');
+			if (inputElements.includes(activeElement.tagName.toLowerCase())) {
 				return
 			}
 		}

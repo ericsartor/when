@@ -52,7 +52,13 @@ export const emitEvent = (event?: WhenEvent) => {
 
     // skip shortcuts that shouldn't trigger in inputs (if an input is focused)
 		const activeElement = getActiveElement()
-    if (!shortcut.inInput && activeElement && ['textarea', 'input', 'select', 'button'].includes(activeElement.tagName.toLowerCase())) {
+    const inputElements = ['textarea', 'input', 'select'];
+    if (
+      event &&
+      ['Enter', 'NumpadEnter', 'Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab', 'Escape']
+        .includes(event.key)
+    ) inputElements.push('button');
+    if (!shortcut.inInput && activeElement && inputElements.includes(activeElement.tagName.toLowerCase())) {
       return
     }
 
@@ -181,7 +187,7 @@ window.addEventListener('keydown', (e: KeyboardEvent) => {
 
   const event: WhenEvent = {
     type: 'pressed',
-    key: e.which,
+    key: e.code,
 		identifier: '',
 		rawIdentifier: '',
     timestamp: performance.now(),
@@ -196,17 +202,17 @@ window.addEventListener('keydown', (e: KeyboardEvent) => {
   // handle preventing default behaviour
   checkPreventDefault(event, e)
 
-  if (keyStatus[e.which].pressed !== true) {
+  if (keyStatus[e.code].pressed !== true) {
 
     // modifier key presses don't get emitted, but are still tracked in the key map
-    if (!modifierKeys.includes(e.which)) {
+    if (!modifierKeys.includes(e.code)) {
       lastKeydownEvent = e
       emitEvent(event)
     }
 
     // updating tracking info for the pressed key
-    keyStatus[e.which].pressed = true
-    keyStatus[e.which].timestamp = performance.now()
+    keyStatus[e.code].pressed = true
+    keyStatus[e.code].timestamp = performance.now()
   }
 })
 
@@ -219,11 +225,11 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
     return
   }
 
-  if (keyStatus[e.which].pressed !== false) {
-    if (!modifierKeys.includes(e.which)) {
+  if (keyStatus[e.code].pressed !== false) {
+    if (!modifierKeys.includes(e.code)) {
       const event: WhenEvent = {
         type: 'released',
-        key: e.which,
+        key: e.code,
 				identifier: '',
 				rawIdentifier: '',
         timestamp: performance.now(),
@@ -236,12 +242,12 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
       }
       lastKeyupEvent = e
       emitEvent(event)
-      keyStatus[e.which].pressed = false
-      keyStatus[e.which].timestamp = null
+      keyStatus[e.code].pressed = false
+      keyStatus[e.code].timestamp = null
     } else {
       // modifier key releases don't get emitted, but they are tracked
-      keyStatus[e.which].pressed = false
-      keyStatus[e.which].timestamp = null
+      keyStatus[e.code].pressed = false
+      keyStatus[e.code].timestamp = null
     }
   }
 });
@@ -255,12 +261,11 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
   }
 
   if (shouldCheckEvents) {
-    Object.keys(keyStatus).forEach((which: string | number) => {
-      which = Number(which)
-      if (!keyStatus[which].pressed) return
-      if (keyStatus[which].timestamp === null) return
+    Object.keys(keyStatus).forEach((code: string) => {
+      if (!keyStatus[code].pressed) return
+      if (keyStatus[code].timestamp === null) return
   
-      const delta = performance.now() - keyStatus[which].timestamp!
+      const delta = performance.now() - keyStatus[code].timestamp!
   
       // "held" events can only be triggered after 500 ms of holding
       if (delta < 500) {
@@ -272,10 +277,10 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
       }
   
       const modifiers = {
-        shift: keyStatus[keys.shift].pressed,
-        alt: keyStatus[keys.alt].pressed,
-        ctrl: keyStatus[keys.ctrl].pressed,
-        meta: keyStatus[keys.left_meta].pressed || keyStatus[keys.right_meta].pressed,
+        shift: keys.shift.some((code) => keyStatus[code].pressed),
+        alt: keys.alt.some((code) => keyStatus[code].pressed),
+        ctrl: keys.ctrl.some((code) => keyStatus[code].pressed),
+        meta: keys.meta.some((code) => keyStatus[code].pressed),
       }
   
       // check to see if a "held" event has already been emitted since the last time the
@@ -285,12 +290,12 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
         const event = eventHistory[i]
   
         // break if we are farther back in time than the last time the given key was pressed
-        if (event.timestamp < keyStatus[which].timestamp!) {
+        if (event.timestamp < keyStatus[code].timestamp!) {
           break
         }
   
         // skip events that don't pertain to the given key
-        if (event.key !== which) continue
+        if (event.key !== code) continue
   
         // skip non-held events
         if (event.type !== 'held') continue
@@ -315,7 +320,7 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
       } else {
         emitEvent({
           type: 'held',
-          key: Number(which),
+          key: code,
 					identifier: '',
 					rawIdentifier: '',
           duration: delta,

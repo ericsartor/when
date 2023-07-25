@@ -42,7 +42,7 @@ function handleTime(this: Whenable, multiplier: number) {
       }
       this.events.push({
         type: 'pressed',
-        key: keys[keyName.toLowerCase()],
+        key: keys[keyName.toLowerCase()][0],
         identifier: keyName.toLowerCase(),
 				rawIdentifier: this.identifier,
         timestamp: 0, // this isn't necessary for timeline events
@@ -50,7 +50,7 @@ function handleTime(this: Whenable, multiplier: number) {
       })
       this.events.push({
         type: 'held',
-        key: keys[keyName.toLowerCase()],
+        key: keys[keyName.toLowerCase()][0],
         identifier: keyName.toLowerCase(),
 				rawIdentifier: this.identifier,
         timestamp: 0, // this isn't necessary for timeline events
@@ -159,7 +159,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
           validateKeyName(keyName, this)
           this.events.push({
             type: 'pressed',
-            key: keys[keyName.toLowerCase()],
+            key: keys[keyName.toLowerCase()][0],
             identifier: keyName.toLowerCase(),
 						rawIdentifier: input,
             timestamp: 0, // this isn't necessary for timeline events
@@ -302,7 +302,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       const modifiers = getModifiersFromIdentifier(this.identifier)
       this.events.push({
         type: 'pressed',
-        key: keys[keyName.toLowerCase()],
+        key: keys[keyName.toLowerCase()][0],
         identifier: keyName.toLowerCase(),
 				rawIdentifier: this.identifier,
         timestamp: 0, // this isn't necessary for timeline events
@@ -336,7 +336,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       const modifiers = getModifiersFromIdentifier(this.identifier)
       this.events.push({
         type: 'released',
-        key: keys[keyName.toLowerCase()],
+        key: keys[keyName.toLowerCase()][0],
 				identifier: keyName.toLowerCase(),
 				rawIdentifier: this.identifier,
         timestamp: 0, // this isn't necessary for timeline events
@@ -360,7 +360,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       if (this.identifier === null) {
         throw new WhenError('IsHeldFor() cannot be called before a string key identifier has been passed to When() or Then()', this)
       }
-      if (typeof n !== 'string' && typeof n !== 'number' || n < 1) {
+      if (typeof n !== 'string' && typeof n !== 'number' || Number(n) < 1) {
         throw new WhenError(
 					'IsHeldFor() expects to receive a number greater than 0 ' +
 						'or a string like "1s" or "1000ms", but received ' +
@@ -410,7 +410,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
       ])
 
       // validate
-      if (typeof n !== 'string' && typeof n !== 'number' || n < 1) {
+      if (typeof n !== 'string' && typeof n !== 'number' || Number(n) < 1) {
         throw new WhenError(
 					'Within() expects to receive a number greater than 0 ' +
 						'or a string like "1s" or "1000ms", but received ' +
@@ -563,7 +563,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
             return {
               ...event,
               identifier: 'num' + event.identifier,
-              key: keys!['num' + event.identifier],
+              key: keys!['num' + event.identifier][0],
             }
           } else {
             return event
@@ -574,7 +574,7 @@ export function When(identifierOrElement: string | HTMLElement): Whenable {
             return {
               ...event,
               identifier: 'numpad' + event.identifier,
-              key: keys!['numpad' + event.identifier],
+              key: keys!['numpad' + event.identifier][0],
             }
           } else {
             return event
