@@ -16,6 +16,7 @@
   </style>
 </head>
 <body>
+  <button>click me</button>
   <input id="mode" class="when-focus">
   <div class="box red test when-focus"></div>
   <div class="box red"></div>
@@ -27,6 +28,9 @@
   <div class="box blue when-focus" id="test-id"></div>
   <script src="dist/When.js"></script>
   <script>
+    When('num1').Execute(() => {
+      console.log('test');
+    });
     const modeInput = document.getElementById('mode')
     // modeInput.addEventListener('input', () => {
     //   When.setMode(modeInput.value)
