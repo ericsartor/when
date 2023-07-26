@@ -19,6 +19,9 @@
   },
   "main": "dist/When.js",
   "types": "dist/index.d.ts",
+  "files": [
+	"/dist"
+  ],
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
     "watch": "npx webpack -w --config webpack.config.js"
