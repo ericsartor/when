@@ -5,5 +5,5 @@ export declare class WhenError extends Error {
 }
 export declare let quiet: boolean;
 export declare const setQuiet: () => void;
-export declare const warn: (message: string, whenable?: Whenable | undefined) => void;
+export declare const warn: (message: string, whenable?: Whenable) => void;
 export declare const warnAboutChainOrder: (funcName: string, whenable: Whenable, expectedFuncs: string[]) => void;

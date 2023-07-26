@@ -1,5 +1,5 @@
 import { WhenEvent, WhenEventHandler } from '../types';
-export declare type ShortcutProps = {
+export type ShortcutProps = {
     timeline: WhenEvent[];
     command: string | null;
     handler: WhenEventHandler | null;

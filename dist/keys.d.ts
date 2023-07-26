@@ -12,5 +12,5 @@ export declare let keyGroups: {
 } | null;
 export declare let keyStatus: KeyStatusMap;
 export declare const keyToString: (key: string) => string | null;
-export declare const validateKeyName: (name: string, whenable?: Whenable | undefined) => void;
+export declare const validateKeyName: (name: string, whenable?: Whenable) => void;
 export declare const loadLayout: (layoutName: 'qwerty') => void;

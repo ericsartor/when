@@ -1,5 +1,5 @@
 import { Shortcut } from './classes/Shortcut';
-export declare type ShortcutGroup = {
+export type ShortcutGroup = {
     shortcuts: Shortcut[];
     remove: () => void;
     pause: () => void;
@@ -7,8 +7,8 @@ export declare type ShortcutGroup = {
     toggle: () => void;
     trigger: () => void;
 };
-export declare type WhenEventType = 'pressed' | 'released' | 'held';
-export declare type WhenEvent = {
+export type WhenEventType = 'pressed' | 'released' | 'held';
+export type WhenEvent = {
     id?: number;
     type: WhenEventType;
     key: string;
@@ -34,18 +34,18 @@ export interface WhenEventContext {
     shift: boolean;
     meta: boolean;
 }
-export declare type WhenEventHandler = (event: WhenEventContext | undefined) => void;
-export declare type FocusHandler = (newFocusEl: HTMLElement | null, previousFocusEl: HTMLElement | null) => void;
-export declare type KeyStatusMap = {
+export type WhenEventHandler = (event: WhenEventContext | undefined) => void;
+export type FocusHandler = (newFocusEl: HTMLElement | null, previousFocusEl: HTMLElement | null) => void;
+export type KeyStatusMap = {
     [key: string]: {
         pressed: boolean;
         timestamp: number | null;
     };
 };
-export declare type CommandMap = {
+export type CommandMap = {
     [command: string]: WhenEventHandler;
 };
-export declare type HandlerMap = {
+export type HandlerMap = {
     pressed: {
         [handlerId: number]: WhenEventHandler;
     };
@@ -56,7 +56,7 @@ export declare type HandlerMap = {
         [handlerId: number]: WhenEventHandler;
     };
 };
-export declare type Whenable = {
+export type Whenable = {
     identifier: string | null;
     element: HTMLElement | null;
     events: WhenEvent[];
