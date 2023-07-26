@@ -1,6 +1,6 @@
 {
   "name": "when-key-events",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "description": "Powerful keyboard shortcut and focus library",
   "keywords": [
     "when",
@@ -20,7 +20,7 @@
   "main": "dist/When.js",
   "types": "dist/index.d.ts",
   "files": [
-	"/dist"
+    "/dist"
   ],
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
