@@ -11,7 +11,7 @@ export declare type WhenEventType = 'pressed' | 'released' | 'held';
 export declare type WhenEvent = {
     id?: number;
     type: WhenEventType;
-    key: number;
+    key: string;
     identifier: string;
     rawIdentifier: string;
     timestamp: number;

@@ -16,6 +16,7 @@
   </style>
 </head>
 <body>
+  <button>click me</button>
   <input id="mode" class="when-focus">
   <div class="box red test when-focus"></div>
   <div class="box red"></div>
@@ -27,6 +28,9 @@
   <div class="box blue when-focus" id="test-id"></div>
   <script src="dist/When.js"></script>
   <script>
+    When('num1').Execute(() => {
+      console.log('test');
+    });
     const modeInput = document.getElementById('mode')
     // modeInput.addEventListener('input', () => {
     //   When.setMode(modeInput.value)
@@ -122,9 +126,27 @@
 		// When('a').IsPressed().Times(5).Within('1s').Execute(console.log);
 		// When('a (1s)').Times(5).Execute(console.log);
 
-		When.focusIs(modeInput, [
-			When('a').Execute(() => console.log('pressed')).InInput()
-		]);
+		// When.focusIs(modeInput, [
+		// 	When('a').Execute(() => console.log('pressed')).InInput()
+		// ]);
+
+		// When.modeIs('mode1', [
+			// When('f').Execute(() => console.log('a from when'));
+		// ]);
+		
+		// window.addEventListener('keydown', (event) => {
+		// 	if (event.key === 'f') {
+		// 		console.log('f from keydown');
+		// 		return;
+		// 	}
+		// });
+		// window.addEventListener('keyup', ({ key }) => key === 'f' && console.log('f from keyup'));
+
+		// When.focusIs('.box', [
+		// 	When('enter').Execute(console.log),
+		// ]);
+
+		When('a').Execute(console.log).InInput();
   </script>
 </body>
 </html>

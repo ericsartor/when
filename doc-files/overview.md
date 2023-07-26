@@ -165,7 +165,7 @@ When('ctrl+s')
 When('a').Execute(console.log);
 
 // won't be active until the mode is set to "mode1"
-When.modeIs('mode1').Register([
+When.modeIs('mode1', [
   When('b').Execute(console.log),
 ]);
 
@@ -208,17 +208,17 @@ group1.destroy();
 ```javascript
 // this shortcut will only trigger when this specific element has been set as the focus target (either with When.setFocus() or by the user clicking it)
 const div = document.getElementById('some-id');
-When.focusIs(div).Register([
+When.focusIs(div, [
   When('a').Execute(console.log),
 ]);
 
 // this shortcut will triger any time the focus target has the ID "some-id", even if it isn't always the same instance of the node
-When.focusIs('#some-id').Register([
+When.focusIs('#some-id', [
   When('b').Execute(console.log),
 ]);
 
 // this shortcut will triger any time the focus target has the class name "some-class"
-When.focusIs('.some-class').Register([
+When.focusIs('.some-class', [
   When('c').Execute(console.log),
 ]);
 

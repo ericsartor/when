@@ -1,153 +1,138 @@
 import { isFirefox, isEdge, isEdgeChromium, isIE, isOpera, isChrome } from '../browser-detection'
 
-// map of string identifier to key number
-export const keys: { [key: string]: number } = {
-  'ctrl': 17,
-  'alt': 18,
-  'shift': 16,
-  'left_meta': 91, 'meta': 91,
-  'right_meta': 92,
+// map of string identifier to key code
+export const keys: { [key: string]: string[] } = {
+  'ctrl': ['ControlLeft', 'ControlRight'],
+  'alt': ['AltLeft', 'AltRight'],
+  'shift': ['ShiftLeft', 'ShiftRight'],
+  'meta': ['MetaLeft', 'MetaRight'],
   
-  'escape': 27,
+  'escape': ['Escape'],
 
-  'f1': 112,
-  'f2': 113,
-  'f3': 114,
-  'f4': 115,
-  'f5': 116,
-  'f6': 117,
-  'f7': 118,
-  'f8': 119,
-  'f9': 120,
-  'f10': 121,
-  'f11': 122,
-  'f12': 123,
-  'f13': 124,
-  'f14': 125,
-  'f15': 126,
-  'f16': 127,
-  'f17': 128,
-  'f18': 129,
-  'f19': 130,
+  'f1': ['F1'],
+  'f2': ['F2'],
+  'f3': ['F3'],
+  'f4': ['F4'],
+  'f5': ['F5'],
+  'f6': ['F6'],
+  'f7': ['F7'],
+  'f8': ['F8'],
+  'f9': ['F9'],
+  'f10': ['F10'],
+  'f11': ['F11'],
+  'f12': ['F12'],
+  'f13': ['F13'],
+  'f14': ['F14'],
+  'f15': ['F15'],
+  'f16': ['F16'],
+  'f17': ['F17'],
+  'f18': ['F18'],
+  'f19': ['F19'],
 
-  'scroll_lock': 145,
-  'pause_break': 19,
-  'context_menu': 93,
+  // 'scroll_lock': 145,
+  // 'pause_break': 19,
+  // 'context_menu': 93,
 
-  '`': 192, '~': 192, 'grave_accent': 192, 'tilde': 192,
+  '`': ['Backquote'], '~': ['Backquote'], 'grave_accent': ['Backquote'], 'tilde': ['Backquote'],
 
-  'num1': 49,
-  'num2': 50,
-  'num3': 51,
-  'num4': 52,
-  'num5': 53,
-  'num6': 54,
-  'num7': 55,
-  'num8': 56,
-  'num9': 57,
-  'num0': 48,
+  'num1': ['Digit1'],
+  'num2': ['Digit2'],
+  'num3': ['Digit3'],
+  'num4': ['Digit4'],
+  'num5': ['Digit5'],
+  'num6': ['Digit6'],
+  'num7': ['Digit7'],
+  'num8': ['Digit8'],
+  'num9': ['Digit9'],
+  'num0': ['Digit0'],
 
-  '_': 189, 'hyphen': 189, 'underscore': 189,
-  '=': 187, 'plus': 187, 'equals': 187,
+  '_': ['Minus'], 'hyphen': ['Minus'], 'underscore': ['Minus'],
+  '=': ['Equal'], 'plus': ['Equal'], 'equals': ['Equal'],
 
-  'backspace': 8,
-  'tab': 9,
-  'caps_lock': 20,
-  'space': 32,
+  'backspace': ['Backspace'],
+  'tab': ['Tab'],
+  'caps_lock': ['CapsLock'],
+  'space': ['Space'],
   
-  '[': 219, '{': 219, 'left_square_bracket': 219, 'left_curly_bracket': 219,
-  ']': 221, '}': 221, 'right_square_bracket': 221, 'right_curly_bracket': 221,
-  '\\': 220, '|': 220, 'backslash': 220, 'pipe': 220,
-  ';': 186, ':': 186, 'colon': 186, 'semicolon': 186,
-  '\'': 222, '"': 222, 'apostrophe': 222, 'quote': 222,
-  ',': 188, '<': 188, 'comma': 188, 'less_than': 188,
-  '>': 190, 'period': 190, 'greater_than': 190,
-  '?': 191, 'forward_slash': 191, 'question_mark': 191,
+  '[': ['BracketLeft'], '{': ['BracketLeft'], 'left_square_bracket': ['BracketLeft'], 'left_curly_bracket': ['BracketLeft'],
+  ']': ['BracketRight'], '}': ['BracketRight'], 'right_square_bracket': ['BracketRight'], 'right_curly_bracket': ['BracketRight'],
+  '\\': ['Backslash'], '|': ['Backslash'], 'backslash': ['Backslash'], 'pipe': ['Backslash'],
+  ';': ['Semicolon'], ':': ['Semicolon'], 'colon': ['Semicolon'], 'semicolon': ['Semicolon'],
+  '\'': ['Quote'], '"': ['Quote'], 'apostrophe': ['Quote'], 'quote': ['Quote'],
+  ',': ['Comma'], '<': ['Comma'], 'comma': ['Comma'], 'less_than': ['Comma'],
+  '>': ['Period'], 'period': ['Period'], 'greater_than': ['Period'],
+  '?': ['Slash'], 'forward_slash': ['Slash'], 'question_mark': ['Slash'],
 
-  'enter': 13,
+  'enter': ['Enter'],
 
-  'insert': 45,
-  'home': 36,
-  'page_up': 33,
-  'delete': 46,
-  'end': 35,
-  'page_down': 34,
+  'insert': ['Insert'],
+  'home': ['Home'],
+  'page_up': ['PageUp'],
+  'delete': ['Delete'],
+  'end': ['End'],
+  'page_down': ['PageDown'],
 
-  'arrow_up': 38, 'up': 38,
-  'arrow_right': 39, 'right': 39,
-  'arrow_down': 40, 'down': 40,
-  'arrow_left': 37, 'left': 37,
+  'arrow_up': ['ArrowUp'], 'up': ['ArrowUp'],
+  'arrow_right': ['ArrowRight'], 'right': ['ArrowRight'],
+  'arrow_down': ['ArrowDown'], 'down': ['ArrowDown'],
+  'arrow_left': ['ArrowLeft'], 'left': ['ArrowLeft'],
 
-  'num_lock': 144,
-  'numpad_divide': 111,
-  'numpad_multiply': 106,
-  'numpad_subtract': 109,
-  'clear': 12,
-  'numpad_add': 107,
-  'numpad_decimal': 110,
+  'num_lock': ['NumLock'],
+  'numpad_divide': ['NumpadDivide'],
+  'numpad_multiply': ['NumpadMultiply'],
+  'numpad_subtract': ['NumpadSubtract'],
+  // 'clear': 12,
+  'numpad_add': ['NumpadAdd'],
+  'numpad_enter': ['NumpadEnter'],
+  'numpad_decimal': ['NumpadDecimal'],
 
-  'numpad0': 96,
-  'numpad1': 97,
-  'numpad2': 98,
-  'numpad3': 99,
-  'numpad4': 100,
-  'numpad5': 101,
-  'numpad6': 102,
-  'numpad7': 103,
-  'numpad8': 104,
-  'numpad9': 105,
+  'numpad0': ['Numpad0'],
+  'numpad1': ['Numpad1'],
+  'numpad2': ['Numpad2'],
+  'numpad3': ['Numpad3'],
+  'numpad4': ['Numpad4'],
+  'numpad5': ['Numpad5'],
+  'numpad6': ['Numpad6'],
+  'numpad7': ['Numpad7'],
+  'numpad8': ['Numpad8'],
+  'numpad9': ['Numpad9'],
 
-  'a': 65,
-  'b': 66,
-  'c': 67,
-  'd': 68,
-  'e': 69,
-  'f': 70,
-  'g': 71,
-  'h': 72,
-  'i': 73,
-  'j': 74,
-  'k': 75,
-  'l': 76,
-  'm': 77,
-  'n': 78,
-  'o': 79,
-  'p': 80,
-  'q': 81,
-  'r': 82,
-  's': 83,
-  't': 84,
-  'u': 85,
-  'v': 86,
-  'w': 87,
-  'x': 88,
-  'y': 89,
-  'z': 90,
+  'a': ['KeyA'],
+  'b': ['KeyB'],
+  'c': ['KeyC'],
+  'd': ['KeyD'],
+  'e': ['KeyE'],
+  'f': ['KeyF'],
+  'g': ['KeyG'],
+  'h': ['KeyH'],
+  'i': ['KeyI'],
+  'j': ['KeyJ'],
+  'k': ['KeyK'],
+  'l': ['KeyL'],
+  'm': ['KeyM'],
+  'n': ['KeyN'],
+  'o': ['KeyO'],
+  'p': ['KeyP'],
+  'q': ['KeyQ'],
+  'r': ['KeyR'],
+  's': ['KeyS'],
+  't': ['KeyT'],
+  'u': ['KeyU'],
+  'v': ['KeyV'],
+  'w': ['KeyW'],
+  'x': ['KeyX'],
+  'y': ['KeyY'],
+  'z': ['KeyZ'],
 }
 
 // apply browser specific overrides for key values
 if (isFirefox) {
 
-  keys['hyphen'] = 173
-  keys['_'] = 173
-  keys['underscore'] = 173
-
-
-  keys['='] = 61
-  keys['+'] = 61
-  keys['equals'] = 61
-  keys['plus'] = 61
-
-  keys[';'] = 59
-  keys[':'] = 59
-  keys['semicolon'] = 59
-  keys['colon'] = 59
-
-  keys['right_meta'] = 91
+  keys['insert'] = ['Help']
 
 } else if (isEdge) {
 
-  keys['clear'] = 101
+  // no overrides
 
 } else if (isEdgeChromium) {
 
@@ -211,7 +196,7 @@ export const keySuggestions = (str: string) => {
   }
 }
 
-export const modifierKeys =  [ keys.alt, keys.ctrl, keys.left_meta, keys.right_meta, keys.shift ]
+export const modifierKeys =  [ keys.alt, keys.ctrl, keys.meta, keys.shift ]
 
 export const keyGroups = {
   arrowKeys: [

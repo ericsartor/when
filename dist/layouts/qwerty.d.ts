@@ -1,8 +1,8 @@
 export declare const keys: {
-    [key: string]: number;
+    [key: string]: string[];
 };
 export declare const keySuggestions: (str: string) => string;
-export declare const modifierKeys: number[];
+export declare const modifierKeys: string[][];
 export declare const keyGroups: {
     arrowKeys: string[];
     fKeys: string[];

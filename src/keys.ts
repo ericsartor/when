@@ -8,17 +8,17 @@ export const layouts = {
 }
 
 // this is what gets overwritten when a layout is loaded
-export let keys: { [key: string]: number } | null = null
-export let modifierKeys: number[] | null = null
+export let keys: { [key: string]: string[] } | null = null
+export let modifierKeys: string[] | null = null
 export let keyGroups: { [name: string]: string[] } | null = null
 export let keyStatus: KeyStatusMap = {}                      // map key numbers to an object that describes if the key is pressed, and when it was last pressed
 let keySuggestions: ((key: string) => string) | null = null
 
-// receive a key number, get back the shortest string identifier for it
-export const keyToString = (key: number): string | null => {
+// receive a key code, get back the shortest string identifier for it
+export const keyToString = (key: string): string | null => {
   const identifiers = []
   for (let keyName in keys) {
-    if (keys[keyName] === key) identifiers.push(keyName)
+    if (keys[keyName].includes(key)) identifiers.push(keyName)
   }
 
   const shortestIdentifier = identifiers.reduce((shortest, current) => {
@@ -53,16 +53,18 @@ export const loadLayout = (layoutName: 'qwerty') => {
 
   keys = layout.keys
   keySuggestions = layout.keySuggestions
-  modifierKeys = layout.modifierKeys
+  modifierKeys = layout.modifierKeys.flat()
   keyGroups = layout.keyGroups
 
   // initialize key statuses
   keyStatus = {}
-  Object.keys(keys).forEach((key: string) => {
-    keyStatus[keys![key]] = {
-      pressed: false,
-      timestamp: null,
-    }
+  Object.keys(keys!).forEach((key: string) => {
+    keys![key].forEach((code) => {
+      keyStatus[code] = {
+        pressed: false,
+        timestamp: null,
+      }
+    });
   })
 
 }
